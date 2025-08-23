@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+# OfficeSync Document Management System
+
+OfficeSync is a modern, full-featured document management system built with Next.js, React, and Tailwind CSS. It provides a professional dashboard for admins, officers, brokers, and users to manage, approve, and organize documents efficiently.
+
+## Features
+
+- **Role-based Dashboard**: Admin, Officer, Broker, and User dashboards with tailored navigation and permissions.
+- **Animated Sidebar**: Collapsible, role-aware sidebar with smooth transitions.
+- **Modern UI**: Clean, responsive design using Tailwind CSS and Lucide React icons.
+- **Authentication**: Login, register, and request-join flows.
+- **Document Management**: Upload, organize, and manage documents with approval workflows.
+- **Quick Actions & Activity Feed**: Fast access to common actions and recent activity.
+- **Dark/Light Mode**: Theme toggle for user preference.
+- **Accessibility**: Keyboard navigation and accessible components.
+
+## Tech Stack
+
+- [Next.js 15+ (App Router)](https://nextjs.org/)
+- [React 18+](https://react.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Lucide React](https://lucide.dev/)
+- [framer-motion](https://www.framer.com/motion/) (sidebar animation)
+- [next-themes](https://github.com/pacocoursey/next-themes) (theme toggling)
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+- Node.js 18+
+- pnpm (recommended) or npm/yarn
 
+### Installation
 ```bash
-npm run dev
+pnpm install
 # or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Development
+```bash
+pnpm run dev
+# or
+npm run dev
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Visit [http://localhost:3000](http://localhost:3000) to view the app.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Build for Production
+```bash
+pnpm run build
+pnpm start
+```
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+public/
+	image/           # Logos and illustrations
+src/
+	app/             # Next.js app directory (App Router)
+		(dashboard)/   # Dashboard pages and layout
+		components/    # Shared React components
+		lib/           # Utility functions
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Customization
+- **Logo**: Replace `/public/image/logo.jpeg` for your brand.
+- **Sidebar Links**: Edit `src/components/sidebar.tsx` for navigation.
+- **Theme**: Adjust Tailwind config or use next-themes for more options.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Contributing
+Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
 
-## Deploy on Vercel
+## License
+[MIT](LICENSE)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+© 2025 OfficeSync. All rights reserved.
