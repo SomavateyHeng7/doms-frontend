@@ -8,11 +8,11 @@ import {
   LayoutDashboard, 
   FileText, 
   GitBranch, 
-  Users, 
-  UserCheck, 
   Trash2,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Users,
+  Shield
 } from "lucide-react"
 
 const navigation = [
@@ -34,7 +34,7 @@ const navigation = [
   {
     name: "Manage Roles",
     href: "/roles",
-    icon: UserCheck,
+    icon: Shield,
   },
   {
     name: "Manage Users",
@@ -60,8 +60,11 @@ export function Sidebar() {
     setIsCollapsed(!isCollapsed)
   }
 
+  // Fix hydration error: always render the same className string on server and client
+  const sidebarWidth = isCollapsed ? 'w-16' : 'w-64'
+
   return (
-    <div className={`flex h-full flex-col bg-white border-r border-gray-200 transition-all duration-300 ${isCollapsed ? 'w-16' : 'w-64'}`}>
+    <div className={`flex min-h-screen flex-col bg-white border-r border-gray-200 transition-all duration-300 ${sidebarWidth}`}>
       {/* Logo */}
       <div className="flex h-16 items-center px-4 relative">
         <AnimatePresence mode="wait">
