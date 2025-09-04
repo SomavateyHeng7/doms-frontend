@@ -70,7 +70,7 @@ const statusIcons = {
 }
 
 export default function PipelinesPage() {
-  const [pipelinesList, setPipelinesList] = useState<Pipeline[]>(pipelines)
+  const [pipelinesList] = useState<Pipeline[]>(pipelines)
 
   return (
     <div className="flex-1 flex flex-col">

@@ -43,18 +43,37 @@ export default function LoginPage() {
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    
-    if (!validateForm()) return
-    
-    setIsLoading(true)
-    
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false)
-      // Redirect to dashboard
-      window.location.href = "/dashboard"
-    }, 1500)
+    e.preventDefault();
+
+    if (!validateForm()) return;
+
+    setIsLoading(true);
+
+    try {
+      const res = await fetch('http://localhost:8000/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+        credentials: 'include', // needed for Laravel Sanctum, safe for JWT too
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        // Store token if using JWT, or rely on cookies for Sanctum
+        // localStorage.setItem('token', data.token);
+        window.location.href = '/dashboard';
+      } else {
+        setErrors({ email: data.message || 'Login failed' });
+      }
+    } catch {
+      setErrors({ email: 'Network error' });
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -197,7 +216,7 @@ export default function LoginPage() {
               
               <div className="mt-8 text-center">
                 <p className="text-sm text-gray-600">
-                  Don't have an account?{" "}
+                  Don&apos;t have an account?{" "}
                   <Link href="/register" className="text-blue-600 hover:text-blue-500 font-medium">
                     Sign up
                   </Link>

@@ -79,8 +79,8 @@ const permissionColors = {
 }
 
 export default function RolesPage() {
-  const [rolesList, setRolesList] = useState<Role[]>(roles)
-  const [showPermissions, setShowPermissions] = useState<string | null>(null)
+  const [rolesList] = useState<Role[]>(roles)
+    const [showPermissions, setShowPermissions] = useState<string | null>(null)
 
   const togglePermissions = (roleId: string) => {
     setShowPermissions(showPermissions === roleId ? null : roleId)

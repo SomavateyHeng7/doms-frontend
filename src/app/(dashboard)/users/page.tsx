@@ -97,7 +97,7 @@ const statusIcons = {
 }
 
 export default function UsersPage() {
-  const [usersList, setUsersList] = useState<User[]>(users)
+  const [usersList] = useState<User[]>(users)
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState<string>("all")
 

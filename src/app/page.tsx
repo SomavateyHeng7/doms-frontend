@@ -294,8 +294,8 @@ export default function HomePage() {
                 ))}
               </div>
               <p className="text-gray-600 mb-6">
-                "OfficeSync has transformed how we handle document approvals. 
-                The workflow automation saves us hours every week."
+                &quot;OfficeSync has transformed how we handle document approvals. 
+                The workflow automation saves us hours every week.&quot;
               </p>
               <div className="flex items-center">
                 <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3">
@@ -315,8 +315,8 @@ export default function HomePage() {
                 ))}
               </div>
               <p className="text-gray-600 mb-6">
-                "The security features give us peace of mind. 
-                We can confidently handle sensitive documents knowing they're protected."
+                &quot;The security features give us peace of mind. 
+                We can confidently handle sensitive documents knowing they&apos;re protected.&quot;
               </p>
               <div className="flex items-center">
                 <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mr-3">
@@ -336,8 +336,8 @@ export default function HomePage() {
                 ))}
               </div>
               <p className="text-gray-600 mb-6">
-                "The user interface is intuitive and the customer support is outstanding. 
-                Highly recommended for any organization."
+                &quot;The user interface is intuitive and the customer support is outstanding. 
+                Highly recommended for any organization.&quot;
               </p>
               <div className="flex items-center">
                 <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center mr-3">
