@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 
 export function useAuthUser() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<unknown>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -19,7 +19,7 @@ export function useAuthUser() {
         } else {
           setUser(null);
         }
-      } catch (err) {
+      } catch {
         setError('Network error');
         setUser(null);
       } finally {
@@ -29,5 +29,5 @@ export function useAuthUser() {
     fetchUser();
   }, []);
 
-  return { user, loading, error };
+    return { user, loading, error: error || null };
 }

@@ -14,7 +14,7 @@ import {
 } from "lucide-react"
 import Image from "next/image"
 
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 
 const documents = [
   { id: "1010110101", name: "Export Report", type: "Report", status: "Pending", createdBy: "LIM PROM" },
@@ -37,6 +37,7 @@ const statusStyles = {
 export default function OfficerDashboard() {
   const [showGuide, setShowGuide] = useState(false)
   const [checkedRows, setCheckedRows] = useState(Array(documents.length).fill(false))
+  const selectAllRef = useRef<HTMLInputElement>(null)
 
   const handleCheckRow = (idx: number) => {
     setCheckedRows(prev => {
@@ -49,6 +50,12 @@ export default function OfficerDashboard() {
   const handleCheckAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedRows(Array(documents.length).fill(e.target.checked))
   }
+
+  useEffect(() => {
+    if (selectAllRef.current) {
+      selectAllRef.current.indeterminate = checkedRows.some(Boolean) && !checkedRows.every(Boolean)
+    }
+  }, [checkedRows])
 
   return (
      <div className="flex-1 flex flex-col">
@@ -167,7 +174,7 @@ export default function OfficerDashboard() {
                       <input
                         type="checkbox"
                         checked={checkedRows.every(Boolean)}
-                        indeterminate={checkedRows.some(Boolean) && !checkedRows.every(Boolean) ? "true" : undefined}
+                        ref={selectAllRef}
                         onChange={handleCheckAll}
                       />
                     </th>

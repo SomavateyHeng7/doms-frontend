@@ -11,11 +11,14 @@ export default function CreateDocumentPage() {
   })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value, files } = e.target as any
+    const target = e.target as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+    const name = target.name;
+    const value = target.value;
+    const files = (target as HTMLInputElement).files;
     setForm(prev => ({
       ...prev,
-      [name]: files ? files[0] : value,
-    }))
+      [name]: files && files.length > 0 ? files[0] : value,
+    }));
   }
 
   const handleSubmit = (e: React.FormEvent) => {
