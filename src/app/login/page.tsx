@@ -143,7 +143,7 @@ export default function LoginPage() {
                       value={formData.email}
                       onChange={handleInputChange}
                       placeholder="Enter your email"
-                      className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${
+                      className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-black placeholder-gray-600 bg-white ${
                         errors.email ? 'border-red-300 bg-red-50' : 'border-gray-300'
                       }`}
                     />
@@ -168,7 +168,7 @@ export default function LoginPage() {
                       value={formData.password}
                       onChange={handleInputChange}
                       placeholder="Enter your password"
-                      className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${
+                      className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-black placeholder-gray-600 bg-white ${
                         errors.password ? 'border-red-300 bg-red-50' : 'border-gray-300'
                       }`}
                     />

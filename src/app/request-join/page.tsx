@@ -4,59 +4,124 @@ import Image from "next/image"
 
 export default function RequestToJoinPage() {
   return (
-    <div className="min-h-screen bg-[#dbdbdb] flex flex-col">
-      {/* Header */}
-      <header className="flex items-center h-12 px-10 text-gray-500 text-xl font-medium">
-        Request To Join
-      </header>
-      <main className="flex flex-1 items-center justify-center">
-        <div className="bg-white rounded-2xl shadow-lg flex w-[1100px] h-[650px] overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex flex-col">
+       <header className="flex items-center h-16 px-8 text-gray-600 text-lg font-medium">
+         <div className="flex items-center gap-2">
+           <Image
+             src="/image/logo2.png"
+             alt="OfficeSync Logo"
+             width={56}
+             height={56}
+             className="w-8 h-8 rounded-lg object-cover"
+             priority
+           />
+           <span className="font-semibold">OfficeSync</span>
+         </div>
+       </header>
+      <main className="flex flex-1 items-center justify-center p-6">
+        <div className="bg-white rounded-2xl shadow-xl flex w-[1100px] h-[700px] overflow-hidden">
           {/* Left: Image */}
-          <div className="w-1/2 h-full relative">
+          <div className="w-1/2 h-full relative hidden md:block">
             <Image
-              src="/image/meeting.jpg"
+              src="/image/meeting.png"
               alt="Meeting"
               fill
               className="object-cover"
               priority
             />
           </div>
+
           {/* Right: Form */}
-          <div className="w-1/2 flex flex-col items-center justify-center p-12">
-            <div className="flex flex-col items-center mb-8">
-              <Image src="/image/logo.png" alt="OfficeSync Logo" width={64} height={64} className="mb-2" />
-              <span className="text-3xl font-semibold mb-2">OfficeSync</span>
-              <h2 className="text-2xl font-medium mb-2 mt-2">Request to Join</h2>
-              <p className="text-gray-500 text-sm">Please enter your detail, to request to join</p>
+          <div className="w-full md:w-1/2 flex flex-col justify-between p-10">
+            {/* Logo + Title */}
+            <div className="flex flex-col items-center text-center">
+              <div className="flex items-center justify-center mb-4">
+                <Image
+                  src="/image/logo2.png"
+                  alt="OfficeSync Logo"
+                  width={56}
+                  height={56}
+                  className="rounded-xl object-cover mr-3"
+                  priority
+                />
+                <span className="text-3xl font-bold text-gray-900">
+                  OfficeSync
+                </span>
+              </div>
+              <h2 className="text-2xl font-semibold text-gray-900">
+                Request to Join
+              </h2>
+              <p className="text-gray-600 text-sm mt-1">
+                Please enter your details to request access
+              </p>
             </div>
-            <form className="w-full max-w-sm flex flex-col gap-4">
+
+            {/* Form Inputs */}
+            <form className="w-full max-w-sm flex flex-col gap-4 mx-auto">
               <div>
-                <label className="block text-gray-700 text-sm mb-1">Latin Name</label>
-                <input type="text" placeholder="John Doe" className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
+                <label className="block text-gray-700 text-sm font-medium mb-1">
+                  Latin Name
+                </label>
+                <input
+                  type="text"
+                  placeholder="John Doe"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-black text-gray-900 placeholder-gray-400"
+                />
               </div>
+
               <div>
-                <label className="block text-gray-700 text-sm mb-1">Khmer Name</label>
-                <input type="text" placeholder="John Doe" className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
+                <label className="block text-gray-700 text-sm font-medium mb-1">
+                  Khmer Name
+                </label>
+                <input
+                  type="text"
+                  placeholder="ចន ដូ"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-black text-gray-900 placeholder-gray-400"
+                />
               </div>
+
               <div>
-                <label className="block text-gray-700 text-sm mb-1">Email</label>
-                <input type="email" placeholder="JohnDoe@example.com" className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
+                <label className="block text-gray-700 text-sm font-medium mb-1">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  placeholder="JohnDoe@example.com"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-black text-gray-900 placeholder-gray-400"
+                />
               </div>
+
               <div>
-                <label className="block text-gray-700 text-sm mb-1">ID</label>
-                <input type="text" placeholder="1010110101" className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
+                <label className="block text-gray-700 text-sm font-medium mb-1">
+                  ID
+                </label>
+                <input
+                  type="text"
+                  placeholder="1010110101"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-black text-gray-900 placeholder-gray-400"
+                />
               </div>
+
               <div>
-                <label className="block text-gray-700 text-sm mb-1">Type of User</label>
-                <select className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black text-gray-500">
+                <label className="block text-gray-700 text-sm font-medium mb-1">
+                  Type of User
+                </label>
+                <select className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-black text-gray-900 bg-white">
                   <option value="">Select Type of User</option>
                   <option value="officer">Officer</option>
                   <option value="admin">Admin</option>
                   <option value="user">User</option>
                 </select>
               </div>
-              <button type="submit" className="w-full mt-4 bg-black text-white rounded-full py-2 text-lg font-medium hover:bg-gray-900 transition">Log In</button>
             </form>
+
+            {/* Button at bottom */}
+            <button
+              type="submit"
+              className="w-full max-w-sm mx-auto bg-black text-white rounded-full py-3 text-lg font-semibold hover:bg-gray-900 transition-all shadow-md"
+            >
+              Request Access
+            </button>
           </div>
         </div>
       </main>
