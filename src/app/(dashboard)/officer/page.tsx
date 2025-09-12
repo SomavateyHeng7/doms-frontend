@@ -10,10 +10,10 @@ import {
   Info,
   X,
   CircleHelp,
-  ChevronDown, // ✅ Added import
+  ChevronDown,
+  LogOut,
 } from "lucide-react"
 import Image from "next/image"
-
 import { useState, useRef, useEffect } from "react"
 
 const documents = [
@@ -37,7 +37,17 @@ const statusStyles = {
 export default function OfficerDashboard() {
   const [showGuide, setShowGuide] = useState(false)
   const [checkedRows, setCheckedRows] = useState(Array(documents.length).fill(false))
+  const [menuOpen, setMenuOpen] = useState(false)
   const selectAllRef = useRef<HTMLInputElement>(null)
+  const menuRef = useRef<HTMLDivElement>(null)
+
+  const handleLogout = () => {
+    if (typeof window !== "undefined") {
+      localStorage.clear()
+      sessionStorage.clear()
+      window.location.href = "/login"
+    }
+  }
 
   const handleCheckRow = (idx: number) => {
     setCheckedRows(prev => {
@@ -53,26 +63,57 @@ export default function OfficerDashboard() {
 
   useEffect(() => {
     if (selectAllRef.current) {
-      selectAllRef.current.indeterminate = checkedRows.some(Boolean) && !checkedRows.every(Boolean)
+      selectAllRef.current.indeterminate =
+        checkedRows.some(Boolean) && !checkedRows.every(Boolean)
     }
   }, [checkedRows])
 
+  // ✅ Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
+
   return (
-     <div className="flex-1 flex flex-col">
+    <div className="flex-1 flex flex-col">
       {/* Header */}
       <header className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
-          <h1 className="text-gray-500 text-lg font-medium">Officer Dashboard</h1>
-          <div className="flex items-center space-x-4">
+          <h1 className="text-gray-500 text-lg font-medium">Officer-Dashboard</h1>
+          <div className="flex items-center space-x-4 relative">
             <button className="p-2 hover:bg-gray-100 rounded-full">
               <Bell className="h-5 w-5 text-gray-600" />
             </button>
             <div className="w-px h-6 bg-gray-300"></div>
-            <div className="flex items-center space-x-2 cursor-pointer hover:bg-gray-100 rounded-lg p-2">
-              <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
-                <span className="text-sm font-medium text-gray-700">JD</span>
-              </div>
-              <ChevronDown className="h-4 w-4 text-gray-600" />
+
+            {/* Profile + Dropdown */}
+            <div className="relative" ref={menuRef}>
+              <button
+                onClick={() => setMenuOpen(!menuOpen)}
+                className="flex items-center space-x-2 cursor-pointer hover:bg-gray-100 rounded-lg p-2"
+              >
+                <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
+                  <span className="text-sm font-medium text-gray-700">JD</span>
+                </div>
+                <ChevronDown className="h-4 w-4 text-gray-600" />
+              </button>
+
+              {menuOpen && (
+                <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                  <button
+                    onClick={handleLogout}
+                    className="flex w-full items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Logout
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -122,9 +163,7 @@ export default function OfficerDashboard() {
               {showGuide && (
                 <div className="absolute z-20 left-0 mt-2 w-[340px] bg-white rounded-xl shadow-xl border border-gray-200 p-6 animate-fade-in">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="font-semibold text-lg">
-                      Document Management Guide
-                    </span>
+                    <span className="font-semibold text-lg">Document Management Guide</span>
                     <button
                       onClick={() => setShowGuide(false)}
                       aria-label="Close Guide"
@@ -133,32 +172,16 @@ export default function OfficerDashboard() {
                     </button>
                   </div>
                   <ul className="text-sm text-gray-800 space-y-2 mb-4">
-                    <li className="flex items-center gap-2">
-                      <span className="text-black text-xs">●</span> View
-                      Documents
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <span className="text-black text-xs">●</span> Upload new
-                      Document
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <span className="text-black text-xs">●</span> Edit
-                      Documents
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <span className="text-black text-xs">●</span> Download
-                      Documents
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <span className="text-black text-xs">●</span> Delete
-                      Documents
-                    </li>
+                    <li className="flex items-center gap-2"><span className="text-black text-xs">●</span> View Documents</li>
+                    <li className="flex items-center gap-2"><span className="text-black text-xs">●</span> Upload new Document</li>
+                    <li className="flex items-center gap-2"><span className="text-black text-xs">●</span> Edit Documents</li>
+                    <li className="flex items-center gap-2"><span className="text-black text-xs">●</span> Download Documents</li>
+                    <li className="flex items-center gap-2"><span className="text-black text-xs">●</span> Delete Documents</li>
                   </ul>
                   <div className="flex items-start gap-2 border-t pt-2 mt-2">
                     <CircleHelp className="w-4 h-4 text-black mt-0.5" />
                     <span className="text-xs text-gray-700">
-                      Tip: Use the search bar to quickly find a document by ID
-                      or name.
+                      Tip: Use the search bar to quickly find a document by ID or name.
                     </span>
                   </div>
                 </div>
@@ -188,10 +211,7 @@ export default function OfficerDashboard() {
                 </thead>
                 <tbody>
                   {documents.map((doc, i) => (
-                    <tr
-                      key={i}
-                      className="border-b last:border-0 hover:bg-gray-50 transition"
-                    >
+                    <tr key={i} className="border-b last:border-0 hover:bg-gray-50 transition">
                       <td className="py-2 px-4">
                         <input
                           type="checkbox"

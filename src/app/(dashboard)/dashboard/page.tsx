@@ -1,37 +1,56 @@
-"use client"
+'use client';
 
-import Link from "next/link"
-import { ArrowRight, Bell, LogOut } from "lucide-react"
+import { useState } from "react";
+import Link from "next/link";
+import { ArrowRight, Bell, LogOut, ChevronDown } from "lucide-react";
 
 export default function DashboardPage() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleLogout = () => {
+    if (typeof window !== "undefined") {
+      localStorage.clear();
+      sessionStorage.clear();
+      window.location.href = "/login";
+    }
+  };
+
   return (
     <div className="flex-1 flex flex-col">
       {/* Header */}
       <header className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
           <h1 className="text-gray-500 text-lg font-medium">Dashboard</h1>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 relative">
             <button className="p-2 hover:bg-gray-100 rounded-full">
               <Bell className="h-5 w-5 text-gray-600" />
             </button>
             <div className="w-px h-6 bg-gray-300"></div>
-            <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
-              <span className="text-sm font-medium text-gray-700">JD</span>
+
+            {/* Profile + Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setMenuOpen(!menuOpen)}
+                className="flex items-center space-x-2 cursor-pointer hover:bg-gray-100 rounded-lg p-2"
+              >
+                <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
+                  <span className="text-sm font-medium text-gray-700">JD</span>
+                </div>
+                <ChevronDown className="h-4 w-4 text-gray-600" />
+              </button>
+
+              {menuOpen && (
+                <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                  <button
+                    onClick={handleLogout}
+                    className="flex w-full items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Logout
+                  </button>
+                </div>
+              )}
             </div>
-            <button
-              className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 transition text-sm font-medium ml-2"
-              onClick={() => {
-                if (typeof window !== "undefined") {
-                  localStorage.clear()
-                  sessionStorage.clear()
-                  window.location.href = "/login"
-                }
-              }}
-              title="Logout"
-            >
-              <LogOut className="w-4 h-4" />
-              Logout
-            </button>
           </div>
         </div>
       </header>
@@ -40,7 +59,7 @@ export default function DashboardPage() {
       <main className="flex-1 p-6 bg-gray-50">
         <div className="max-w-7xl mx-auto space-y-6">
           <h2 className="text-2xl font-semibold text-gray-900">Welcome to OfficeSync</h2>
-          
+
           {/* Analytics Section */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6 flex flex-col items-center">
@@ -65,7 +84,7 @@ export default function DashboardPage() {
           <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6 w-full">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <Link 
+              <Link
                 href="/approval-detail"
                 className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
               >
@@ -75,8 +94,8 @@ export default function DashboardPage() {
                 </div>
                 <ArrowRight className="h-5 w-5 text-gray-400" />
               </Link>
-              
-              <Link 
+
+              <Link
                 href="/documents"
                 className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
               >
@@ -86,8 +105,8 @@ export default function DashboardPage() {
                 </div>
                 <ArrowRight className="h-5 w-5 text-gray-400" />
               </Link>
-              
-              <Link 
+
+              <Link
                 href="/new-document"
                 className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
               >
@@ -113,7 +132,7 @@ export default function DashboardPage() {
                   Approved
                 </span>
               </div>
-              
+
               <div className="flex items-center justify-between py-2">
                 <div>
                   <p className="text-sm font-medium text-gray-900">New document submitted by LIM</p>
@@ -128,5 +147,5 @@ export default function DashboardPage() {
         </div>
       </main>
     </div>
-  )
+  );
 }

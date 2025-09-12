@@ -1,6 +1,9 @@
-"use client"
+'use client'
 
-import { Bell, ChevronDown, Upload, Eye, Edit, Download, Trash, CheckCircle, Circle, Info } from "lucide-react"
+import { 
+  Bell, ChevronDown, Upload, Eye, Edit, Download, Trash, 
+  CheckCircle, Circle, Info, LogOut 
+} from "lucide-react"
 import { useState } from "react"
 
 interface Document {
@@ -14,13 +17,13 @@ interface Document {
 
 const documents: Document[] = [
   { id: "1010110101", name: "Export Report", type: "Report", status: "pending", createdBy: "LIM PROM", selected: true },
-  { id: "1010110101", name: "Export Report", type: "Report", status: "approved", createdBy: "LIM PROM", selected: true },
-  { id: "1010110101", name: "Export Report", type: "Report", status: "rejected", createdBy: "LIM PROM", selected: true },
-  { id: "1010110101", name: "Export Report", type: "Report", status: "pending", createdBy: "LIM PROM", selected: false },
-  { id: "1010110101", name: "Export Report", type: "Report", status: "draft", createdBy: "LIM PROM", selected: false },
-  { id: "1010110101", name: "Export Report", type: "Report", status: "approved", createdBy: "LIM PROM", selected: false },
-  { id: "1010110101", name: "Export Report", type: "Report", status: "rejected", createdBy: "LIM PROM", selected: false },
-  { id: "1010110101", name: "Export Report", type: "Report", status: "draft", createdBy: "LIM PROM", selected: false },
+  { id: "1010110102", name: "Export Report", type: "Report", status: "approved", createdBy: "LIM PROM", selected: true },
+  { id: "1010110103", name: "Export Report", type: "Report", status: "rejected", createdBy: "LIM PROM", selected: true },
+  { id: "1010110104", name: "Export Report", type: "Report", status: "pending", createdBy: "LIM PROM", selected: false },
+  { id: "1010110105", name: "Export Report", type: "Report", status: "draft", createdBy: "LIM PROM", selected: false },
+  { id: "1010110106", name: "Export Report", type: "Report", status: "approved", createdBy: "LIM PROM", selected: false },
+  { id: "1010110107", name: "Export Report", type: "Report", status: "rejected", createdBy: "LIM PROM", selected: false },
+  { id: "1010110108", name: "Export Report", type: "Report", status: "draft", createdBy: "LIM PROM", selected: false },
 ]
 
 const statusColors = {
@@ -32,6 +35,7 @@ const statusColors = {
 
 export default function DocumentsPage() {
   const [documentsList, setDocumentsList] = useState<Document[]>(documents)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   const toggleSelection = (index: number) => {
     const newDocuments = [...documentsList]
@@ -39,22 +43,49 @@ export default function DocumentsPage() {
     setDocumentsList(newDocuments)
   }
 
+  const handleLogout = () => {
+    if (typeof window !== "undefined") {
+      localStorage.clear()
+      sessionStorage.clear()
+      window.location.href = "/login"
+    }
+  }
+
   return (
     <div className="flex-1 flex flex-col">
       {/* Header */}
       <header className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
-          <h1 className="text-gray-500 text-lg font-medium">Officer - Dashboard</h1>
-          <div className="flex items-center space-x-4">
+          <h1 className="text-gray-500 text-lg font-medium">Officer-Dashboard</h1>
+          <div className="flex items-center space-x-4 relative">
             <button className="p-2 hover:bg-gray-100 rounded-full">
               <Bell className="h-5 w-5 text-gray-600" />
             </button>
             <div className="w-px h-6 bg-gray-300"></div>
-            <div className="flex items-center space-x-2 cursor-pointer hover:bg-gray-100 rounded-lg p-2">
-              <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
-                <span className="text-sm font-medium text-gray-700">JD</span>
-              </div>
-              <ChevronDown className="h-4 w-4 text-gray-600" />
+
+            {/* Profile + Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setMenuOpen(!menuOpen)}
+                className="flex items-center space-x-2 cursor-pointer hover:bg-gray-100 rounded-lg p-2"
+              >
+                <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
+                  <span className="text-sm font-medium text-gray-700">JD</span>
+                </div>
+                <ChevronDown className="h-4 w-4 text-gray-600" />
+              </button>
+
+              {menuOpen && (
+                <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                  <button
+                    onClick={handleLogout}
+                    className="flex w-full items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Logout
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -86,37 +117,20 @@ export default function DocumentsPage() {
               <table className="w-full">
                 <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
-                    <th className="px-6 py-3 text-left">
-                      <div className="w-4 h-4"></div>
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      ID
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Name
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Type
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Status
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Created By
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Actions
-                    </th>
+                    <th className="px-6 py-3 text-left"></th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created By</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {documentsList.map((doc, index) => (
                     <tr key={index} className="hover:bg-gray-50">
                       <td className="px-6 py-4">
-                        <button
-                          onClick={() => toggleSelection(index)}
-                          className="flex items-center justify-center"
-                        >
+                        <button onClick={() => toggleSelection(index)}>
                           {doc.selected ? (
                             <CheckCircle className="h-4 w-4 text-green-600" />
                           ) : (
@@ -124,24 +138,16 @@ export default function DocumentsPage() {
                           )}
                         </button>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {doc.id}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {doc.name}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {doc.type}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusColors[doc.status]}`}>
+                      <td className="px-6 py-4 text-sm text-gray-900">{doc.id}</td>
+                      <td className="px-6 py-4 text-sm text-gray-900">{doc.name}</td>
+                      <td className="px-6 py-4 text-sm text-gray-900">{doc.type}</td>
+                      <td className="px-6 py-4">
+                        <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${statusColors[doc.status]}`}>
                           {doc.status.charAt(0).toUpperCase() + doc.status.slice(1)}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {doc.createdBy}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-6 py-4 text-sm text-gray-900">{doc.createdBy}</td>
+                      <td className="px-6 py-4 text-sm text-gray-500">
                         <div className="flex items-center space-x-2">
                           <button className="p-1 hover:bg-gray-100 rounded" title="View">
                             <Eye className="h-4 w-4 text-gray-600" />
