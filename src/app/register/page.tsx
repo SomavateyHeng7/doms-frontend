@@ -113,8 +113,8 @@ export default function RegisterPage() {
         </div>
       </header>
       
-      <main className="flex flex-1 items-center justify-center p-6">
-        <div className="bg-white rounded-3xl shadow-2xl flex w-full max-w-6xl h-[800px] overflow-hidden border border-gray-100">
+      <main className="flex flex-1 items-center justify-center p-4 sm:p-6">
+        <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl flex w-full max-w-6xl min-h-[700px] sm:h-[800px] overflow-hidden border border-gray-100">
           {/* Left: Image */}
           <div className="w-1/2 h-full relative hidden lg:block">
             <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-purple-600/20 z-10"></div>
@@ -132,38 +132,38 @@ export default function RegisterPage() {
           </div>
           
           {/* Right: Form */}
-          <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-8 lg:p-12">
+          <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-6 sm:p-8 lg:p-12">
             <div className="w-full max-w-md">
-              <div className="text-center mb-8">
+              <div className="text-center mb-6 sm:mb-8">
                 <div className="flex items-center justify-center mb-4">
                   <Image
                     src="/image/logo2.png"
                     alt="OfficeSync Logo"
                     width={48}
                     height={48}
-                    className="w-12 h-12 rounded-xl object-cover mr-3"
+                    className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl object-cover mr-3"
                     priority
                   />
-                  <span className="text-2xl font-bold text-gray-900">OfficeSync</span>
+                  <span className="text-xl sm:text-2xl font-bold text-gray-900">OfficeSync</span>
                 </div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-2">Create account</h2>
-                <p className="text-gray-600">Join thousands of users managing documents efficiently</p>
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Create account</h2>
+                <p className="text-sm sm:text-base text-gray-600">Join thousands of users managing documents efficiently</p>
               </div>
               
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Full name
                   </label>
                   <div className="relative">
-                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
                     <input
                       type="text"
                       name="name"
                       value={formData.name}
                       onChange={handleInputChange}
                       placeholder="Enter your full name"
-                      className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${
+                      className={`w-full pl-9 sm:pl-10 pr-4 py-2.5 sm:py-3 text-sm sm:text-base border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-gray-900 placeholder-gray-400 ${
                         errors.name ? 'border-red-300 bg-red-50' : 'border-gray-300'
                       }`}
                     />
@@ -181,14 +181,14 @@ export default function RegisterPage() {
                     Email address
                   </label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
                         <input
                           type="email"
                           name="email"
                           value={formData.email}
                           onChange={handleInputChange}
                           placeholder="Enter your email"
-                          className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-gray-900 placeholder-gray-400 ${
+                          className={`w-full pl-9 sm:pl-10 pr-4 py-2.5 sm:py-3 text-sm sm:text-base border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-gray-900 placeholder-gray-400 ${
                             errors.email ? 'border-red-300 bg-red-50' : 'border-gray-300'
                           }`}
                         />
@@ -206,14 +206,14 @@ export default function RegisterPage() {
                     Password
                   </label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
                         <input
                           type={showPassword ? "text" : "password"}
                           name="password"
                           value={formData.password}
                           onChange={handleInputChange}
                           placeholder="Create a strong password"
-                          className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-gray-900 placeholder-gray-400 ${
+                          className={`w-full pl-9 sm:pl-10 pr-10 sm:pr-12 py-2.5 sm:py-3 text-sm sm:text-base border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-gray-900 placeholder-gray-400 ${
                             errors.password ? 'border-red-300 bg-red-50' : 'border-gray-300'
                           }`}
                         />
@@ -222,7 +222,7 @@ export default function RegisterPage() {
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                     >
-                      {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                      {showPassword ? <Eye className="h-4 w-4 sm:h-5 sm:w-5" /> : <EyeOff className="h-4 w-4 sm:h-5 sm:w-5" />}
                     </button>
                   </div>
                   {formData.password && (
@@ -253,14 +253,14 @@ export default function RegisterPage() {
                     Confirm password
                   </label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
                         <input
                           type={showConfirmPassword ? "text" : "password"}
                           name="confirmPassword"
                           value={formData.confirmPassword}
                           onChange={handleInputChange}
                           placeholder="Confirm your password"
-                          className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-gray-900 placeholder-gray-400 ${
+                          className={`w-full pl-9 sm:pl-10 pr-10 sm:pr-12 py-2.5 sm:py-3 text-sm sm:text-base border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-gray-900 placeholder-gray-400 ${
                             errors.confirmPassword ? 'border-red-300 bg-red-50' : 'border-gray-300'
                           }`}
                         />
@@ -269,7 +269,7 @@ export default function RegisterPage() {
                       onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                       className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                     >
-                      {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                      {showConfirmPassword ? <Eye className="h-4 w-4 sm:h-5 sm:w-5" /> : <EyeOff className="h-4 w-4 sm:h-5 sm:w-5" />}
                     </button>
                   </div>
                   {formData.confirmPassword && formData.password === formData.confirmPassword && (
@@ -290,7 +290,7 @@ export default function RegisterPage() {
                   <input
                     type="checkbox"
                     id="terms"
-                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mt-1"
+                    className="h-4 w-4 text-blue-600 bg-white focus:ring-blue-500 border-gray-300 rounded mt-1 checked:bg-blue-600 checked:border-blue-600"
                   />
                   <label htmlFor="terms" className="ml-2 text-sm text-gray-600">
                     I agree to the{" "}
@@ -307,7 +307,7 @@ export default function RegisterPage() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-blue-600 text-white py-2.5 sm:py-3 px-4 text-sm sm:text-base rounded-lg font-medium hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading ? (
                     <div className="flex items-center justify-center">

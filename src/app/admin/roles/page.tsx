@@ -102,12 +102,12 @@ export default function RolesPage() {
   return (
     <div className="flex-1 flex flex-col">
       {/* Header */}
-    <header className="bg-white border-b border-gray-200 px-6 py-4">
+    <header className="bg-white border-b border-gray-200 px-4 sm:px-6 py-4">
         <div className="flex items-center justify-between">
-          <h1 className="text-gray-500 text-lg font-medium">Manage Roles</h1>
-          <div className="flex items-center space-x-4 relative">
+          <h1 className="text-gray-500 text-base sm:text-lg font-medium">Manage Roles</h1>
+          <div className="flex items-center space-x-2 sm:space-x-4 relative">
             <button className="p-2 hover:bg-gray-100 rounded-full">
-              <Bell className="h-5 w-5 text-gray-600" />
+              <Bell className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600" />
             </button>
             <div className="w-px h-6 bg-gray-300"></div>
 
@@ -117,19 +117,19 @@ export default function RolesPage() {
                 onClick={() => setMenuOpen(!menuOpen)}
                 className="flex items-center space-x-2 cursor-pointer hover:bg-gray-100 rounded-lg p-2"
               >
-                <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
-                  <span className="text-sm font-medium text-gray-700">JD</span>
+                <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-300 rounded-full flex items-center justify-center">
+                  <span className="text-xs sm:text-sm font-medium text-gray-700">JD</span>
                 </div>
-                <ChevronDown className="h-4 w-4 text-gray-600" />
+                <ChevronDown className="h-3 w-3 sm:h-4 sm:w-4 text-gray-600" />
               </button>
 
               {menuOpen && (
-                <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                <div className="absolute right-0 mt-2 w-32 sm:w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
                   <button
                     onClick={handleLogout}
-                    className="flex w-full items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
+                    className="flex w-full items-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
                   >
-                    <LogOut className="w-4 h-4" />
+                    <LogOut className="w-3 h-3 sm:w-4 sm:h-4" />
                     Logout
                   </button>
                 </div>
@@ -140,72 +140,72 @@ export default function RolesPage() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 p-6 bg-gray-50">
+      <main className="flex-1 p-4 sm:p-6 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           {/* Page Header */}
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <div>
-              <h2 className="text-2xl font-semibold text-gray-900">Role Management</h2>
-              <p className="text-gray-600 mt-1">Create and manage user roles and permissions</p>
+              <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">Role Management</h2>
+              <p className="text-sm sm:text-base text-gray-600 mt-1">Create and manage user roles and permissions</p>
             </div>
-            <button className="flex items-center space-x-2 px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors">
+            <button className="flex items-center justify-center space-x-2 px-3 sm:px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors w-full sm:w-auto">
               <Plus className="h-4 w-4" />
-              <span>Create Role</span>
+              <span className="text-sm sm:text-base">Create Role</span>
             </button>
           </div>
 
           {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Total Roles</p>
-                  <p className="text-2xl font-semibold text-gray-900">{rolesList.length}</p>
+                  <p className="text-xs sm:text-sm font-medium text-gray-600">Total Roles</p>
+                  <p className="text-lg sm:text-2xl font-semibold text-gray-900">{rolesList.length}</p>
                 </div>
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <Shield className="h-6 w-6 text-blue-600" />
+                <div className="w-8 h-8 sm:w-12 sm:h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                  <Shield className="h-4 w-4 sm:h-6 sm:w-6 text-blue-600" />
                 </div>
               </div>
             </div>
             
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Active Roles</p>
-                  <p className="text-2xl font-semibold text-gray-900">
+                  <p className="text-xs sm:text-sm font-medium text-gray-600">Active Roles</p>
+                  <p className="text-lg sm:text-2xl font-semibold text-gray-900">
                     {rolesList.filter(r => r.status === 'active').length}
                   </p>
                 </div>
-                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                  <CheckCircle className="h-6 w-6 text-green-600" />
+                <div className="w-8 h-8 sm:w-12 sm:h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                  <CheckCircle className="h-4 w-4 sm:h-6 sm:w-6 text-green-600" />
                 </div>
               </div>
             </div>
             
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Total Users</p>
-                  <p className="text-2xl font-semibold text-gray-900">
+                  <p className="text-xs sm:text-sm font-medium text-gray-600">Total Users</p>
+                  <p className="text-lg sm:text-2xl font-semibold text-gray-900">
                     {rolesList.reduce((sum, r) => sum + r.users, 0)}
                   </p>
                 </div>
-                <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                  <Users className="h-6 w-6 text-purple-600" />
+                <div className="w-8 h-8 sm:w-12 sm:h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                  <Users className="h-4 w-4 sm:h-6 sm:w-6 text-purple-600" />
                 </div>
               </div>
             </div>
             
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Total Permissions</p>
-                  <p className="text-2xl font-semibold text-gray-900">
+                  <p className="text-xs sm:text-sm font-medium text-gray-600">Total Permissions</p>
+                  <p className="text-lg sm:text-2xl font-semibold text-gray-900">
                     {Array.from(new Set(rolesList.flatMap(r => r.permissions))).length}
                   </p>
                 </div>
-                <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-                  <Settings className="h-6 w-6 text-orange-600" />
+                <div className="w-8 h-8 sm:w-12 sm:h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                  <Settings className="h-4 w-4 sm:h-6 sm:w-6 text-orange-600" />
                 </div>
               </div>
             </div>
@@ -217,22 +217,22 @@ export default function RolesPage() {
               <table className="w-full">
                 <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Role Name
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="hidden sm:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Description
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Permissions
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="hidden lg:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Users
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Status
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Actions
                     </th>
                   </tr>
@@ -240,16 +240,46 @@ export default function RolesPage() {
                 <tbody className="bg-white divide-y divide-gray-200">
                   {rolesList.map((role) => (
                     <tr key={role.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4">
-                        <div>
+                      <td className="px-3 sm:px-6 py-4">
+                        <div className="space-y-1">
                           <div className="text-sm font-medium text-gray-900">{role.name}</div>
-                          <div className="text-sm text-gray-500">ID: {role.id}</div>
+                          <div className="text-xs text-gray-500">ID: {role.id}</div>
+                          {/* Mobile: Show description, permissions, and users below role name */}
+                          <div className="sm:hidden space-y-2 mt-2">
+                            <div className="text-xs text-gray-600 truncate max-w-[200px]">{role.description}</div>
+                            <div className="flex flex-wrap gap-1">
+                              {role.permissions.slice(0, 2).map((permission) => (
+                                <span key={permission} className={`inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium ${permissionColors[permission as keyof typeof permissionColors]}`}>
+                                  {permission}
+                                </span>
+                              ))}
+                              {role.permissions.length > 2 && (
+                                <button
+                                  onClick={() => togglePermissions(role.id)}
+                                  className="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700 hover:bg-gray-200"
+                                >
+                                  {showPermissions === role.id ? <EyeOff className="h-2 w-2" /> : <Eye className="h-2 w-2" />}
+                                  +{role.permissions.length - 2}
+                                </button>
+                              )}
+                            </div>
+                            {showPermissions === role.id && (
+                              <div className="flex flex-wrap gap-1">
+                                {role.permissions.slice(2).map((permission) => (
+                                  <span key={permission} className={`inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium ${permissionColors[permission as keyof typeof permissionColors]}`}>
+                                    {permission}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                            <div className="text-xs text-gray-600">{role.users} users</div>
+                          </div>
                         </div>
                       </td>
-                      <td className="px-6 py-4">
+                      <td className="hidden sm:table-cell px-6 py-4">
                         <div className="text-sm text-gray-900 max-w-xs truncate">{role.description}</div>
                       </td>
-                      <td className="px-6 py-4">
+                      <td className="hidden md:table-cell px-6 py-4">
                         <div className="flex flex-wrap gap-1">
                           {role.permissions.slice(0, 2).map((permission) => (
                             <span key={permission} className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${permissionColors[permission as keyof typeof permissionColors]}`}>
@@ -276,31 +306,32 @@ export default function RolesPage() {
                           </div>
                         )}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <td className="hidden lg:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                         {role.users} users
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                      <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
+                        <span className={`inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-xs font-medium ${
                           role.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
                         }`}>
                           {role.status === 'active' ? (
-                            <CheckCircle className="h-3 w-3 mr-1" />
+                            <CheckCircle className="h-2 w-2 sm:h-3 sm:w-3 mr-1" />
                           ) : (
-                            <XCircle className="h-3 w-3 mr-1" />
+                            <XCircle className="h-2 w-2 sm:h-3 sm:w-3 mr-1" />
                           )}
-                          {role.status.charAt(0).toUpperCase() + role.status.slice(1)}
+                          <span className="hidden sm:inline">{role.status.charAt(0).toUpperCase() + role.status.slice(1)}</span>
+                          <span className="sm:hidden">{role.status === 'active' ? 'On' : 'Off'}</span>
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        <div className="flex items-center space-x-2">
+                      <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <div className="flex items-center space-x-1 sm:space-x-2">
                           <button className="p-1 hover:bg-gray-100 rounded" title="Edit Role">
-                            <Edit className="h-4 w-4 text-gray-600" />
+                            <Edit className="h-3 w-3 sm:h-4 sm:w-4 text-gray-600" />
                           </button>
-                          <button className="p-1 hover:bg-gray-100 rounded" title="View Users">
+                          <button className="hidden sm:inline-flex p-1 hover:bg-gray-100 rounded" title="View Users">
                             <Users className="h-4 w-4 text-gray-600" />
                           </button>
                           <button className="p-1 hover:bg-gray-100 rounded" title="Delete Role">
-                            <Trash className="h-4 w-4 text-gray-600" />
+                            <Trash className="h-3 w-3 sm:h-4 sm:w-4 text-gray-600" />
                           </button>
                         </div>
                       </td>

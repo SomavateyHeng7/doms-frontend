@@ -115,34 +115,34 @@ export default function TrashPage() {
   return (
     <div className="flex-1 flex flex-col">
       {/* Header */}
-   <header className="bg-white border-b border-gray-200 px-6 py-4">
+   <header className="bg-white border-b border-gray-200 px-4 sm:px-6 py-3 sm:py-4">
         <div className="flex items-center justify-between">
-          <h1 className="text-gray-500 text-lg font-medium">Trash Documents</h1>
-          <div className="flex items-center space-x-4 relative">
-            <button className="p-2 hover:bg-gray-100 rounded-full">
-              <Bell className="h-5 w-5 text-gray-600" />
+          <h1 className="text-gray-500 text-base sm:text-lg font-medium truncate">Trash Documents</h1>
+          <div className="flex items-center space-x-2 sm:space-x-4 relative">
+            <button className="p-1.5 sm:p-2 hover:bg-gray-100 rounded-full">
+              <Bell className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600" />
             </button>
-            <div className="w-px h-6 bg-gray-300"></div>
+            <div className="w-px h-4 sm:h-6 bg-gray-300"></div>
 
             {/* Profile + Dropdown */}
             <div className="relative">
               <button
                 onClick={() => setMenuOpen(!menuOpen)}
-                className="flex items-center space-x-2 cursor-pointer hover:bg-gray-100 rounded-lg p-2"
+                className="flex items-center space-x-1 sm:space-x-2 cursor-pointer hover:bg-gray-100 rounded-lg p-1.5 sm:p-2"
               >
-                <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
-                  <span className="text-sm font-medium text-gray-700">JD</span>
+                <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-300 rounded-full flex items-center justify-center">
+                  <span className="text-xs sm:text-sm font-medium text-gray-700">JD</span>
                 </div>
-                <ChevronDown className="h-4 w-4 text-gray-600" />
+                <ChevronDown className="h-3 w-3 sm:h-4 sm:w-4 text-gray-600" />
               </button>
 
               {menuOpen && (
-                <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                <div className="absolute right-0 mt-2 w-32 sm:w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
                   <button
                     onClick={handleLogout}
-                    className="flex w-full items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
+                    className="flex w-full items-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
                   >
-                    <LogOut className="w-4 h-4" />
+                    <LogOut className="w-3 h-3 sm:w-4 sm:h-4" />
                     Logout
                   </button>
                 </div>
@@ -153,106 +153,107 @@ export default function TrashPage() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 p-6 bg-gray-50">
+      <main className="flex-1 p-4 sm:p-6 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           {/* Page Header */}
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 sm:mb-6 space-y-3 sm:space-y-0">
             <div>
-              <h2 className="text-2xl font-semibold text-gray-900">Trash Bin</h2>
-              <p className="text-gray-600 mt-1">Recover or permanently delete documents</p>
+              <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">Trash Bin</h2>
+              <p className="text-sm sm:text-base text-gray-600 mt-1">Recover or permanently delete documents</p>
             </div>
             <div className="flex items-center space-x-3">
               <button 
                 onClick={handleEmptyTrash}
-                className="flex items-center space-x-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                className="flex items-center justify-center space-x-2 px-3 sm:px-4 py-2 text-sm sm:text-base bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
               >
-                <Trash2 className="h-4 w-4" />
-                <span>Empty Trash</span>
+                <Trash2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                <span className="hidden sm:inline">Empty Trash</span>
+                <span className="sm:hidden">Empty</span>
               </button>
             </div>
           </div>
 
           {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Total Items</p>
-                  <p className="text-2xl font-semibold text-gray-900">{trashList.length}</p>
+                  <p className="text-xs sm:text-sm font-medium text-gray-600">Total Items</p>
+                  <p className="text-lg sm:text-2xl font-semibold text-gray-900">{trashList.length}</p>
                 </div>
-                <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
-                  <Trash2 className="h-6 w-6 text-red-600" />
+                <div className="w-8 h-8 sm:w-12 sm:h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                  <Trash2 className="h-4 w-4 sm:h-6 sm:w-6 text-red-600" />
                 </div>
               </div>
             </div>
             
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Can Restore</p>
-                  <p className="text-2xl font-semibold text-gray-900">
+                  <p className="text-xs sm:text-sm font-medium text-gray-600">Can Restore</p>
+                  <p className="text-lg sm:text-2xl font-semibold text-gray-900">
                     {trashList.filter(doc => doc.canRestore).length}
                   </p>
                 </div>
-                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                  <RotateCcw className="h-6 w-6 text-green-600" />
+                <div className="w-8 h-8 sm:w-12 sm:h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                  <RotateCcw className="h-4 w-4 sm:h-6 sm:w-6 text-green-600" />
                 </div>
               </div>
             </div>
             
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Total Size</p>
-                  <p className="text-2xl font-semibold text-gray-900">
+                  <p className="text-xs sm:text-sm font-medium text-gray-600">Total Size</p>
+                  <p className="text-lg sm:text-2xl font-semibold text-gray-900">
                     {trashList.reduce((sum, doc) => {
                       const size = parseFloat(doc.originalSize.split(' ')[0])
                       return sum + size
                     }, 0).toFixed(1)} MB
                   </p>
                 </div>
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <FileText className="h-6 w-6 text-blue-600" />
+                <div className="w-8 h-8 sm:w-12 sm:h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                  <FileText className="h-4 w-4 sm:h-6 sm:w-6 text-blue-600" />
                 </div>
               </div>
             </div>
             
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Document Types</p>
-                  <p className="text-2xl font-semibold text-gray-900">
+                  <p className="text-xs sm:text-sm font-medium text-gray-600">Document Types</p>
+                  <p className="text-lg sm:text-2xl font-semibold text-gray-900">
                     {Array.from(new Set(trashList.map(doc => doc.type))).length}
                   </p>
                 </div>
-                <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                  <FileText className="h-6 w-6 text-purple-600" />
+                <div className="w-8 h-8 sm:w-12 sm:h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                  <FileText className="h-4 w-4 sm:h-6 sm:w-6 text-purple-600" />
                 </div>
               </div>
             </div>
           </div>
 
           {/* Search and Filter */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-            <div className="flex flex-col md:flex-row gap-4">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 mb-4 sm:mb-6">
+            <div className="flex flex-col md:flex-row gap-3 sm:gap-4">
               <div className="flex-1">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-3.5 w-3.5 sm:h-4 sm:w-4 text-gray-400" />
                   <input
                     type="text"
                     placeholder="Search deleted documents..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full pl-9 sm:pl-10 pr-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
               </div>
               <div className="flex items-center space-x-2">
-                <Filter className="h-4 w-4 text-gray-400" />
+                <Filter className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-gray-400" />
                 <select
                   value={typeFilter}
                   onChange={(e) => setTypeFilter(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="px-2 sm:px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
                   <option value="all">All Types</option>
                   <option value="Report">Reports</option>
@@ -268,25 +269,25 @@ export default function TrashPage() {
           {/* Trash Documents Table */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="w-full">
+              <table className="w-full min-w-[700px]">
                 <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Document
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">
                       Type
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">
                       Deleted By
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">
                       Deleted Date
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden lg:table-cell">
                       Size
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Actions
                     </th>
                   </tr>
@@ -294,42 +295,46 @@ export default function TrashPage() {
                 <tbody className="bg-white divide-y divide-gray-200">
                   {filteredTrash.map((doc) => (
                     <tr key={doc.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4">
+                      <td className="px-3 sm:px-6 py-3 sm:py-4">
                         <div>
-                          <div className="text-sm font-medium text-gray-900">{doc.name}</div>
-                          <div className="text-sm text-gray-500">ID: {doc.id}</div>
-                          <div className="text-xs text-gray-400 mt-1">Location: {doc.originalLocation}</div>
+                          <div className="text-xs sm:text-sm font-medium text-gray-900 truncate max-w-[150px] sm:max-w-none">{doc.name}</div>
+                          <div className="text-xs text-gray-500">ID: {doc.id}</div>
+                          <div className="sm:hidden text-xs text-gray-500 mt-1">{doc.type}</div>
+                          <div className="text-xs text-gray-400 mt-1 hidden sm:block">Location: {doc.originalLocation}</div>
+                          <div className="md:hidden text-xs text-gray-500 mt-1">By: {doc.deletedBy}</div>
+                          <div className="md:hidden text-xs text-gray-500">{doc.deletedAt}</div>
+                          <div className="lg:hidden text-xs text-gray-500">{doc.originalSize}</div>
                         </div>
                       </td>
-                      <td className="px-6 py-4">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                      <td className="px-3 sm:px-6 py-3 sm:py-4 hidden sm:table-cell">
+                        <span className="inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
                           {doc.type}
                         </span>
                       </td>
-                      <td className="px-6 py-4">
+                      <td className="px-3 sm:px-6 py-3 sm:py-4 hidden md:table-cell">
                         <div className="flex items-center">
-                          <div className="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center mr-2">
-                            <User className="h-3 w-3 text-gray-600" />
+                          <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gray-300 rounded-full flex items-center justify-center mr-2">
+                            <User className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-gray-600" />
                           </div>
-                          <span className="text-sm text-gray-900">{doc.deletedBy}</span>
+                          <span className="text-xs sm:text-sm text-gray-900 truncate">{doc.deletedBy}</span>
                         </div>
                       </td>
-                      <td className="px-6 py-4">
-                        <div className="flex items-center text-sm text-gray-500">
-                          <Calendar className="h-3 w-3 mr-1" />
+                      <td className="px-3 sm:px-6 py-3 sm:py-4 hidden md:table-cell">
+                        <div className="flex items-center text-xs sm:text-sm text-gray-500">
+                          <Calendar className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-1" />
                           {doc.deletedAt}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-900 hidden lg:table-cell">
                         {doc.originalSize}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        <div className="flex items-center space-x-2">
+                      <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-gray-500">
+                        <div className="flex items-center space-x-1 sm:space-x-2">
                           <button className="p-1 hover:bg-gray-100 rounded" title="Preview">
-                            <Eye className="h-4 w-4 text-gray-600" />
+                            <Eye className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-gray-600" />
                           </button>
-                          <button className="p-1 hover:bg-gray-100 rounded" title="Download">
-                            <Download className="h-4 w-4 text-gray-600" />
+                          <button className="p-1 hover:bg-gray-100 rounded hidden sm:inline-flex" title="Download">
+                            <Download className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-gray-600" />
                           </button>
                           {doc.canRestore && (
                             <button 
@@ -337,7 +342,7 @@ export default function TrashPage() {
                               className="p-1 hover:bg-green-100 rounded" 
                               title="Restore"
                             >
-                              <RotateCcw className="h-4 w-4 text-green-600" />
+                              <RotateCcw className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-green-600" />
                             </button>
                           )}
                           <button 
@@ -345,7 +350,7 @@ export default function TrashPage() {
                             className="p-1 hover:bg-red-100 rounded" 
                             title="Delete Permanently"
                           >
-                            <Trash2 className="h-4 w-4 text-red-600" />
+                            <Trash2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-red-600" />
                           </button>
                         </div>
                       </td>
@@ -358,10 +363,10 @@ export default function TrashPage() {
 
           {/* Empty State */}
           {filteredTrash.length === 0 && (
-            <div className="text-center py-12">
-              <Trash2 className="mx-auto h-12 w-12 text-gray-400" />
+            <div className="text-center py-8 sm:py-12">
+              <Trash2 className="mx-auto h-8 w-8 sm:h-12 sm:w-12 text-gray-400" />
               <h3 className="mt-2 text-sm font-medium text-gray-900">No documents in trash</h3>
-              <p className="mt-1 text-sm text-gray-500">
+              <p className="mt-1 text-xs sm:text-sm text-gray-500">
                 {trashList.length === 0 ? "Your trash is empty." : "No documents match your search criteria."}
               </p>
             </div>

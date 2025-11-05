@@ -1,5 +1,5 @@
 import { Sidebar } from "@/components/layout/sidebar";
-import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeProvider } from "@/components/mode/theme-provider";
 import "../globals.css";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
