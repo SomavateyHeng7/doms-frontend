@@ -1,8 +1,8 @@
 "use client"
 export const dynamic = 'force-dynamic'
 
-import PDFPreview from "@/components/PDFPreview"
+import DynamicPDFPreview from "@/components/DynamicPDFPreview"
 
 export default function PDFRenderPage() {
-  return <PDFPreview />
+  return <DynamicPDFPreview />
 }
