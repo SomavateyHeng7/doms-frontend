@@ -18,32 +18,32 @@ import {
 const navigation = [
   {
     name: "Dashboard",
-    href: "/dashboard",
+    href: "/admin/dashboard",
     icon: LayoutDashboard,
   },
   {
     name: "Manage Documents",
-    href: "/documents",
+    href: "/admin/documents",
     icon: FileText,
   },
   {
     name: "Manage Pipelines",
-    href: "/pipelines",
+    href: "/admin/pipelines",
     icon: GitBranch,
   },
   {
     name: "Manage Roles",
-    href: "/roles",
+    href: "/admin/roles",
     icon: Shield,
   },
   {
     name: "Manage Users",
-    href: "/users",
+    href: "/admin/users",
     icon: Users,
   },
   {
     name: "Trash Documents",
-    href: "/trash",
+    href: "/admin/trash",
     icon: Trash2,
   },
 ]

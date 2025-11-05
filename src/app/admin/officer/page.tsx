@@ -1,6 +1,6 @@
 "use client"
 
-import { Sidebar } from "@/components/sidebar"
+import { Sidebar } from "@/components/layout/sidebar"
 import {
   Bell,
   Eye,
