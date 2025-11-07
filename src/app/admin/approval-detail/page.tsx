@@ -3,6 +3,7 @@
 import { ArrowLeft, Bell, CheckCircle, Clock, Users, LogOut, ChevronDown } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
+import LanguageSwitcher from "@/components/LanguageSwitcher"
 
 export default function ApprovalDetailPage() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -22,6 +23,7 @@ export default function ApprovalDetailPage() {
         <div className="flex items-center justify-between">
           <h1 className="text-gray-500 text-base sm:text-lg font-medium">Approval Details</h1>
           <div className="flex items-center space-x-2 sm:space-x-4 relative">
+            <LanguageSwitcher />
             <button className="p-1.5 sm:p-2 hover:bg-gray-100 rounded-full">
               <Bell className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600" />
             </button>

@@ -4,6 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
+import { useTranslation } from 'react-i18next'
 import { 
   LayoutDashboard, 
   FileText, 
@@ -15,42 +16,43 @@ import {
   Shield
 } from "lucide-react"
 
-const navigation = [
-  {
-    name: "Dashboard",
-    href: "/admin/dashboard",
-    icon: LayoutDashboard,
-  },
-  {
-    name: "Manage Documents",
-    href: "/admin/documents",
-    icon: FileText,
-  },
-  {
-    name: "Manage Pipelines",
-    href: "/admin/pipelines",
-    icon: GitBranch,
-  },
-  {
-    name: "Manage Roles",
-    href: "/admin/roles",
-    icon: Shield,
-  },
-  {
-    name: "Manage Users",
-    href: "/admin/users",
-    icon: Users,
-  },
-  {
-    name: "Trash Documents",
-    href: "/admin/trash",
-    icon: Trash2,
-  },
-]
-
 export function Sidebar() {
+  const { t } = useTranslation('common');
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [logoError, setLogoError] = useState(false)
+
+  const navigation = [
+    {
+      name: t('nav.dashboard'),
+      href: "/admin/dashboard",
+      icon: LayoutDashboard,
+    },
+    {
+      name: t('nav.documents'),
+      href: "/admin/documents",
+      icon: FileText,
+    },
+    {
+      name: t('nav.pipelines'),
+      href: "/admin/pipelines",
+      icon: GitBranch,
+    },
+    {
+      name: t('nav.roles'),
+      href: "/admin/roles",
+      icon: Shield,
+    },
+    {
+      name: t('nav.users'),
+      href: "/admin/users",
+      icon: Users,
+    },
+    {
+      name: t('nav.trash'),
+      href: "/admin/trash",
+      icon: Trash2,
+    },
+  ]
 
   const handleLogoError = () => {
     setLogoError(true)

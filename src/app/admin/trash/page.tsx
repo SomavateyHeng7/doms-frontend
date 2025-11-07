@@ -2,6 +2,8 @@
 
 import { Bell, ChevronDown, Trash2, RotateCcw, Eye, Download, Calendar, User, FileText, Search, Filter, LogOut } from "lucide-react"
 import { useState } from "react"
+import { useTranslation } from "react-i18next"
+import LanguageSwitcher from "@/components/LanguageSwitcher"
 
 interface TrashDocument {
   id: string
@@ -78,6 +80,7 @@ const trashDocuments: TrashDocument[] = [
 ]
 
 export default function TrashPage() {
+  const { t } = useTranslation()
   const [trashList, setTrashList] = useState<TrashDocument[]>(trashDocuments)
   const [searchTerm, setSearchTerm] = useState("")
   const [typeFilter, setTypeFilter] = useState<string>("all")
@@ -117,8 +120,9 @@ export default function TrashPage() {
       {/* Header */}
    <header className="bg-white border-b border-gray-200 px-4 sm:px-6 py-3 sm:py-4">
         <div className="flex items-center justify-between">
-          <h1 className="text-gray-500 text-base sm:text-lg font-medium truncate">Trash Documents</h1>
+          <h1 className="text-gray-500 text-base sm:text-lg font-medium truncate">{t('trash.title')}</h1>
           <div className="flex items-center space-x-2 sm:space-x-4 relative">
+            <LanguageSwitcher />
             <button className="p-1.5 sm:p-2 hover:bg-gray-100 rounded-full">
               <Bell className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600" />
             </button>
@@ -158,8 +162,8 @@ export default function TrashPage() {
           {/* Page Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 sm:mb-6 space-y-3 sm:space-y-0">
             <div>
-              <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">Trash Bin</h2>
-              <p className="text-sm sm:text-base text-gray-600 mt-1">Recover or permanently delete documents</p>
+              <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">{t('trash.trashBin')}</h2>
+              <p className="text-sm sm:text-base text-gray-600 mt-1">{t('trash.description')}</p>
             </div>
             <div className="flex items-center space-x-3">
               <button 
@@ -167,8 +171,8 @@ export default function TrashPage() {
                 className="flex items-center justify-center space-x-2 px-3 sm:px-4 py-2 text-sm sm:text-base bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
               >
                 <Trash2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                <span className="hidden sm:inline">Empty Trash</span>
-                <span className="sm:hidden">Empty</span>
+                <span className="hidden sm:inline">{t('trash.emptyTrash')}</span>
+                <span className="sm:hidden">{t('common.delete')}</span>
               </button>
             </div>
           </div>

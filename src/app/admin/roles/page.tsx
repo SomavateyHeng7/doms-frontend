@@ -2,6 +2,8 @@
 
 import { Bell, ChevronDown, Plus, Edit, Trash, Shield, Users, Eye, EyeOff, Settings, CheckCircle, XCircle, LogOut} from "lucide-react"
 import { useState } from "react"
+import { useTranslation } from "react-i18next"
+import LanguageSwitcher from "@/components/LanguageSwitcher"
 
 interface Role {
   id: string
@@ -81,6 +83,7 @@ const permissionColors = {
 import { useRef } from "react"
 
 export default function RolesPage() {
+  const { t } = useTranslation()
   const [rolesList] = useState<Role[]>(roles)
   const [showPermissions, setShowPermissions] = useState<string | null>(null)
   const menuRef = useRef<HTMLDivElement>(null)
@@ -104,8 +107,9 @@ export default function RolesPage() {
       {/* Header */}
     <header className="bg-white border-b border-gray-200 px-4 sm:px-6 py-4">
         <div className="flex items-center justify-between">
-          <h1 className="text-gray-500 text-base sm:text-lg font-medium">Manage Roles</h1>
+          <h1 className="text-gray-500 text-base sm:text-lg font-medium">{t('roles.title')}</h1>
           <div className="flex items-center space-x-2 sm:space-x-4 relative">
+            <LanguageSwitcher />
             <button className="p-2 hover:bg-gray-100 rounded-full">
               <Bell className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600" />
             </button>
@@ -130,7 +134,7 @@ export default function RolesPage() {
                     className="flex w-full items-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
                   >
                     <LogOut className="w-3 h-3 sm:w-4 sm:h-4" />
-                    Logout
+                    {t('common.logout')}
                   </button>
                 </div>
               )}
@@ -145,12 +149,12 @@ export default function RolesPage() {
           {/* Page Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <div>
-              <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">Role Management</h2>
-              <p className="text-sm sm:text-base text-gray-600 mt-1">Create and manage user roles and permissions</p>
+              <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">{t('roles.roleManagement')}</h2>
+              <p className="text-sm sm:text-base text-gray-600 mt-1">{t('roles.description')}</p>
             </div>
             <button className="flex items-center justify-center space-x-2 px-3 sm:px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors w-full sm:w-auto">
               <Plus className="h-4 w-4" />
-              <span className="text-sm sm:text-base">Create Role</span>
+              <span className="text-sm sm:text-base">{t('roles.createRole')}</span>
             </button>
           </div>
 
@@ -159,7 +163,7 @@ export default function RolesPage() {
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs sm:text-sm font-medium text-gray-600">Total Roles</p>
+                  <p className="text-xs sm:text-sm font-medium text-gray-600">{t('roles.totalRoles')}</p>
                   <p className="text-lg sm:text-2xl font-semibold text-gray-900">{rolesList.length}</p>
                 </div>
                 <div className="w-8 h-8 sm:w-12 sm:h-12 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -171,7 +175,7 @@ export default function RolesPage() {
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs sm:text-sm font-medium text-gray-600">Active Roles</p>
+                  <p className="text-xs sm:text-sm font-medium text-gray-600">{t('roles.activeRoles')}</p>
                   <p className="text-lg sm:text-2xl font-semibold text-gray-900">
                     {rolesList.filter(r => r.status === 'active').length}
                   </p>
@@ -185,7 +189,7 @@ export default function RolesPage() {
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs sm:text-sm font-medium text-gray-600">Total Users</p>
+                  <p className="text-xs sm:text-sm font-medium text-gray-600">{t('roles.totalUsers')}</p>
                   <p className="text-lg sm:text-2xl font-semibold text-gray-900">
                     {rolesList.reduce((sum, r) => sum + r.users, 0)}
                   </p>
@@ -199,7 +203,7 @@ export default function RolesPage() {
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs sm:text-sm font-medium text-gray-600">Total Permissions</p>
+                  <p className="text-xs sm:text-sm font-medium text-gray-600">{t('roles.totalPermissions')}</p>
                   <p className="text-lg sm:text-2xl font-semibold text-gray-900">
                     {Array.from(new Set(rolesList.flatMap(r => r.permissions))).length}
                   </p>
@@ -218,22 +222,22 @@ export default function RolesPage() {
                 <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
                     <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Role Name
+                      {t('roles.roleName')}
                     </th>
                     <th className="hidden sm:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Description
+                      {t('roles.roleDescription')}
                     </th>
                     <th className="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Permissions
+                      {t('roles.permissions')}
                     </th>
                     <th className="hidden lg:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Users
+                      {t('pipelines.users')}
                     </th>
                     <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Status
+                      {t('common.status')}
                     </th>
                     <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Actions
+                      {t('common.actions')}
                     </th>
                   </tr>
                 </thead>
@@ -242,15 +246,32 @@ export default function RolesPage() {
                     <tr key={role.id} className="hover:bg-gray-50">
                       <td className="px-3 sm:px-6 py-4">
                         <div className="space-y-1">
-                          <div className="text-sm font-medium text-gray-900">{role.name}</div>
+                          <div className="text-sm font-medium text-gray-900">
+                            {role.name === "Administrator" ? t('roles.administrator') :
+                             role.name === "Manager" ? t('roles.manager') :
+                             role.name === "Officer" ? t('roles.officer') :
+                             role.name === "Viewer" ? t('roles.viewer') :
+                             role.name === "Guest" ? t('roles.guest') :
+                             role.name}
+                          </div>
                           <div className="text-xs text-gray-500">ID: {role.id}</div>
                           {/* Mobile: Show description, permissions, and users below role name */}
                           <div className="sm:hidden space-y-2 mt-2">
-                            <div className="text-xs text-gray-600 truncate max-w-[200px]">{role.description}</div>
+                            <div className="text-xs text-gray-600 truncate max-w-[200px]">
+                              {role.description === "Full system access with all permissions" ? t('roles.fullSystemAccess') :
+                               role.description === "Department management with approval rights" ? t('roles.departmentManagement') :
+                               role.description === "Document creation and basic management" ? t('roles.documentCreation') :
+                               role.description === "Read-only access to documents" ? t('roles.readOnlyAccess') :
+                               role.description === "Limited access for external users" ? t('roles.limitedAccess') :
+                               role.description}
+                            </div>
                             <div className="flex flex-wrap gap-1">
                               {role.permissions.slice(0, 2).map((permission) => (
                                 <span key={permission} className={`inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium ${permissionColors[permission as keyof typeof permissionColors]}`}>
-                                  {permission}
+                                  {permission === "Read" ? t('roles.read') :
+                                   permission === "Write" ? t('roles.write') :
+                                   permission === "Read Limited" ? t('roles.readLimited') :
+                                   permission}
                                 </span>
                               ))}
                               {role.permissions.length > 2 && (
@@ -267,23 +288,36 @@ export default function RolesPage() {
                               <div className="flex flex-wrap gap-1">
                                 {role.permissions.slice(2).map((permission) => (
                                   <span key={permission} className={`inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium ${permissionColors[permission as keyof typeof permissionColors]}`}>
-                                    {permission}
+                                    {permission === "Read" ? t('roles.read') :
+                                     permission === "Write" ? t('roles.write') :
+                                     permission === "Read Limited" ? t('roles.readLimited') :
+                                     permission}
                                   </span>
                                 ))}
                               </div>
                             )}
-                            <div className="text-xs text-gray-600">{role.users} users</div>
+                            <div className="text-xs text-gray-600">{role.users} {t('pipelines.users')}</div>
                           </div>
                         </div>
                       </td>
                       <td className="hidden sm:table-cell px-6 py-4">
-                        <div className="text-sm text-gray-900 max-w-xs truncate">{role.description}</div>
+                        <div className="text-sm text-gray-900 max-w-xs truncate">
+                          {role.description === "Full system access with all permissions" ? t('roles.fullSystemAccess') :
+                           role.description === "Department management with approval rights" ? t('roles.departmentManagement') :
+                           role.description === "Document creation and basic management" ? t('roles.documentCreation') :
+                           role.description === "Read-only access to documents" ? t('roles.readOnlyAccess') :
+                           role.description === "Limited access for external users" ? t('roles.limitedAccess') :
+                           role.description}
+                        </div>
                       </td>
                       <td className="hidden md:table-cell px-6 py-4">
                         <div className="flex flex-wrap gap-1">
                           {role.permissions.slice(0, 2).map((permission) => (
                             <span key={permission} className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${permissionColors[permission as keyof typeof permissionColors]}`}>
-                              {permission}
+                              {permission === "Read" ? t('roles.read') :
+                               permission === "Write" ? t('roles.write') :
+                               permission === "Read Limited" ? t('roles.readLimited') :
+                               permission}
                             </span>
                           ))}
                           {role.permissions.length > 2 && (
@@ -300,14 +334,17 @@ export default function RolesPage() {
                           <div className="mt-2 flex flex-wrap gap-1">
                             {role.permissions.slice(2).map((permission) => (
                               <span key={permission} className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${permissionColors[permission as keyof typeof permissionColors]}`}>
-                                {permission}
+                                {permission === "Read" ? t('roles.read') :
+                                 permission === "Write" ? t('roles.write') :
+                                 permission === "Read Limited" ? t('roles.readLimited') :
+                                 permission}
                               </span>
                             ))}
                           </div>
                         )}
                       </td>
                       <td className="hidden lg:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {role.users} users
+                        {role.users} {t('pipelines.users')}
                       </td>
                       <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
                         <span className={`inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-xs font-medium ${
@@ -318,19 +355,19 @@ export default function RolesPage() {
                           ) : (
                             <XCircle className="h-2 w-2 sm:h-3 sm:w-3 mr-1" />
                           )}
-                          <span className="hidden sm:inline">{role.status.charAt(0).toUpperCase() + role.status.slice(1)}</span>
-                          <span className="sm:hidden">{role.status === 'active' ? 'On' : 'Off'}</span>
+                          <span className="hidden sm:inline">{t(`pipelines.${role.status}`)}</span>
+                          <span className="sm:hidden">{role.status === 'active' ? t('pipelines.active') : t('pipelines.inactive')}</span>
                         </span>
                       </td>
                       <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         <div className="flex items-center space-x-1 sm:space-x-2">
-                          <button className="p-1 hover:bg-gray-100 rounded" title="Edit Role">
+                          <button className="p-1 hover:bg-gray-100 rounded" title={t('common.edit')}>
                             <Edit className="h-3 w-3 sm:h-4 sm:w-4 text-gray-600" />
                           </button>
                           <button className="hidden sm:inline-flex p-1 hover:bg-gray-100 rounded" title="View Users">
                             <Users className="h-4 w-4 text-gray-600" />
                           </button>
-                          <button className="p-1 hover:bg-gray-100 rounded" title="Delete Role">
+                          <button className="p-1 hover:bg-gray-100 rounded" title={t('common.delete')}>
                             <Trash className="h-3 w-3 sm:h-4 sm:w-4 text-gray-600" />
                           </button>
                         </div>

@@ -1,8 +1,9 @@
-import type { Metadata } from "next";
+"use client"
+
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/mode/theme-provider"
-
+import '@/lib/i18n';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,11 +14,6 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
-export const metadata: Metadata = {
-  title: "Document Office Management System",
-  description: "A system for managing documents efficiently",
-};
 
 export default function RootLayout({
   children,

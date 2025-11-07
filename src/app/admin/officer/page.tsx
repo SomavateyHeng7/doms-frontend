@@ -15,6 +15,7 @@ import {
 } from "lucide-react"
 import Image from "next/image"
 import { useState, useRef, useEffect } from "react"
+import LanguageSwitcher from "@/components/LanguageSwitcher"
 
 const documents = [
   { id: "1010110101", name: "Export Report", type: "Report", status: "Pending", createdBy: "LIM PROM" },
@@ -86,6 +87,7 @@ export default function OfficerDashboard() {
         <div className="flex items-center justify-between">
           <h1 className="text-gray-500 text-base sm:text-lg font-medium">Officer-Dashboard</h1>
           <div className="flex items-center space-x-2 sm:space-x-4 relative">
+            <LanguageSwitcher />
             <button className="p-2 hover:bg-gray-100 rounded-full">
               <Bell className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600" />
             </button>

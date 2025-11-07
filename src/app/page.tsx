@@ -3,6 +3,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { ArrowRight, FileText, Shield, Users, GitBranch, CheckCircle, Star, Zap, Lock } from "lucide-react"
+import LanguageSwitcher from "@/components/LanguageSwitcher"
 
 export default function HomePage() {
   return (
@@ -28,6 +29,7 @@ export default function HomePage() {
               <a href="#contact" className="text-gray-600 hover:text-gray-900 transition-colors">Contact</a>
             </div>
             <div className="flex items-center space-x-4">
+              <LanguageSwitcher />
               <Link 
                 href="/login" 
                 className="text-gray-600 hover:text-gray-900 transition-colors font-medium"

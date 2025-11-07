@@ -2,6 +2,8 @@
 
 import { Bell, ChevronDown, Plus, Edit, Trash, Play, Pause, Settings, Users, GitBranch, Clock, CheckCircle, LogOut } from "lucide-react"
 import { useState } from "react"
+import { useTranslation } from "react-i18next"
+import LanguageSwitcher from "@/components/LanguageSwitcher"
 
 interface Pipeline {
   id: string
@@ -70,6 +72,7 @@ const statusIcons = {
 }
 
 export default function PipelinesPage() {
+  const { t } = useTranslation()
   const [pipelinesList] = useState<Pipeline[]>(pipelines)
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -86,8 +89,9 @@ export default function PipelinesPage() {
       {/* Header */}
       <header className="bg-white border-b border-gray-200 px-4 sm:px-6 py-3 sm:py-4">
         <div className="flex items-center justify-between">
-          <h1 className="text-gray-500 text-base sm:text-lg font-medium truncate">Manage Pipelines</h1>
+          <h1 className="text-gray-500 text-base sm:text-lg font-medium truncate">{t('pipelines.title')}</h1>
           <div className="flex items-center space-x-2 sm:space-x-4 relative">
+            <LanguageSwitcher />
             <button className="p-1.5 sm:p-2 hover:bg-gray-100 rounded-full">
               <Bell className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600" />
             </button>
@@ -112,7 +116,7 @@ export default function PipelinesPage() {
                     className="flex w-full items-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
                   >
                     <LogOut className="w-3 h-3 sm:w-4 sm:h-4" />
-                    Logout
+                    {t('common.logout')}
                   </button>
                 </div>
               )}
@@ -127,13 +131,13 @@ export default function PipelinesPage() {
           {/* Page Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 sm:mb-6 space-y-3 sm:space-y-0">
             <div>
-              <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">Pipeline Management</h2>
-              <p className="text-sm sm:text-base text-gray-600 mt-1">Create and manage document approval workflows</p>
+              <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">{t('pipelines.pipelineManagement')}</h2>
+              <p className="text-sm sm:text-base text-gray-600 mt-1">{t('pipelines.description')}</p>
             </div>
             <button className="flex items-center justify-center space-x-2 px-3 sm:px-4 py-2 text-sm sm:text-base bg-black text-white rounded-lg hover:bg-gray-800 transition-colors">
               <Plus className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-              <span className="hidden sm:inline">Create Pipeline</span>
-              <span className="sm:hidden">Create</span>
+              <span className="hidden sm:inline">{t('pipelines.createPipeline')}</span>
+              <span className="sm:hidden">{t('common.create')}</span>
             </button>
           </div>
 
@@ -142,7 +146,7 @@ export default function PipelinesPage() {
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs sm:text-sm font-medium text-gray-600">Total Pipelines</p>
+                  <p className="text-xs sm:text-sm font-medium text-gray-600">{t('pipelines.totalPipelines')}</p>
                   <p className="text-lg sm:text-2xl font-semibold text-gray-900">{pipelinesList.length}</p>
                 </div>
                 <div className="w-8 h-8 sm:w-12 sm:h-12 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -154,7 +158,7 @@ export default function PipelinesPage() {
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs sm:text-sm font-medium text-gray-600">Active Pipelines</p>
+                  <p className="text-xs sm:text-sm font-medium text-gray-600">{t('pipelines.activePipelines')}</p>
                   <p className="text-lg sm:text-2xl font-semibold text-gray-900">
                     {pipelinesList.filter(p => p.status === 'active').length}
                   </p>
@@ -168,7 +172,7 @@ export default function PipelinesPage() {
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs sm:text-sm font-medium text-gray-600">Total Steps</p>
+                  <p className="text-xs sm:text-sm font-medium text-gray-600">{t('pipelines.totalSteps')}</p>
                   <p className="text-lg sm:text-2xl font-semibold text-gray-900">
                     {pipelinesList.reduce((sum, p) => sum + p.steps, 0)}
                   </p>
@@ -182,7 +186,7 @@ export default function PipelinesPage() {
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs sm:text-sm font-medium text-gray-600">Total Users</p>
+                  <p className="text-xs sm:text-sm font-medium text-gray-600">{t('pipelines.totalUsers')}</p>
                   <p className="text-lg sm:text-2xl font-semibold text-gray-900">
                     {pipelinesList.reduce((sum, p) => sum + p.users, 0)}
                   </p>
@@ -202,39 +206,57 @@ export default function PipelinesPage() {
                 <div key={pipeline.id} className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 hover:shadow-md transition-shadow">
                   <div className="flex items-start justify-between mb-3 sm:mb-4">
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-1 truncate">{pipeline.name}</h3>
-                      <p className="text-xs sm:text-sm text-gray-600 mb-2 sm:mb-3 line-clamp-2">{pipeline.description}</p>
+                      <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-1 truncate">
+                        {pipeline.name === "Document Approval Workflow" ? t('pipelines.documentApprovalWorkflow') :
+                         pipeline.name === "Export Report Pipeline" ? t('pipelines.exportReportPipeline') :
+                         pipeline.name === "Contract Review Process" ? t('pipelines.contractReviewProcess') :
+                         pipeline.name === "Invoice Processing" ? t('pipelines.invoiceProcessing') :
+                         pipeline.name}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-gray-600 mb-2 sm:mb-3 line-clamp-2">
+                        {pipeline.description === "Standard approval process for all documents" ? t('pipelines.standardApprovalProcess') :
+                         pipeline.description === "Specialized workflow for export documentation" ? t('pipelines.specializedWorkflowExport') :
+                         pipeline.description === "Multi-stage contract review and approval" ? t('pipelines.multiStageContractReview') :
+                         pipeline.description === "Automated invoice approval workflow" ? t('pipelines.automatedInvoiceApproval') :
+                         pipeline.description}
+                      </p>
                       <div className="flex items-center space-x-3 sm:space-x-4 text-xs sm:text-sm text-gray-500">
                         <span className="flex items-center space-x-1">
                           <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4" />
-                          <span>{pipeline.steps} steps</span>
+                          <span>{pipeline.steps} {t('pipelines.steps')}</span>
                         </span>
                         <span className="flex items-center space-x-1">
                           <Users className="h-3 w-3 sm:h-4 sm:w-4" />
-                          <span>{pipeline.users} users</span>
+                          <span>{pipeline.users} {t('pipelines.users')}</span>
                         </span>
                       </div>
                     </div>
                     <span className={`inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-xs font-medium ml-2 shrink-0 ${statusColors[pipeline.status]}`}>
                       <StatusIcon className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-1" />
-                      <span className="hidden sm:inline">{pipeline.status.charAt(0).toUpperCase() + pipeline.status.slice(1)}</span>
-                      <span className="sm:hidden">{pipeline.status.charAt(0).toUpperCase()}</span>
+                      <span className="hidden sm:inline">{t(`pipelines.${pipeline.status}`)}</span>
+                      <span className="sm:hidden">{t(`pipelines.${pipeline.status}`).charAt(0).toUpperCase()}</span>
                     </span>
                   </div>
                   
                   <div className="border-t border-gray-100 pt-3 sm:pt-4">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs sm:text-sm text-gray-500 mb-3 space-y-1 sm:space-y-0">
-                      <span className="truncate">Created by {pipeline.createdBy}</span>
+                      <span className="truncate">{t('pipelines.createdBy')} {pipeline.createdBy}</span>
                       <span className="flex items-center space-x-1">
                         <Clock className="h-3 w-3" />
-                        <span>{pipeline.lastModified}</span>
+                        <span>
+                          {pipeline.lastModified.includes('hours ago') ? pipeline.lastModified.replace('hours ago', t('pipelines.hoursAgo')) :
+                           pipeline.lastModified.includes('1 day ago') ? pipeline.lastModified.replace('1 day ago', `1 ${t('pipelines.dayAgo')}`) :
+                           pipeline.lastModified.includes('days ago') ? pipeline.lastModified.replace('days ago', t('pipelines.daysAgo')) :
+                           pipeline.lastModified.includes('week ago') ? pipeline.lastModified.replace('week ago', t('pipelines.weekAgo')) :
+                           pipeline.lastModified}
+                        </span>
                       </span>
                     </div>
                     
                     <div className="flex items-center space-x-2">
                       <button className="flex-1 flex items-center justify-center space-x-1 sm:space-x-2 px-2 sm:px-3 py-2 text-xs sm:text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
                         <Edit className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                        <span>Edit</span>
+                        <span>{t('common.edit')}</span>
                       </button>
                       <button className="flex items-center justify-center p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors">
                         <Trash className="h-3.5 w-3.5 sm:h-4 sm:w-4" />

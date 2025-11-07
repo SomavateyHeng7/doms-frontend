@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import LanguageSwitcher from "@/components/LanguageSwitcher"
 
 export default function CreateRolePage() {
   const [form, setForm] = useState<{
@@ -51,59 +52,72 @@ export default function CreateRolePage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f5f6fa] flex">
-      {/* Sidebar */}
-      <aside className="w-64 bg-white border-r flex flex-col py-8 px-6">
-        <h2 className="text-2xl font-bold mb-8">OfficeSync</h2>
-        <nav className="flex flex-col gap-4">
-          <a href="/dashboard" className="text-gray-700 hover:text-blue-600">Dashboard</a>
-          <a href="/manage-documents" className="text-gray-700 hover:text-blue-600">Manage Documents</a>
-          <a href="/pipelines" className="text-gray-700 hover:text-blue-600">Manage Pipelines</a>
-          <a href="/roles" className="text-gray-700 hover:text-blue-600 font-semibold">Manage Roles</a>
-          <a href="/users" className="text-gray-700 hover:text-blue-600">Manage Users</a>
-          <a href="/trash-documents" className="text-gray-700 hover:text-blue-600">Trash Documents</a>
-        </nav>
-      </aside>
-      {/* Main Content */}
-      <main className="flex-1 flex flex-col items-center py-10">
-        <div className="w-full max-w-xl bg-white rounded-lg shadow p-8">
-          <h1 className="text-2xl font-bold mb-6">Create Role</h1>
-          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-            <div>
-              <label className="block text-sm font-medium mb-1">Role Name</label>
-              <input name="name" value={form.name} onChange={handleChange} required className="w-full px-3 py-2 border rounded" />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1">Description</label>
-              <textarea name="description" value={form.description} onChange={handleChange} required className="w-full px-3 py-2 border rounded" rows={3} />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1">Permissions</label>
-              <div className="grid grid-cols-2 gap-2">
-                {permissionOptions.map((perm) => (
-                  <label key={perm} className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      checked={form.permissions.includes(perm)}
-                      onChange={() => handlePermissionChange(perm)}
-                    />
-                    <span>{perm}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1">Status</label>
-              <select name="status" value={form.status} onChange={handleChange} className="w-full px-3 py-2 border rounded">
-                <option value="Active">Active</option>
-                <option value="Inactive">Inactive</option>
-              </select>
-            </div>
-            <button type="submit" className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Create Role</button>
-            {success && <div className="text-green-600 mt-2">Role created successfully!</div>}
-          </form>
+    <div className="min-h-screen bg-[#f5f6fa] flex flex-col">
+      {/* Header with Language Switcher */}
+      <header className="bg-white border-b border-gray-200 px-4 sm:px-6 py-3 sm:py-4">
+        <div className="flex items-center justify-between">
+          <h1 className="text-gray-500 text-base sm:text-lg font-medium">
+            Create Role
+          </h1>
+          <LanguageSwitcher />
         </div>
-      </main>
+      </header>
+
+      <div className="flex flex-1">
+        {/* Sidebar */}
+        <aside className="w-64 bg-white border-r flex flex-col py-8 px-6">
+          <h2 className="text-2xl font-bold mb-8">OfficeSync</h2>
+          <nav className="flex flex-col gap-4">
+            <a href="/dashboard" className="text-gray-700 hover:text-blue-600">Dashboard</a>
+            <a href="/manage-documents" className="text-gray-700 hover:text-blue-600">Manage Documents</a>
+            <a href="/pipelines" className="text-gray-700 hover:text-blue-600">Manage Pipelines</a>
+            <a href="/roles" className="text-gray-700 hover:text-blue-600 font-semibold">Manage Roles</a>
+            <a href="/users" className="text-gray-700 hover:text-blue-600">Manage Users</a>
+            <a href="/trash-documents" className="text-gray-700 hover:text-blue-600">Trash Documents</a>
+          </nav>
+        </aside>
+        
+        {/* Main Content */}
+        <main className="flex-1 flex flex-col items-center py-10">
+          <div className="w-full max-w-xl bg-white rounded-lg shadow p-8">
+            <h1 className="text-2xl font-bold mb-6">Create Role</h1>
+            <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+              <div>
+                <label className="block text-sm font-medium mb-1">Role Name</label>
+                <input name="name" value={form.name} onChange={handleChange} required className="w-full px-3 py-2 border rounded" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Description</label>
+                <textarea name="description" value={form.description} onChange={handleChange} required className="w-full px-3 py-2 border rounded" rows={3} />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Permissions</label>
+                <div className="grid grid-cols-2 gap-2">
+                  {permissionOptions.map((perm) => (
+                    <label key={perm} className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        checked={form.permissions.includes(perm)}
+                        onChange={() => handlePermissionChange(perm)}
+                      />
+                      <span>{perm}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Status</label>
+                <select name="status" value={form.status} onChange={handleChange} className="w-full px-3 py-2 border rounded">
+                  <option value="Active">Active</option>
+                  <option value="Inactive">Inactive</option>
+                </select>
+              </div>
+              <button type="submit" className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Create Role</button>
+              {success && <div className="text-green-600 mt-2">Role created successfully!</div>}
+            </form>
+          </div>
+        </main>
+      </div>
     </div>
   )
 }

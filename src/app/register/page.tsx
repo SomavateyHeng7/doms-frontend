@@ -4,6 +4,7 @@ import Image from "next/image"
 import { useState } from "react"
 import { Eye, EyeOff, Mail, Lock, User, AlertCircle, CheckCircle } from "lucide-react"
 import Link from "next/link"
+import LanguageSwitcher from "@/components/LanguageSwitcher"
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false)
@@ -99,7 +100,7 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex flex-col">
       {/* Header */}
-      <header className="flex items-center h-16 px-8 text-gray-600 text-lg font-medium">
+      <header className="flex items-center justify-between h-16 px-8 text-gray-600 text-lg font-medium">
         <div className="flex items-center gap-2">
           <Image
             src="/image/logo2.png"
@@ -111,6 +112,7 @@ export default function RegisterPage() {
           />
           <span className="font-semibold">OfficeSync</span>
         </div>
+        <LanguageSwitcher />
       </header>
       
       <main className="flex flex-1 items-center justify-center p-4 sm:p-6">

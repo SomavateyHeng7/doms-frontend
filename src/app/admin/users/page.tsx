@@ -2,6 +2,8 @@
 
 import { Bell, ChevronDown, Plus, Edit, Trash, Users, Mail, Phone, Shield, CheckCircle, XCircle, Search, Filter, LogOut } from "lucide-react"
 import { useState } from "react"
+import { useTranslation } from "react-i18next"
+import LanguageSwitcher from "@/components/LanguageSwitcher"
 
 interface User {
   id: string
@@ -97,6 +99,7 @@ const statusIcons = {
 }
 
 export default function UsersPage() {
+  const { t } = useTranslation()
   const [usersList] = useState<User[]>(users)
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState<string>("all")
@@ -124,8 +127,9 @@ export default function UsersPage() {
       {/* Header */}
       <header className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
-          <h1 className="text-gray-500 text-lg font-medium">Manage Users</h1>
+          <h1 className="text-gray-500 text-lg font-medium">{t('users.title')}</h1>
           <div className="flex items-center space-x-4 relative">
+            <LanguageSwitcher />
             <button className="p-2 hover:bg-gray-100 rounded-full">
               <Bell className="h-5 w-5 text-gray-600" />
             </button>
@@ -150,7 +154,7 @@ export default function UsersPage() {
                     className="flex w-full items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
                   >
                     <LogOut className="w-4 h-4" />
-                    Logout
+                    {t('common.logout')}
                   </button>
                 </div>
               )}
@@ -165,12 +169,12 @@ export default function UsersPage() {
           {/* Page Header */}
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-2xl font-semibold text-gray-900">User Management</h2>
-              <p className="text-gray-600 mt-1">Manage system users and their permissions</p>
+              <h2 className="text-2xl font-semibold text-gray-900">{t('users.userManagement')}</h2>
+              <p className="text-gray-600 mt-1">{t('users.description')}</p>
             </div>
             <button className="flex items-center space-x-2 px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors">
               <Plus className="h-4 w-4" />
-              <span>Add User</span>
+              <span>{t('users.addUser')}</span>
             </button>
           </div>
 
@@ -179,7 +183,7 @@ export default function UsersPage() {
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Total Users</p>
+                  <p className="text-sm font-medium text-gray-600">{t('users.totalUsers')}</p>
                   <p className="text-2xl font-semibold text-gray-900">{usersList.length}</p>
                 </div>
                 <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -191,7 +195,7 @@ export default function UsersPage() {
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Active Users</p>
+                  <p className="text-sm font-medium text-gray-600">{t('users.activeUsers')}</p>
                   <p className="text-2xl font-semibold text-gray-900">
                     {usersList.filter(u => u.status === 'active').length}
                   </p>
@@ -205,7 +209,7 @@ export default function UsersPage() {
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Pending Users</p>
+                  <p className="text-sm font-medium text-gray-600">{t('users.pendingUsers')}</p>
                   <p className="text-2xl font-semibold text-gray-900">
                     {usersList.filter(u => u.status === 'pending').length}
                   </p>
@@ -219,7 +223,7 @@ export default function UsersPage() {
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Departments</p>
+                  <p className="text-sm font-medium text-gray-600">{t('users.departments')}</p>
                   <p className="text-2xl font-semibold text-gray-900">
                     {Array.from(new Set(usersList.map(u => u.department))).length}
                   </p>
@@ -239,7 +243,7 @@ export default function UsersPage() {
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                   <input
                     type="text"
-                    placeholder="Search users by name, email, or department..."
+                    placeholder={t('users.searchPlaceholder')}
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"

@@ -1,11 +1,12 @@
 "use client"
 
 import Image from "next/image"
+import LanguageSwitcher from "@/components/LanguageSwitcher"
 
 export default function RequestToJoinPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex flex-col">
-       <header className="flex items-center h-14 sm:h-16 px-4 sm:px-8 text-gray-600 text-base sm:text-lg font-medium">
+       <header className="flex items-center justify-between h-14 sm:h-16 px-4 sm:px-8 text-gray-600 text-base sm:text-lg font-medium">
          <div className="flex items-center gap-2">
            <Image
              src="/image/logo2.png"
@@ -17,6 +18,7 @@ export default function RequestToJoinPage() {
            />
            <span className="font-semibold text-sm sm:text-base">OfficeSync</span>
          </div>
+         <LanguageSwitcher />
        </header>
       <main className="flex flex-1 items-center justify-center p-4 sm:p-6">
         <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl flex flex-col md:flex-row w-full max-w-[1100px] min-h-[600px] md:h-[700px] overflow-hidden">

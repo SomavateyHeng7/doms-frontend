@@ -4,8 +4,11 @@ import Image from "next/image"
 import { useState } from "react"
 import { Eye, EyeOff, Mail, Lock, AlertCircle } from "lucide-react"
 import Link from "next/link"
+import { useTranslations } from "@/hooks/useTranslations"
+import LanguageSwitcher from "@/components/LanguageSwitcher"
 
 export default function LoginPage() {
+  const { t } = useTranslations()
   const [showPassword, setShowPassword] = useState(false)
   const [formData, setFormData] = useState({
     email: "",
@@ -79,7 +82,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex flex-col">
       {/* Header */}
-      <header className="flex items-center h-16 px-8 text-gray-600 text-lg font-medium">
+      <header className="flex items-center justify-between h-16 px-8 text-gray-600 text-lg font-medium">
         <div className="flex items-center gap-2">
           <Image
             src="/image/logo2.png"
@@ -91,6 +94,9 @@ export default function LoginPage() {
           />
           <span className="font-semibold">OfficeSync</span>
         </div>
+        
+        {/* Language Switcher */}
+        <LanguageSwitcher />
       </header>
       
       <main className="flex flex-1 items-center justify-center p-4 sm:p-6">
@@ -126,14 +132,14 @@ export default function LoginPage() {
                   />
                   <span className="text-xl sm:text-2xl font-bold text-gray-900">OfficeSync</span>
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Welcome back</h2>
-                <p className="text-sm sm:text-base text-gray-600">Sign in to your account to continue</p>
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">{t('common.welcome')}</h2>
+                <p className="text-sm sm:text-base text-gray-600">{t('auth.login')}</p>
               </div>
               
               <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Email address
+                    {t('auth.email')}
                   </label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
