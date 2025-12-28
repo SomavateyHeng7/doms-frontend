@@ -1,12 +1,14 @@
 "use client"
 
-import { ArrowLeft, Bell, CheckCircle, Clock, Users, LogOut, ChevronDown } from "lucide-react"
+import { ArrowLeft, Bell, CheckCircle, Clock, Users, LogOut, ChevronDown, X } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 import LanguageSwitcher from "@/components/LanguageSwitcher"
 
 export default function ApprovalDetailPage() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [showApproveModal, setShowApproveModal] = useState(false)
+  const [showRejectModal, setShowRejectModal] = useState(false)
 
   const handleLogout = () => {
     if (typeof window !== "undefined") {
@@ -155,17 +157,106 @@ export default function ApprovalDetailPage() {
             </div>
           </div>
 
+          {/* PDF Preview Card */}
+          <div className="bg-white rounded-lg sm:rounded-xl shadow-md border border-gray-200 p-4 sm:p-6">
+            <div className="flex items-center justify-center bg-gray-50 rounded-lg" style={{ minHeight: '500px' }}>
+              <div className="text-center">
+                <p className="text-6xl sm:text-8xl font-light text-gray-300">PDF</p>
+              </div>
+            </div>
+          </div>
+
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 mt-6 sm:mt-8">
-            <button className="w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-2 text-sm sm:text-base border border-gray-300 text-gray-700 bg-white rounded-lg hover:bg-gray-50 transition-colors">
+            <button 
+              onClick={() => setShowRejectModal(true)}
+              className="w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-2 text-sm sm:text-base border border-gray-300 text-gray-700 bg-white rounded-lg hover:bg-gray-50 transition-colors"
+            >
               Reject
             </button>
-            <button className="w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-2 text-sm sm:text-base bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors">
+            <button 
+              onClick={() => setShowApproveModal(true)}
+              className="w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-2 text-sm sm:text-base bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors"
+            >
               Approve
             </button>
           </div>
         </div>
       </main>
+
+      {/* Approve Confirmation Modal */}
+      {showApproveModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+            <div className="flex justify-between items-start mb-4">
+              <h3 className="text-lg font-semibold text-gray-900">Approve Confirmation</h3>
+              <button 
+                onClick={() => setShowApproveModal(false)}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <p className="text-gray-600 mb-6">
+              Are you sure you want to approve this Document?
+            </p>
+            <div className="flex justify-end space-x-3">
+              <button
+                onClick={() => setShowApproveModal(false)}
+                className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  // Handle approve action here
+                  setShowApproveModal(false)
+                }}
+                className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+              >
+                Approve
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Reject Confirmation Modal */}
+      {showRejectModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+            <div className="flex justify-between items-start mb-4">
+              <h3 className="text-lg font-semibold text-gray-900">Reject Confirmation</h3>
+              <button 
+                onClick={() => setShowRejectModal(false)}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <p className="text-gray-600 mb-6">
+              Are you sure you want to approve this Document?
+            </p>
+            <div className="flex justify-end space-x-3">
+              <button
+                onClick={() => setShowRejectModal(false)}
+                className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  // Handle reject action here
+                  setShowRejectModal(false)
+                }}
+                className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+              >
+                Reject
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
