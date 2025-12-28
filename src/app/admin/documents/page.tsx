@@ -3,7 +3,10 @@
 import { Upload, CheckCircle, Circle, Info } from "lucide-react"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
+import { useRouter } from "next/navigation"
 import { AdminHeader, StatusBadge, ActionButtons, ResponsiveTable } from "@/components/admin"
+import { Dialog } from "@/components/ui/dialog"
+import { useToast } from "@/components/ui/toast"
 
 interface Document {
   id: string
@@ -27,13 +30,51 @@ const documents: Document[] = [
 
 export default function DocumentsPage() {
   const { t } = useTranslation()
+  const router = useRouter()
+  const { addToast } = useToast()
   const [documentsList, setDocumentsList] = useState<Document[]>(documents)
+  const [showDialog, setShowDialog] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    type: "",
+    description: "",
+    file: null as File | null,
+  });
 
   const toggleSelection = (index: number) => {
     const newDocuments = [...documentsList]
     newDocuments[index].selected = !newDocuments[index].selected
     setDocumentsList(newDocuments)
   }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const target = e.target as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+    const name = target.name;
+    const value = target.value;
+    const files = (target as HTMLInputElement).files;
+    setFormData(prev => ({
+      ...prev,
+      [name]: files && files.length > 0 ? files[0] : value,
+    }));
+  };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setShowDialog(true);
+    // Add document logic here
+    addToast({
+      title: 'Success',
+      description: 'Document uploaded successfully',
+      variant: 'success'
+    });
+    setShowDialog(false);
+    setFormData({
+      name: "",
+      type: "",
+      description: "",
+      file: null,
+    });
+  };
 
 
 
@@ -54,7 +95,10 @@ export default function DocumentsPage() {
                 <Info className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-gray-600" />
               </div>
             </div>
-            <button className="flex items-center justify-center space-x-2 px-3 sm:px-4 py-2 text-sm sm:text-base bg-black text-white rounded-lg hover:bg-gray-800 transition-colors">
+            <button 
+              onClick={() => router.push('/admin/new-document')}
+              className="flex items-center justify-center space-x-2 px-3 sm:px-4 py-2 text-sm sm:text-base bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
+            >
               <Upload className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               <span className="hidden sm:inline">{t('documents.uploadDocument')}</span>
               <span className="sm:hidden">{t('documents.upload')}</span>
@@ -114,6 +158,81 @@ export default function DocumentsPage() {
           </ResponsiveTable>
         </div>
       </main>
+
+      {/* Upload Document Dialog */}
+      <Dialog 
+        isOpen={showDialog} 
+        onClose={() => setShowDialog(false)}
+        title="Upload Document"
+      >
+        <form onSubmit={handleFormSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Document Name</label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter document name"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Type</label>
+            <select
+              name="type"
+              value={formData.type}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            >
+              <option value="">Select type</option>
+              <option value="Report">Report</option>
+              <option value="Invoice">Invoice</option>
+              <option value="Contract">Contract</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              rows={3}
+              placeholder="Add a description (optional)"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Upload File</label>
+            <input
+              type="file"
+              name="file"
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-lg px-4 py-2.5 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+              accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg"
+              required
+            />
+          </div>
+          <div className="flex space-x-3 pt-4">
+            <button 
+              type="button"
+              onClick={() => setShowDialog(false)}
+              className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              Cancel
+            </button>
+            <button 
+              type="submit" 
+              className="flex-1 px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
+            >
+              Upload Document
+            </button>
+          </div>
+        </form>
+      </Dialog>
     </div>
   )
 }

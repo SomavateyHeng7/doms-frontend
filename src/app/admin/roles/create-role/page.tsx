@@ -64,18 +64,6 @@ export default function CreateRolePage() {
       </header>
 
       <div className="flex flex-1">
-        {/* Sidebar */}
-        <aside className="w-64 bg-white border-r flex flex-col py-8 px-6">
-          <h2 className="text-2xl font-bold mb-8">OfficeSync</h2>
-          <nav className="flex flex-col gap-4">
-            <a href="/dashboard" className="text-gray-700 hover:text-blue-600">Dashboard</a>
-            <a href="/manage-documents" className="text-gray-700 hover:text-blue-600">Manage Documents</a>
-            <a href="/pipelines" className="text-gray-700 hover:text-blue-600">Manage Pipelines</a>
-            <a href="/roles" className="text-gray-700 hover:text-blue-600 font-semibold">Manage Roles</a>
-            <a href="/users" className="text-gray-700 hover:text-blue-600">Manage Users</a>
-            <a href="/trash-documents" className="text-gray-700 hover:text-blue-600">Trash Documents</a>
-          </nav>
-        </aside>
         
         {/* Main Content */}
         <main className="flex-1 flex flex-col items-center py-10">
@@ -112,7 +100,7 @@ export default function CreateRolePage() {
                   <option value="Inactive">Inactive</option>
                 </select>
               </div>
-              <button type="submit" className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Create Role</button>
+              <button type="submit" className="mt-4 px-4 py-2 bg-black text-white rounded hover:bg-gray-800">Create Role</button>
               {success && <div className="text-green-600 mt-2">Role created successfully!</div>}
             </form>
           </div>

@@ -96,7 +96,7 @@ export default function CreateDocumentPage() {
             </div>
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white rounded-lg py-2.5 sm:py-3 font-semibold text-base sm:text-lg hover:bg-blue-700 transition touch-manipulation"
+              className="w-full bg-black text-white rounded-lg py-2.5 sm:py-3 font-semibold text-base sm:text-lg hover:bg-gray-800 transition touch-manipulation"
             >
               Create Document
             </button>

@@ -61,14 +61,7 @@ export default function StatusBadge({ status, showIcon = true, size = 'md' }: St
       {showIcon && (
         <Icon className={`mr-1 ${iconSizeClasses[size]}`} />
       )}
-      <span className={size === 'sm' ? 'sm:hidden' : ''}>
-        {size === 'sm' && status === 'active' ? 'On' : 
-         size === 'sm' && status === 'inactive' ? 'Off' : 
-         config.label}
-      </span>
-      <span className={size === 'sm' ? 'hidden sm:inline' : ''}>
-        {config.label}
-      </span>
+      {config.label}
     </span>
   )
 }

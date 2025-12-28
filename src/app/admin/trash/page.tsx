@@ -98,11 +98,15 @@ export default function TrashPage() {
   }
 
   const handlePermanentDelete = (id: string) => {
-    setTrashList(prev => prev.filter(doc => doc.id !== id))
+    if (window.confirm('Are you sure you want to permanently delete this document?')) {
+      setTrashList(prev => prev.filter(doc => doc.id !== id))
+    }
   }
 
   const handleEmptyTrash = () => {
-    setTrashList([])
+    if (window.confirm('Are you sure you want to empty the trash? This action cannot be undone.')) {
+      setTrashList([])
+    }
   }
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -168,7 +172,7 @@ export default function TrashPage() {
             <div className="flex items-center space-x-3">
               <button 
                 onClick={handleEmptyTrash}
-                className="flex items-center justify-center space-x-2 px-3 sm:px-4 py-2 text-sm sm:text-base bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                className="flex items-center justify-center space-x-2 px-3 sm:px-4 py-2 text-sm sm:text-base bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
               >
                 <Trash2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 <span className="hidden sm:inline">{t('trash.emptyTrash')}</span>

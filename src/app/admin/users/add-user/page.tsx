@@ -74,7 +74,7 @@ export default function AddUserPage() {
                 <option value="Inactive">Inactive</option>
               </select>
             </div>
-            <button type="submit" className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Add User</button>
+            <button type="submit" className="mt-4 px-4 py-2 bg-black text-white rounded hover:bg-gray-800">Add User</button>
             {success && <div className="text-green-600 mt-2">User added successfully!</div>}
           </form>
         </div>

@@ -62,7 +62,7 @@ export default function ApprovalDetailPage() {
         <div className="max-w-7xl mx-auto space-y-4 sm:space-y-6">
           {/* Page Title with Back Button */}
           <div className="flex items-center mb-3 sm:mb-4">
-            <Link href="/dashboard" className="mr-2 sm:mr-3 p-1.5 sm:p-2 hover:bg-gray-100 rounded-full">
+            <Link href="/admin/dashboard" className="mr-2 sm:mr-3 p-1.5 sm:p-2 hover:bg-gray-100 rounded-full">
               <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600" />
             </Link>
             <h2 className="text-lg sm:text-2xl font-semibold text-gray-900">Export Report</h2>

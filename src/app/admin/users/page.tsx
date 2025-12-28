@@ -3,7 +3,10 @@
 import { Bell, ChevronDown, Plus, Edit, Trash, Users, Mail, Phone, Shield, CheckCircle, XCircle, Search, Filter, LogOut } from "lucide-react"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
+import { useRouter } from "next/navigation"
 import LanguageSwitcher from "@/components/LanguageSwitcher"
+import { useToast } from "@/components/ui/toast"
+import { Dialog } from "@/components/ui/dialog"
 
 interface User {
   id: string
@@ -100,9 +103,22 @@ const statusIcons = {
 
 export default function UsersPage() {
   const { t } = useTranslation()
-  const [usersList] = useState<User[]>(users)
+  const router = useRouter()
+  const { addToast } = useToast()
+  const [usersList, setUsersList] = useState<User[]>(users)
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState<string>("all")
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
+  const [editingUser, setEditingUser] = useState<User | null>(null);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    role: "",
+    department: "",
+    status: "active" as 'active' | 'inactive' | 'pending'
+  });
 
   const filteredUsers = usersList.filter(user => {
     const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -112,13 +128,83 @@ export default function UsersPage() {
     return matchesSearch && matchesStatus
   })
 
-  const [menuOpen, setMenuOpen] = useState(false);
-
   const handleLogout = () => {
     if (typeof window !== "undefined") {
       localStorage.clear();
       sessionStorage.clear();
       window.location.href = "/login";
+    }
+  };
+
+  const handleCreateUser = () => {
+    setEditingUser(null);
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      role: "",
+      department: "",
+      status: "active"
+    });
+    setShowDialog(true);
+  };
+
+  const handleEditUser = (user: User) => {
+    setEditingUser(user);
+    setFormData({
+      name: user.name,
+      email: user.email,
+      phone: user.phone || "",
+      role: user.role,
+      department: user.department,
+      status: user.status
+    });
+    setShowDialog(true);
+  };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (editingUser) {
+      setUsersList(prev => prev.map(u => 
+        u.id === editingUser.id 
+          ? { ...u, ...formData }
+          : u
+      ));
+      addToast({
+        title: 'Success',
+        description: 'User updated successfully',
+        variant: 'success'
+      });
+    } else {
+      const newUser: User = {
+        id: `USR-${String(usersList.length + 1).padStart(3, '0')}`,
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        role: formData.role,
+        department: formData.department,
+        status: formData.status,
+        lastLogin: 'Never',
+        avatar: formData.name.split(' ').map(n => n[0]).join('').toUpperCase()
+      };
+      setUsersList(prev => [...prev, newUser]);
+      addToast({
+        title: 'Success',
+        description: 'User created successfully',
+        variant: 'success'
+      });
+    }
+    setShowDialog(false);
+  };
+
+  const handleDelete = (id: string) => {
+    if (window.confirm('Are you sure you want to delete this user?')) {
+      setUsersList(prev => prev.filter(u => u.id !== id));
+      addToast({
+        title: 'Success',
+        description: 'User deleted successfully',
+        variant: 'success'
+      });
     }
   };
 
@@ -172,7 +258,10 @@ export default function UsersPage() {
               <h2 className="text-2xl font-semibold text-gray-900">{t('users.userManagement')}</h2>
               <p className="text-gray-600 mt-1">{t('users.description')}</p>
             </div>
-            <button className="flex items-center space-x-2 px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors">
+            <button 
+              onClick={handleCreateUser}
+              className="flex items-center space-x-2 px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
+            >
               <Plus className="h-4 w-4" />
               <span>{t('users.addUser')}</span>
             </button>
@@ -337,13 +426,21 @@ export default function UsersPage() {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                           <div className="flex items-center space-x-2">
-                            <button className="p-1 hover:bg-gray-100 rounded" title="Edit User">
+                            <button 
+                              onClick={() => handleEditUser(user)}
+                              className="p-1 hover:bg-gray-100 rounded" 
+                              title="Edit User"
+                            >
                               <Edit className="h-4 w-4 text-gray-600" />
                             </button>
                             <button className="p-1 hover:bg-gray-100 rounded" title="Send Email">
                               <Mail className="h-4 w-4 text-gray-600" />
                             </button>
-                            <button className="p-1 hover:bg-gray-100 rounded" title="Delete User">
+                            <button 
+                              onClick={() => handleDelete(user.id)}
+                              className="p-1 hover:bg-gray-100 rounded" 
+                              title="Delete User"
+                            >
                               <Trash className="h-4 w-4 text-gray-600" />
                             </button>
                           </div>
@@ -357,6 +454,101 @@ export default function UsersPage() {
           </div>
         </div>
       </main>
+
+      {/* Create/Edit User Dialog */}
+      <Dialog 
+        isOpen={showDialog} 
+        onClose={() => setShowDialog(false)}
+        title={editingUser ? "Edit User" : "Add User"}
+      >
+        <form onSubmit={handleFormSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium mb-1 text-gray-900">Name</label>
+            <input 
+              name="name" 
+              value={formData.name} 
+              onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+              required 
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50" 
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1 text-gray-900">Email</label>
+            <input 
+              name="email" 
+              type="email" 
+              value={formData.email} 
+              onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+              required 
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50" 
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1 text-gray-900">Phone</label>
+            <input 
+              name="phone" 
+              value={formData.phone} 
+              onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
+              required 
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50" 
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1 text-gray-900">Role</label>
+            <select 
+              name="role" 
+              value={formData.role} 
+              onChange={(e) => setFormData(prev => ({ ...prev, role: e.target.value }))}
+              required 
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+            >
+              <option value="">Select role</option>
+              <option value="Administrator">Administrator</option>
+              <option value="Manager">Manager</option>
+              <option value="Officer">Officer</option>
+              <option value="Viewer">Viewer</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1 text-gray-900">Department</label>
+            <input 
+              name="department" 
+              value={formData.department} 
+              onChange={(e) => setFormData(prev => ({ ...prev, department: e.target.value }))}
+              required 
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50" 
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1 text-gray-900">Status</label>
+            <select 
+              name="status" 
+              value={formData.status} 
+              onChange={(e) => setFormData(prev => ({ ...prev, status: e.target.value as 'active' | 'inactive' | 'pending' }))}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+            >
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+              <option value="pending">Pending</option>
+            </select>
+          </div>
+          <div className="flex space-x-3 pt-4">
+            <button 
+              type="button"
+              onClick={() => setShowDialog(false)}
+              className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              Cancel
+            </button>
+            <button 
+              type="submit" 
+              className="flex-1 px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
+            >
+              {editingUser ? "Update User" : "Add User"}
+            </button>
+          </div>
+        </form>
+      </Dialog>
     </div>
   )
 }

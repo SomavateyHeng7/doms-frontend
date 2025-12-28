@@ -1,9 +1,12 @@
 "use client"
 
 import { Bell, ChevronDown, Plus, Edit, Trash, Shield, Users, Eye, EyeOff, Settings, CheckCircle, XCircle, LogOut} from "lucide-react"
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { useTranslation } from "react-i18next"
+import { useRouter } from "next/navigation"
 import LanguageSwitcher from "@/components/LanguageSwitcher"
+import { useToast } from "@/components/ui/toast"
+import { Dialog } from "@/components/ui/dialog"
 
 interface Role {
   id: string
@@ -80,25 +83,123 @@ const permissionColors = {
   "Read Limited": "bg-gray-100 text-gray-800"
 }
 
-import { useRef } from "react"
-
 export default function RolesPage() {
   const { t } = useTranslation()
-  const [rolesList] = useState<Role[]>(roles)
+  const router = useRouter()
+  const { addToast } = useToast()
+  const [rolesList, setRolesList] = useState<Role[]>(roles)
   const [showPermissions, setShowPermissions] = useState<string | null>(null)
   const menuRef = useRef<HTMLDivElement>(null)
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
+  const [editingRole, setEditingRole] = useState<Role | null>(null);
+  const [formData, setFormData] = useState({
+    name: "",
+    description: "",
+    permissions: [] as string[],
+    status: "active" as 'active' | 'inactive'
+  });
+
+  const permissionOptions = [
+    "Read",
+    "Write",
+    "Approve",
+    "Delete",
+    "Manage Users",
+    "Manage Roles",
+    "Manage Pipelines",
+    "Manage Documents",
+    "Read Limited",
+  ];
 
   const togglePermissions = (roleId: string) => {
     setShowPermissions(showPermissions === roleId ? null : roleId)
   }
-
-  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogout = () => {
     if (typeof window !== "undefined") {
       localStorage.clear();
       sessionStorage.clear();
       window.location.href = "/login";
+    }
+  };
+
+  const handleCreateRole = () => {
+    setEditingRole(null);
+    setFormData({
+      name: "",
+      description: "",
+      permissions: [],
+      status: "active"
+    });
+    setShowDialog(true);
+  };
+
+  const handleEditRole = (role: Role) => {
+    setEditingRole(role);
+    setFormData({
+      name: role.name,
+      description: role.description,
+      permissions: role.permissions,
+      status: role.status
+    });
+    setShowDialog(true);
+  };
+
+  const handlePermissionChange = (permission: string) => {
+    setFormData(prev => {
+      const exists = prev.permissions.includes(permission);
+      return {
+        ...prev,
+        permissions: exists
+          ? prev.permissions.filter(p => p !== permission)
+          : [...prev.permissions, permission]
+      };
+    });
+  };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (editingRole) {
+      setRolesList(prev => prev.map(r => 
+        r.id === editingRole.id 
+          ? { ...r, ...formData }
+          : r
+      ));
+      addToast({
+        title: 'Success',
+        description: 'Role updated successfully',
+        variant: 'success'
+      });
+    } else {
+      const newRole: Role = {
+        id: `ROLE-${String(rolesList.length + 1).padStart(3, '0')}`,
+        name: formData.name,
+        description: formData.description,
+        permissions: formData.permissions,
+        users: 0,
+        status: formData.status,
+        createdAt: new Date().toISOString().split('T')[0],
+        createdBy: 'Current User'
+      };
+      setRolesList(prev => [...prev, newRole]);
+      addToast({
+        title: 'Success',
+        description: 'Role created successfully',
+        variant: 'success'
+      });
+    }
+    setShowDialog(false);
+  };
+
+  const handleDelete = (id: string) => {
+    if (window.confirm('Are you sure you want to delete this role?')) {
+      setRolesList(prev => prev.filter(r => r.id !== id));
+      addToast({
+        title: 'Success',
+        description: 'Role deleted successfully',
+        variant: 'success'
+      });
     }
   };
 
@@ -152,7 +253,10 @@ export default function RolesPage() {
               <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">{t('roles.roleManagement')}</h2>
               <p className="text-sm sm:text-base text-gray-600 mt-1">{t('roles.description')}</p>
             </div>
-            <button className="flex items-center justify-center space-x-2 px-3 sm:px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors w-full sm:w-auto">
+            <button 
+              onClick={handleCreateRole}
+              className="flex items-center justify-center space-x-2 px-3 sm:px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors w-full sm:w-auto"
+            >
               <Plus className="h-4 w-4" />
               <span className="text-sm sm:text-base">{t('roles.createRole')}</span>
             </button>
@@ -361,13 +465,21 @@ export default function RolesPage() {
                       </td>
                       <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         <div className="flex items-center space-x-1 sm:space-x-2">
-                          <button className="p-1 hover:bg-gray-100 rounded" title={t('common.edit')}>
+                          <button 
+                            onClick={() => handleEditRole(role)}
+                            className="p-1 hover:bg-gray-100 rounded" 
+                            title={t('common.edit')}
+                          >
                             <Edit className="h-3 w-3 sm:h-4 sm:w-4 text-gray-600" />
                           </button>
                           <button className="hidden sm:inline-flex p-1 hover:bg-gray-100 rounded" title="View Users">
                             <Users className="h-4 w-4 text-gray-600" />
                           </button>
-                          <button className="p-1 hover:bg-gray-100 rounded" title={t('common.delete')}>
+                          <button 
+                            onClick={() => handleDelete(role.id)}
+                            className="p-1 hover:bg-gray-100 rounded" 
+                            title={t('common.delete')}
+                          >
                             <Trash className="h-3 w-3 sm:h-4 sm:w-4 text-gray-600" />
                           </button>
                         </div>
@@ -380,6 +492,80 @@ export default function RolesPage() {
           </div>
         </div>
       </main>
+
+      {/* Create/Edit Role Dialog */}
+      <Dialog 
+        isOpen={showDialog} 
+        onClose={() => setShowDialog(false)}
+        title={editingRole ? "Edit Role" : "Create Role"}
+      >
+        <form onSubmit={handleFormSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium mb-1">Role Name</label>
+            <input 
+              name="name" 
+              value={formData.name} 
+              onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+              required 
+              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Description</label>
+            <textarea 
+              name="description" 
+              value={formData.description} 
+              onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+              required 
+              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+              rows={3} 
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Permissions</label>
+            <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto border rounded-lg p-3">
+              {permissionOptions.map((perm) => (
+                <label key={perm} className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-1 rounded">
+                  <input
+                    type="checkbox"
+                    checked={formData.permissions.includes(perm)}
+                    onChange={() => handlePermissionChange(perm)}
+                    className="rounded border-gray-300"
+                  />
+                  <span className="text-sm">{perm}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Status</label>
+            <select 
+              name="status" 
+              value={formData.status} 
+              onChange={(e) => setFormData(prev => ({ ...prev, status: e.target.value as 'active' | 'inactive' }))}
+              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+          <div className="flex space-x-3 pt-4">
+            <button 
+              type="button"
+              onClick={() => setShowDialog(false)}
+              className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              Cancel
+            </button>
+            <button 
+              type="submit" 
+              className="flex-1 px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
+            >
+              {editingRole ? "Update Role" : "Create Role"}
+            </button>
+          </div>
+        </form>
+      </Dialog>
     </div>
   )
 }

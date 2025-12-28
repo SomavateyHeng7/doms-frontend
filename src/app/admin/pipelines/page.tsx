@@ -3,7 +3,10 @@
 import { Bell, ChevronDown, Plus, Edit, Trash, Play, Pause, Settings, Users, GitBranch, Clock, CheckCircle, LogOut } from "lucide-react"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
+import { useRouter } from "next/navigation"
 import LanguageSwitcher from "@/components/LanguageSwitcher"
+import { useToast } from "@/components/ui/toast"
+import { Dialog } from "@/components/ui/dialog"
 
 interface Pipeline {
   id: string
@@ -73,14 +76,101 @@ const statusIcons = {
 
 export default function PipelinesPage() {
   const { t } = useTranslation()
-  const [pipelinesList] = useState<Pipeline[]>(pipelines)
+  const router = useRouter()
+  const { addToast } = useToast()
+  const [pipelinesList, setPipelinesList] = useState<Pipeline[]>(pipelines)
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
+  const [editingPipeline, setEditingPipeline] = useState<Pipeline | null>(null);
+  const [formData, setFormData] = useState({
+    name: "",
+    description: "",
+    steps: "",
+    users: "",
+    status: "active" as 'active' | 'inactive' | 'draft'
+  });
 
   const handleLogout = () => {
     if (typeof window !== "undefined") {
       localStorage.clear();
       sessionStorage.clear();
       window.location.href = "/login";
+    }
+  };
+
+  const handleCreatePipeline = () => {
+    setEditingPipeline(null);
+    setFormData({
+      name: "",
+      description: "",
+      steps: "",
+      users: "",
+      status: "active"
+    });
+    setShowDialog(true);
+  };
+
+  const handleEditPipeline = (pipeline: Pipeline) => {
+    setEditingPipeline(pipeline);
+    setFormData({
+      name: pipeline.name,
+      description: pipeline.description,
+      steps: pipeline.steps.toString(),
+      users: pipeline.users.toString(),
+      status: pipeline.status
+    });
+    setShowDialog(true);
+  };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (editingPipeline) {
+      setPipelinesList(prev => prev.map(p => 
+        p.id === editingPipeline.id 
+          ? { ...p, ...formData, steps: parseInt(formData.steps), users: parseInt(formData.users) }
+          : p
+      ));
+      addToast({
+        title: 'Success',
+        description: 'Pipeline updated successfully',
+        variant: 'success'
+      });
+    } else {
+      const newPipeline: Pipeline = {
+        id: `PIPE-${String(pipelinesList.length + 1).padStart(3, '0')}`,
+        name: formData.name,
+        description: formData.description,
+        status: formData.status,
+        steps: parseInt(formData.steps),
+        users: parseInt(formData.users),
+        lastModified: 'Just now',
+        createdBy: 'Current User'
+      };
+      setPipelinesList(prev => [...prev, newPipeline]);
+      addToast({
+        title: 'Success',
+        description: 'Pipeline created successfully',
+        variant: 'success'
+      });
+    }
+    setShowDialog(false);
+  };
+
+  const handleDelete = (id: string) => {
+    addToast({
+      title: 'Delete Pipeline',
+      description: 'Are you sure you want to delete this pipeline?',
+      variant: 'warning',
+      duration: 5000
+    });
+    // Ideally use a proper confirmation dialog here
+    if (window.confirm('Are you sure you want to delete this pipeline?')) {
+      setPipelinesList(prev => prev.filter(p => p.id !== id));
+      addToast({
+        title: 'Success',
+        description: 'Pipeline deleted successfully',
+        variant: 'success'
+      });
     }
   };
 
@@ -134,7 +224,10 @@ export default function PipelinesPage() {
               <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">{t('pipelines.pipelineManagement')}</h2>
               <p className="text-sm sm:text-base text-gray-600 mt-1">{t('pipelines.description')}</p>
             </div>
-            <button className="flex items-center justify-center space-x-2 px-3 sm:px-4 py-2 text-sm sm:text-base bg-black text-white rounded-lg hover:bg-gray-800 transition-colors">
+            <button 
+              onClick={handleCreatePipeline}
+              className="flex items-center justify-center space-x-2 px-3 sm:px-4 py-2 text-sm sm:text-base bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
+            >
               <Plus className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               <span className="hidden sm:inline">{t('pipelines.createPipeline')}</span>
               <span className="sm:hidden">{t('common.create')}</span>
@@ -254,11 +347,17 @@ export default function PipelinesPage() {
                     </div>
                     
                     <div className="flex items-center space-x-2">
-                      <button className="flex-1 flex items-center justify-center space-x-1 sm:space-x-2 px-2 sm:px-3 py-2 text-xs sm:text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
+                      <button 
+                        onClick={() => handleEditPipeline(pipeline)}
+                        className="flex-1 flex items-center justify-center space-x-1 sm:space-x-2 px-2 sm:px-3 py-2 text-xs sm:text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                      >
                         <Edit className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                         <span>{t('common.edit')}</span>
                       </button>
-                      <button className="flex items-center justify-center p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                      <button 
+                        onClick={() => handleDelete(pipeline.id)}
+                        className="flex items-center justify-center p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                      >
                         <Trash className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                       </button>
                     </div>
@@ -269,6 +368,89 @@ export default function PipelinesPage() {
           </div>
         </div>
       </main>
+
+      {/* Create/Edit Pipeline Dialog */}
+      <Dialog 
+        isOpen={showDialog} 
+        onClose={() => setShowDialog(false)}
+        title={editingPipeline ? "Edit Pipeline" : "Create Pipeline"}
+      >
+        <form onSubmit={handleFormSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium mb-1">Pipeline Name</label>
+            <input 
+              name="name" 
+              value={formData.name} 
+              onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+              required 
+              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Description</label>
+            <textarea 
+              name="description" 
+              value={formData.description} 
+              onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+              required 
+              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+              rows={3} 
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Steps</label>
+            <input 
+              name="steps" 
+              type="number"
+              value={formData.steps} 
+              onChange={(e) => setFormData(prev => ({ ...prev, steps: e.target.value }))}
+              required 
+              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+              placeholder="e.g. 5" 
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Users</label>
+            <input 
+              name="users" 
+              type="number"
+              value={formData.users} 
+              onChange={(e) => setFormData(prev => ({ ...prev, users: e.target.value }))}
+              required 
+              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+              placeholder="e.g. 12" 
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Status</label>
+            <select 
+              name="status" 
+              value={formData.status} 
+              onChange={(e) => setFormData(prev => ({ ...prev, status: e.target.value as 'active' | 'inactive' | 'draft' }))}
+              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+              <option value="draft">Draft</option>
+            </select>
+          </div>
+          <div className="flex space-x-3 pt-4">
+            <button 
+              type="button"
+              onClick={() => setShowDialog(false)}
+              className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              Cancel
+            </button>
+            <button 
+              type="submit" 
+              className="flex-1 px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
+            >
+              {editingPipeline ? "Update Pipeline" : "Create Pipeline"}
+            </button>
+          </div>
+        </form>
+      </Dialog>
     </div>
   )
 }
