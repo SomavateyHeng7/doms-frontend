@@ -1,11 +1,16 @@
 'use client'
 
-import { Upload, CheckCircle, Circle, Info } from "lucide-react"
-import { useState } from "react"
+import { Upload, CheckCircle, Circle, Info, MoreVertical, FileUp, FileEdit, FilePlus, Trash2, Eye } from "lucide-react"
+import { useState, useRef, useEffect } from "react"
 import { useTranslation } from "react-i18next"
 import { useRouter } from "next/navigation"
 import { AdminHeader, StatusBadge, ActionButtons, ResponsiveTable } from "@/components/admin"
-import { Dialog } from "@/components/ui/dialog"
+import { 
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 import { useToast } from "@/components/ui/toast"
 
 interface Document {
@@ -34,12 +39,24 @@ export default function DocumentsPage() {
   const { addToast } = useToast()
   const [documentsList, setDocumentsList] = useState<Document[]>(documents)
   const [showDialog, setShowDialog] = useState(false);
+  const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const [formData, setFormData] = useState({
     name: "",
     type: "",
     description: "",
     file: null as File | null,
   });
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setOpenDropdownId(null);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const toggleSelection = (index: number) => {
     const newDocuments = [...documentsList]
@@ -142,15 +159,96 @@ export default function DocumentsPage() {
                   </ResponsiveTable.Cell>
                   <ResponsiveTable.Cell hideOnTablet>{doc.createdBy}</ResponsiveTable.Cell>
                   <ResponsiveTable.Cell>
-                    <ActionButtons
-                      onView={() => console.log('View', doc.id)}
-                      onEdit={() => console.log('Edit', doc.id)}
-                      onDownload={() => console.log('Download', doc.id)}
-                      onDelete={() => console.log('Delete', doc.id)}
-                      showDownload={true}
-                      size="sm"
-                      variant="compact"
-                    />
+                    <div className="flex items-center space-x-1">
+                      <ActionButtons
+                        onView={() => console.log('View', doc.id)}
+                        onEdit={() => console.log('Edit', doc.id)}
+                        onDownload={() => console.log('Download', doc.id)}
+                        showDownload={true}
+                        showDelete={false}
+                        size="sm"
+                        variant="compact"
+                      />
+                      <div className="relative" ref={openDropdownId === doc.id ? dropdownRef : null}>
+                        <button
+                          onClick={() => setOpenDropdownId(openDropdownId === doc.id ? null : doc.id)}
+                          className="p-1 hover:bg-gray-100 rounded text-gray-500 hover:text-black"
+                          title="More actions"
+                        >
+                          <MoreVertical className="h-4 w-4" />
+                        </button>
+                        {openDropdownId === doc.id && (
+                          <div className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                            <div className="py-1">
+                              <button
+                                onClick={() => {
+                                  console.log('Resubmit Change Request', doc.id);
+                                  setOpenDropdownId(null);
+                                }}
+                                className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                              >
+                                <FileUp className="h-4 w-4 mr-3 text-orange-500" />
+                                Resubmit Change Request
+                              </button>
+                              <button
+                                onClick={() => {
+                                  console.log('Add Subpage', doc.id);
+                                  setOpenDropdownId(null);
+                                }}
+                                className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                              >
+                                <FilePlus className="h-4 w-4 mr-3 text-gray-500" />
+                                Add Subpage
+                              </button>
+                              <div className="border-t border-gray-100 my-1"></div>
+                              <div className="px-4 py-2">
+                                <div className="flex items-center justify-between mb-2">
+                                  <div className="flex items-center text-sm text-gray-700">
+                                    <Eye className="h-4 w-4 mr-2 text-gray-500" />
+                                    Publish Page
+                                  </div>
+                                  <button
+                                    className="relative inline-flex h-5 w-9 items-center rounded-full bg-blue-600"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      console.log('Toggle Publish Page', doc.id);
+                                    }}
+                                  >
+                                    <span className="inline-block h-3.5 w-3.5 transform rounded-full bg-white transition translate-x-5" />
+                                  </button>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-center text-sm text-gray-700">
+                                    <FileEdit className="h-4 w-4 mr-2 text-gray-500" />
+                                    Put in Navbar
+                                  </div>
+                                  <button
+                                    className="relative inline-flex h-5 w-9 items-center rounded-full bg-teal-500"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      console.log('Toggle Put in Navbar', doc.id);
+                                    }}
+                                  >
+                                    <span className="inline-block h-3.5 w-3.5 transform rounded-full bg-white transition translate-x-5" />
+                                  </button>
+                                </div>
+                              </div>
+                              <div className="border-t border-gray-100 my-1"></div>
+                              <button
+                                onClick={() => {
+                                  console.log('Delete', doc.id);
+                                  setOpenDropdownId(null);
+                                }}
+                                className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                              >
+                                <Trash2 className="h-4 w-4 mr-3" />
+                                Delete
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
                   </ResponsiveTable.Cell>
                 </ResponsiveTable.Row>
               ))}
@@ -160,11 +258,11 @@ export default function DocumentsPage() {
       </main>
 
       {/* Upload Document Dialog */}
-      <Dialog 
-        isOpen={showDialog} 
-        onClose={() => setShowDialog(false)}
-        title="Upload Document"
-      >
+      <Dialog open={showDialog} onOpenChange={setShowDialog}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Upload Document</DialogTitle>
+          </DialogHeader>
         <form onSubmit={handleFormSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Document Name</label>
@@ -232,6 +330,7 @@ export default function DocumentsPage() {
             </button>
           </div>
         </form>
+        </DialogContent>
       </Dialog>
     </div>
   )

@@ -6,7 +6,12 @@ import { useTranslation } from "react-i18next"
 import { useRouter } from "next/navigation"
 import LanguageSwitcher from "@/components/LanguageSwitcher"
 import { useToast } from "@/components/ui/toast"
-import { Dialog } from "@/components/ui/dialog"
+import { 
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 
 interface Pipeline {
   id: string
@@ -370,86 +375,87 @@ export default function PipelinesPage() {
       </main>
 
       {/* Create/Edit Pipeline Dialog */}
-      <Dialog 
-        isOpen={showDialog} 
-        onClose={() => setShowDialog(false)}
-        title={editingPipeline ? "Edit Pipeline" : "Create Pipeline"}
-      >
-        <form onSubmit={handleFormSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium mb-1">Pipeline Name</label>
-            <input 
-              name="name" 
-              value={formData.name} 
-              onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-              required 
-              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">Description</label>
-            <textarea 
-              name="description" 
-              value={formData.description} 
-              onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-              required 
-              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
-              rows={3} 
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">Steps</label>
-            <input 
-              name="steps" 
-              type="number"
-              value={formData.steps} 
-              onChange={(e) => setFormData(prev => ({ ...prev, steps: e.target.value }))}
-              required 
-              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
-              placeholder="e.g. 5" 
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">Users</label>
-            <input 
-              name="users" 
-              type="number"
-              value={formData.users} 
-              onChange={(e) => setFormData(prev => ({ ...prev, users: e.target.value }))}
-              required 
-              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
-              placeholder="e.g. 12" 
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">Status</label>
-            <select 
-              name="status" 
-              value={formData.status} 
-              onChange={(e) => setFormData(prev => ({ ...prev, status: e.target.value as 'active' | 'inactive' | 'draft' }))}
-              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-              <option value="draft">Draft</option>
-            </select>
-          </div>
-          <div className="flex space-x-3 pt-4">
-            <button 
-              type="button"
-              onClick={() => setShowDialog(false)}
-              className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-            >
-              Cancel
-            </button>
-            <button 
-              type="submit" 
-              className="flex-1 px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
-            >
-              {editingPipeline ? "Update Pipeline" : "Create Pipeline"}
-            </button>
-          </div>
-        </form>
+      <Dialog open={showDialog} onOpenChange={setShowDialog}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>{editingPipeline ? "Edit Pipeline" : "Create Pipeline"}</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleFormSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium mb-1">Pipeline Name</label>
+              <input 
+                name="name" 
+                value={formData.name} 
+                onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                required 
+                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1">Description</label>
+              <textarea 
+                name="description" 
+                value={formData.description} 
+                onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                required 
+                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                rows={3} 
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1">Steps</label>
+              <input 
+                name="steps" 
+                type="number"
+                value={formData.steps} 
+                onChange={(e) => setFormData(prev => ({ ...prev, steps: e.target.value }))}
+                required 
+                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                placeholder="e.g. 5" 
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1">Users</label>
+              <input 
+                name="users" 
+                type="number"
+                value={formData.users} 
+                onChange={(e) => setFormData(prev => ({ ...prev, users: e.target.value }))}
+                required 
+                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                placeholder="e.g. 12" 
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1">Status</label>
+              <select 
+                name="status" 
+                value={formData.status} 
+                onChange={(e) => setFormData(prev => ({ ...prev, status: e.target.value as 'active' | 'inactive' | 'draft' }))}
+                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+                <option value="draft">Draft</option>
+              </select>
+            </div>
+            <div className="flex space-x-3 pt-4">
+              <button 
+                type="button"
+                onClick={() => setShowDialog(false)}
+                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                Cancel
+              </button>
+              <button 
+                type="submit" 
+                className="flex-1 px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
+              >
+                {editingPipeline ? "Update Pipeline" : "Create Pipeline"}
+              </button>
+            </div>
+          </form>
+        </DialogContent>
       </Dialog>
     </div>
   )

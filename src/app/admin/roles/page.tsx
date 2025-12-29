@@ -6,7 +6,13 @@ import { useTranslation } from "react-i18next"
 import { useRouter } from "next/navigation"
 import LanguageSwitcher from "@/components/LanguageSwitcher"
 import { useToast } from "@/components/ui/toast"
-import { Dialog } from "@/components/ui/dialog"
+import { 
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog"
 
 interface Role {
   id: string
@@ -201,91 +207,89 @@ export default function RolesPage() {
       </main>
 
       {/* Create Role Dialog */}
-      {showCreateDialog && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
-            <div className="flex justify-between items-start mb-6">
-              <h3 className="text-lg font-semibold text-gray-900">Create Role</h3>
+      <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Create Role</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleCreateRole} className="space-y-4">
+            <div>
+              <input 
+                type="text"
+                value={roleName} 
+                onChange={(e) => setRoleName(e.target.value)}
+                placeholder="Role Name *"
+                required 
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+              />
+            </div>
+            <div className="flex space-x-3 pt-4">
               <button 
+                type="button"
                 onClick={() => setShowCreateDialog(false)}
-                className="text-gray-400 hover:text-gray-600"
+                className="flex-1 px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
               >
-                <X className="h-5 w-5" />
+                Cancel
+              </button>
+              <button 
+                type="submit" 
+                className="flex-1 px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
+              >
+                Create
               </button>
             </div>
-            <form onSubmit={handleCreateRole} className="space-y-4">
-              <div>
-                <input 
-                  type="text"
-                  value={roleName} 
-                  onChange={(e) => setRoleName(e.target.value)}
-                  placeholder="Role Name *"
-                  required 
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
-                />
-              </div>
-              <div className="flex space-x-3 pt-4">
-                <button 
-                  type="button"
-                  onClick={() => setShowCreateDialog(false)}
-                  className="flex-1 px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-                >
-                  Cancel
-                </button>
-                <button 
-                  type="submit" 
-                  className="flex-1 px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
-                >
-                  Create
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+          </form>
+        </DialogContent>
+      </Dialog>
 
       {/* Role Management Guide Dialog */}
-      {showGuideDialog && (
-        <div 
-          className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-          onMouseEnter={() => setShowGuideDialog(true)}
-          onMouseLeave={() => setShowGuideDialog(false)}
+      <Dialog open={showGuideDialog} onOpenChange={setShowGuideDialog}>
+        <DialogContent 
+          className="sm:max-w-md"
+          onPointerDownOutside={() => setShowGuideDialog(false)}
+          onPointerMove={(e) => {
+            const dialog = e.currentTarget;
+            const rect = dialog.getBoundingClientRect();
+            const isInside = e.clientX >= rect.left && e.clientX <= rect.right && 
+                           e.clientY >= rect.top && e.clientY <= rect.bottom;
+            if (!isInside) {
+              setShowGuideDialog(false);
+            }
+          }}
         >
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold text-gray-900">Role Management Guide</h3>
+          <DialogHeader>
+            <DialogTitle>Role Management Guide</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3">
+            <div className="flex items-start space-x-3">
+              <div className="w-2 h-2 rounded-full bg-gray-900 mt-1.5 flex-shrink-0"></div>
+              <p className="text-sm text-gray-700">View Roles and Users</p>
             </div>
-            <div className="space-y-3">
-              <div className="flex items-start space-x-3">
-                <div className="w-2 h-2 rounded-full bg-gray-900 mt-1.5 flex-shrink-0"></div>
-                <p className="text-sm text-gray-700">View Roles and Users</p>
-              </div>
-              <div className="flex items-start space-x-3">
-                <div className="w-2 h-2 rounded-full bg-gray-900 mt-1.5 flex-shrink-0"></div>
-                <p className="text-sm text-gray-700">Create New Roles</p>
-              </div>
-              <div className="flex items-start space-x-3">
-                <div className="w-2 h-2 rounded-full bg-gray-900 mt-1.5 flex-shrink-0"></div>
-                <p className="text-sm text-gray-700">Assign role to users</p>
-              </div>
-              <div className="flex items-start space-x-3">
-                <div className="w-2 h-2 rounded-full bg-gray-900 mt-1.5 flex-shrink-0"></div>
-                <p className="text-sm text-gray-700">Edit Role Permission</p>
-              </div>
-              <div className="flex items-start space-x-3">
-                <div className="w-2 h-2 rounded-full bg-gray-900 mt-1.5 flex-shrink-0"></div>
-                <p className="text-sm text-gray-700">Delete unused Roles</p>
-              </div>
+            <div className="flex items-start space-x-3">
+              <div className="w-2 h-2 rounded-full bg-gray-900 mt-1.5 flex-shrink-0"></div>
+              <p className="text-sm text-gray-700">Create New Roles</p>
             </div>
-            <div className="mt-6 p-3 bg-gray-50 rounded-lg">
-              <div className="flex items-start space-x-2">
-                <HelpCircle className="h-4 w-4 text-gray-600 mt-0.5 flex-shrink-0" />
-                <p className="text-xs text-gray-600">Tip: Use the search bar to quickly find specific roles</p>
-              </div>
+            <div className="flex items-start space-x-3">
+              <div className="w-2 h-2 rounded-full bg-gray-900 mt-1.5 flex-shrink-0"></div>
+              <p className="text-sm text-gray-700">Assign role to users</p>
+            </div>
+            <div className="flex items-start space-x-3">
+              <div className="w-2 h-2 rounded-full bg-gray-900 mt-1.5 flex-shrink-0"></div>
+              <p className="text-sm text-gray-700">Edit Role Permission</p>
+            </div>
+            <div className="flex items-start space-x-3">
+              <div className="w-2 h-2 rounded-full bg-gray-900 mt-1.5 flex-shrink-0"></div>
+              <p className="text-sm text-gray-700">Delete unused Roles</p>
             </div>
           </div>
-        </div>
-      )}
+          <div className="mt-6 p-3 bg-gray-50 rounded-lg">
+            <div className="flex items-start space-x-2">
+              <HelpCircle className="h-4 w-4 text-gray-600 mt-0.5 flex-shrink-0" />
+              <p className="text-xs text-gray-600">Tip: Use the search bar to quickly find specific roles</p>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Assign Role to User Dialog */}
       {showAssignDialog && (

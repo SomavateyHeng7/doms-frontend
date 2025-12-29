@@ -5,7 +5,10 @@
 export default function RoleManagementGuide({ onClose }: { onClose?: () => void }) {
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
-      <div className="bg-white rounded-2xl border-2 border-blue-300 shadow-lg p-8 w-[400px] relative">
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-black/50" onClick={onClose} />
+      {/* Dialog */}
+      <div className="bg-white rounded-2xl border-2 border-blue-300 shadow-lg p-8 w-[400px] relative z-10" onClick={(e) => e.stopPropagation()}>
         <button
           className="absolute top-4 right-4 text-2xl text-gray-700 hover:text-black"
           aria-label="Close"

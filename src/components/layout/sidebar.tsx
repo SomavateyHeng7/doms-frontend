@@ -80,7 +80,7 @@ export function Sidebar() {
             >
               {!logoError ? (
                 <Image
-                  src="/image/logo.png"
+                  src="/image/logo.jpeg"
                   alt="OfficeSync Logo"
                   width={32}
                   height={32}
@@ -107,7 +107,7 @@ export function Sidebar() {
             >
               {!logoError ? (
                 <Image
-                  src="/image/logo.png"
+                  src="/image/logo.jpeg"
                   alt="OfficeSync Logo"
                   width={32}
                   height={32}

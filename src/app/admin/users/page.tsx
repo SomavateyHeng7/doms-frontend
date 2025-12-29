@@ -6,7 +6,12 @@ import { useTranslation } from "react-i18next"
 import { useRouter } from "next/navigation"
 import LanguageSwitcher from "@/components/LanguageSwitcher"
 import { useToast } from "@/components/ui/toast"
-import { Dialog } from "@/components/ui/dialog"
+import { 
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 
 interface User {
   id: string
@@ -279,47 +284,53 @@ export default function UsersPage() {
       </main>
 
       {/* User Management Guide Dialog */}
-      {showGuideDialog && (
-        <div 
-          className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-          onMouseEnter={() => setShowGuideDialog(true)}
-          onMouseLeave={() => setShowGuideDialog(false)}
+      <Dialog open={showGuideDialog} onOpenChange={setShowGuideDialog}>
+        <DialogContent 
+          className="sm:max-w-md"
+          onPointerDownOutside={() => setShowGuideDialog(false)}
+          onPointerMove={(e) => {
+            const dialog = e.currentTarget;
+            const rect = dialog.getBoundingClientRect();
+            const isInside = e.clientX >= rect.left && e.clientX <= rect.right && 
+                           e.clientY >= rect.top && e.clientY <= rect.bottom;
+            if (!isInside) {
+              setShowGuideDialog(false);
+            }
+          }}
         >
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold text-gray-900">User Management Guide</h3>
+          <DialogHeader>
+            <DialogTitle>User Management Guide</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3">
+            <div className="flex items-start space-x-3">
+              <div className="w-2 h-2 rounded-full bg-gray-900 mt-1.5 flex-shrink-0"></div>
+              <p className="text-sm text-gray-700">View Roles and Users</p>
             </div>
-            <div className="space-y-3">
-              <div className="flex items-start space-x-3">
-                <div className="w-2 h-2 rounded-full bg-gray-900 mt-1.5 flex-shrink-0"></div>
-                <p className="text-sm text-gray-700">View Roles and Users</p>
-              </div>
-              <div className="flex items-start space-x-3">
-                <div className="w-2 h-2 rounded-full bg-gray-900 mt-1.5 flex-shrink-0"></div>
-                <p className="text-sm text-gray-700">Create New Roles</p>
-              </div>
-              <div className="flex items-start space-x-3">
-                <div className="w-2 h-2 rounded-full bg-gray-900 mt-1.5 flex-shrink-0"></div>
-                <p className="text-sm text-gray-700">Assign role to users</p>
-              </div>
-              <div className="flex items-start space-x-3">
-                <div className="w-2 h-2 rounded-full bg-gray-900 mt-1.5 flex-shrink-0"></div>
-                <p className="text-sm text-gray-700">Edit Role Permission</p>
-              </div>
-              <div className="flex items-start space-x-3">
-                <div className="w-2 h-2 rounded-full bg-gray-900 mt-1.5 flex-shrink-0"></div>
-                <p className="text-sm text-gray-700">Delete unused Roles</p>
-              </div>
+            <div className="flex items-start space-x-3">
+              <div className="w-2 h-2 rounded-full bg-gray-900 mt-1.5 flex-shrink-0"></div>
+              <p className="text-sm text-gray-700">Create New Roles</p>
             </div>
-            <div className="mt-6 p-3 bg-gray-50 rounded-lg">
-              <div className="flex items-start space-x-2">
-                <HelpCircle className="h-4 w-4 text-gray-600 mt-0.5 flex-shrink-0" />
-                <p className="text-xs text-gray-600">Tip: Use the search bar to quickly find specific user</p>
-              </div>
+            <div className="flex items-start space-x-3">
+              <div className="w-2 h-2 rounded-full bg-gray-900 mt-1.5 flex-shrink-0"></div>
+              <p className="text-sm text-gray-700">Assign role to users</p>
+            </div>
+            <div className="flex items-start space-x-3">
+              <div className="w-2 h-2 rounded-full bg-gray-900 mt-1.5 flex-shrink-0"></div>
+              <p className="text-sm text-gray-700">Edit Role Permission</p>
+            </div>
+            <div className="flex items-start space-x-3">
+              <div className="w-2 h-2 rounded-full bg-gray-900 mt-1.5 flex-shrink-0"></div>
+              <p className="text-sm text-gray-700">Delete unused Roles</p>
             </div>
           </div>
-        </div>
-      )}
+          <div className="mt-6 p-3 bg-gray-50 rounded-lg">
+            <div className="flex items-start space-x-2">
+              <HelpCircle className="h-4 w-4 text-gray-600 mt-0.5 flex-shrink-0" />
+              <p className="text-xs text-gray-600">Tip: Use the search bar to quickly find specific user</p>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Assign Role to User Dialog */}
       {showAssignDialog && (
