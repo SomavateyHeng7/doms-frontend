@@ -82,8 +82,8 @@ export function Sidebar() {
                 <Image
                   src="/image/logo.jpeg"
                   alt="OfficeSync Logo"
-                  width={32}
-                  height={32}
+                  width={56}
+                  height={56}
                   className="w-8 h-8 object-contain"
                   onError={handleLogoError}
                   priority
