@@ -1,9 +1,6 @@
 "use client"
 
-import { useState, useRef, useEffect } from 'react'
-import { Bell, ChevronDown, LogOut } from 'lucide-react'
-import LanguageSwitcher from '@/components/LanguageSwitcher'
-import ClientOnly from '@/components/ClientOnly'
+import { AppHeader } from "@/components/shared"
 
 interface AdminHeaderProps {
   title: string
@@ -11,43 +8,8 @@ interface AdminHeaderProps {
 }
 
 export default function AdminHeader({ title, children }: AdminHeaderProps) {
-  const [menuOpen, setMenuOpen] = useState(false)
-  const menuRef = useRef<HTMLDivElement>(null)
-
-  const handleLogout = () => {
-    if (typeof window !== "undefined") {
-      localStorage.clear()
-      sessionStorage.clear()
-      window.location.href = "/login"
-    }
-  }
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setMenuOpen(false)
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
-
-  return (
-    <header className="bg-white border-b border-gray-200 px-4 sm:px-6 py-3 sm:py-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-4">
-          <h1 className="text-gray-500 text-base sm:text-lg font-medium truncate">
-            {title}
-          </h1>
-        </div>
-        
-        <div className="flex items-center space-x-2 sm:space-x-4 relative">
-          {/* Additional content (like buttons) */}
-          {children}
-          
-          {/* Language Switcher */}
+  return <AppHeader title={title} showLanguageSwitcher={true}>{children}</AppHeader>
+}
           <ClientOnly fallback={
             <div className="px-2 sm:px-3 py-2">
               <span className="text-base">🇺🇸</span>

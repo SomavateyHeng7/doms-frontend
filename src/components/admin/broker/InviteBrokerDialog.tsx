@@ -42,7 +42,7 @@ export default function InviteBrokerDialog({
               type="text"
               name="name"
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors text-gray-900"
               placeholder="Enter broker name"
               autoFocus
             />
@@ -56,7 +56,7 @@ export default function InviteBrokerDialog({
               type="email"
               name="email"
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors text-gray-900"
               placeholder="Enter broker email"
             />
           </div>
