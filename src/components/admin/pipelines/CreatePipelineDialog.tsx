@@ -44,7 +44,7 @@ export default function CreatePipelineDialog({
               type="text"
               value={pipelineName}
               onChange={(e) => onPipelineNameChange(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors text-gray-900"
               placeholder="Enter pipeline name"
               autoFocus
             />

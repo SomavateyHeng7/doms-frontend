@@ -187,9 +187,9 @@ export default function OfficerDashboard() {
                     </th>
                     <th className="py-2 sm:py-3 px-2 sm:px-4 text-left font-medium text-gray-500 text-xs sm:text-sm">Name</th>
                     <th className="hidden sm:table-cell py-3 px-4 text-left font-medium text-gray-500 text-xs sm:text-sm">ID</th>
-                    <th className="hidden md:table-cell py-3 px-4 text-left font-medium text-gray-500 text-xs sm:text-sm">Type</th>
+                    <th className="py-3 px-4 text-left font-medium text-gray-500 text-xs sm:text-sm">Type</th>
                     <th className="py-2 sm:py-3 px-2 sm:px-4 text-left font-medium text-gray-500 text-xs sm:text-sm">Status</th>
-                    <th className="hidden lg:table-cell py-3 px-4 text-left font-medium text-gray-500 text-xs sm:text-sm">Created By</th>
+                    <th className="py-3 px-4 text-left font-medium text-gray-500 text-xs sm:text-sm">Created By</th>
                     <th className="py-2 sm:py-3 px-2 sm:px-4 text-left font-medium text-gray-500 text-xs sm:text-sm">Actions</th>
                   </tr>
                 </thead>
@@ -207,16 +207,14 @@ export default function OfficerDashboard() {
                       <td className="py-2 sm:py-3 px-2 sm:px-4">
                         <div className="space-y-1">
                           <div className="font-medium text-gray-700 text-sm">{doc.name}</div>
-                          {/* Mobile: Show ID, type, and created by below name */}
+                          {/* Mobile: Show ID below name on small screens */}
                           <div className="sm:hidden space-y-1">
                             <div className="text-xs text-gray-500">ID: {doc.id}</div>
-                            <div className="md:hidden text-xs text-gray-500">Type: {doc.type}</div>
-                            <div className="lg:hidden text-xs text-gray-500">By: {doc.createdBy}</div>
                           </div>
                         </div>
                       </td>
                       <td className="hidden sm:table-cell py-3 px-4 font-medium text-gray-700 text-sm">{doc.id}</td>
-                      <td className="hidden md:table-cell py-3 px-4 text-sm">{doc.type}</td>
+                      <td className="py-3 px-4 text-sm text-gray-700">{doc.type}</td>
                       <td className="py-2 sm:py-3 px-2 sm:px-4">
                         <span
                           className={`inline-block px-2 sm:px-3 py-1 rounded-full text-xs font-semibold ${statusStyles[doc.status as keyof typeof statusStyles]}`}
@@ -224,7 +222,7 @@ export default function OfficerDashboard() {
                           {doc.status}
                         </span>
                       </td>
-                      <td className="hidden lg:table-cell py-3 px-4 text-sm">{doc.createdBy}</td>
+                      <td className="py-3 px-4 text-sm text-gray-700">{doc.createdBy}</td>
                       <td className="py-2 sm:py-3 px-2 sm:px-4">
                         <div className="flex items-center gap-1 sm:gap-2 lg:gap-3">
                           <button className="hover:text-black text-gray-500 p-1" title="View">

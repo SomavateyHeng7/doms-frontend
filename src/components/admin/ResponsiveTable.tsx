@@ -84,7 +84,7 @@ function TableCell({ children, className = "", hideOnMobile = false, hideOnTable
   `.trim()
 
   return (
-    <td className={`px-3 sm:px-6 py-2 sm:py-3 text-sm ${visibilityClasses} ${className}`}>
+    <td className={`px-3 sm:px-6 py-2 sm:py-3 text-sm text-gray-900 ${visibilityClasses} ${className}`}>
       {children}
     </td>
   )
