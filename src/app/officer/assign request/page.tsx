@@ -23,7 +23,7 @@ export default function AssignedRequests() {
       <OfficerSidebar />
 
       <div className="flex-1 flex flex-col">
-        <PageHeader />
+        <PageHeader title="Assigned Requests" />
 
         <main className="flex-1 p-6">
           <div className="max-w-6xl mx-auto">

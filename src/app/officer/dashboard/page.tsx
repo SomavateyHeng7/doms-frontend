@@ -45,7 +45,7 @@ export default function OfficerDashboard() {
       <OfficerSidebar />
 
       <div className="flex-1 flex flex-col">
-        <PageHeader />
+        <PageHeader title="Dashboard" />
 
         <main className="flex-1 p-6">
           <div className="max-w-7xl mx-auto">

@@ -38,7 +38,7 @@ export default function ApprovalDetail() {
       <OfficerSidebar />
 
       <div className="flex-1 flex flex-col">
-        <PageHeader />
+        <PageHeader title="Approval Details" />
 
         {/* Content */}
         <main className="flex-1 p-6 overflow-auto">
