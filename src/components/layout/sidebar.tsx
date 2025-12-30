@@ -93,7 +93,7 @@ export function Sidebar() {
             >
               {!logoError ? (
                 <Image
-                  src="/image/logo.jpeg"
+                  src="/image/logo2.png"
                   alt="OfficeSync Logo"
                   width={56}
                   height={56}
