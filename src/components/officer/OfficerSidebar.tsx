@@ -27,7 +27,7 @@ export default function OfficerSidebar() {
     },
     {
       name: "Saved Documents",
-      href: "/officer/saved-documents",
+      href: "/officer/saved document",
       icon: (
         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
           <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11zm-2-9h-4v4h-2v-4H6V9h4V5h2v4h4v2z" />
