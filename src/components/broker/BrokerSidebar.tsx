@@ -2,9 +2,17 @@
 
 import { usePathname } from "next/navigation"
 import Link from "next/link"
+import Image from "next/image"
+import { useState } from "react"
+import { FileText } from "lucide-react"
 
 export default function BrokerSidebar() {
   const pathname = usePathname()
+  const [logoError, setLogoError] = useState(false)
+
+  const handleLogoError = () => {
+    setLogoError(true)
+  }
 
   const navItems = [
     {
@@ -28,16 +36,25 @@ export default function BrokerSidebar() {
   ]
 
   return (
-    <aside className="w-56 bg-white border-r border-gray-200 flex flex-col">
+    <aside className="w-56 bg-white border-r border-gray-200 flex flex-col sticky top-0 h-screen">
       <div className="p-6">
-        <Link href="/broker/my request" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-black rounded flex items-center justify-center">
-            <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
-              <path d="M8 12h8v2H8v-2zm0 4h5v2H8v-2z" fill="white"/>
-            </svg>
-          </div>
-          <span className="text-lg font-semibold text-gray-900">OfficeSync</span>
+        <Link href="/broker/my request" className="flex items-center gap-3">
+          {!logoError ? (
+            <Image
+              src="/image/logo2.png"
+              alt="OfficeSync Logo"
+              width={32}
+              height={32}
+              className="w-8 h-8 object-contain"
+              onError={handleLogoError}
+              priority
+            />
+          ) : (
+            <div className="w-8 h-8 bg-gray-900 rounded flex items-center justify-center">
+              <FileText className="h-5 w-5 text-white" />
+            </div>
+          )}
+          <span className="text-xl font-semibold text-gray-900">OfficeSync</span>
         </Link>
       </div>
 

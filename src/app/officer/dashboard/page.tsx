@@ -1,6 +1,6 @@
 "use client"
 
-import { Eye, Pencil, Download, CheckCircle, Circle } from "lucide-react"
+import { Eye, Pencil, Download, CheckCircle, Circle, FileText, Clock, XCircle, CheckCircle2 } from "lucide-react"
 import { useState } from "react"
 import { OfficerSidebar, PageHeader, PageTitle } from "@/components/officer"
 
@@ -56,17 +56,61 @@ export default function OfficerDashboard() {
 
             {/* Stats Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-              {[1, 2, 3, 4].map((item) => (
-                <div key={item} className="bg-white rounded-xl border border-gray-200 p-6 flex items-center justify-center h-32">
-                  <div className="w-16 h-16 rounded-full bg-gray-800 flex items-center justify-center">
-                    <div className="w-12 h-12 rounded-full bg-pink-400 flex items-center justify-center">
-                      <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
-                      </svg>
-                    </div>
+              {/* Total Assigned */}
+              <div className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-md transition-shadow">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-gray-600 mb-1">Total Assigned</p>
+                    <p className="text-3xl font-bold text-gray-900">24</p>
+                    <p className="text-xs text-gray-500 mt-2">Active requests</p>
+                  </div>
+                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <FileText className="w-6 h-6 text-blue-600" />
                   </div>
                 </div>
-              ))}
+              </div>
+
+              {/* Pending */}
+              <div className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-md transition-shadow">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-gray-600 mb-1">Pending</p>
+                    <p className="text-3xl font-bold text-amber-600">8</p>
+                    <p className="text-xs text-gray-500 mt-2">Awaiting review</p>
+                  </div>
+                  <div className="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center">
+                    <Clock className="w-6 h-6 text-amber-600" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Approved */}
+              <div className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-md transition-shadow">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-gray-600 mb-1">Approved</p>
+                    <p className="text-3xl font-bold text-green-600">14</p>
+                    <p className="text-xs text-gray-500 mt-2">Completed today</p>
+                  </div>
+                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                    <CheckCircle2 className="w-6 h-6 text-green-600" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Rejected */}
+              <div className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-md transition-shadow">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-gray-600 mb-1">Rejected</p>
+                    <p className="text-3xl font-bold text-red-600">2</p>
+                    <p className="text-xs text-gray-500 mt-2">Need revision</p>
+                  </div>
+                  <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                    <XCircle className="w-6 h-6 text-red-600" />
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Recent Requests */}

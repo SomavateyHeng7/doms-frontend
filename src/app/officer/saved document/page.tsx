@@ -174,11 +174,6 @@ export default function SavedDocuments() {
                         </div>
                       </div>
                     </div>
-
-                    {/* Bookmark indicator */}
-                    <div className="absolute top-0 right-0 w-0 h-0 border-t-[40px] border-t-blue-600 border-l-[40px] border-l-transparent">
-                      <Bookmark className="absolute -top-9 -right-0.5 w-4 h-4 text-white fill-white" />
-                    </div>
                   </div>
                 ))}
               </div>
@@ -189,3 +184,4 @@ export default function SavedDocuments() {
     </div>
   )
 }
+

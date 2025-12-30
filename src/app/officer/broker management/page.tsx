@@ -52,23 +52,13 @@ export default function BrokerManagement() {
 
         <main className="flex-1 p-6 bg-gray-50">
           <div className="max-w-7xl mx-auto">
-            <div className="flex items-start justify-between mb-6">
-              <PageTitle 
-                title="Broker Management" 
-                subtitle="Manage and create your user by inviting, assigning, and actions."
-              />
-              
-              <div className="w-20 h-20 rounded-full bg-gray-800 flex items-center justify-center">
-                <div className="w-16 h-16 rounded-full bg-pink-400 flex items-center justify-center">
-                  <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                  </svg>
-                </div>
-              </div>
-            </div>
+            <PageTitle 
+              title="Broker Management" 
+              subtitle="Manage and create your user by inviting, assigning, and actions."
+            />
 
             {/* Table */}
-            <div className="bg-white rounded-lg border-4 border-blue-500 overflow-hidden">
+            <div className="bg-white rounded-lg border-4 border-black overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead className="bg-white border-b border-gray-200">
