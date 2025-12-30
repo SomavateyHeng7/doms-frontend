@@ -6,6 +6,8 @@
     "trash": "Trash Documents",
     "roles": "Manage Roles",
     "users": "Manage Users",
+    "brokers": "Brokers",
+    "officers": "Officers",
     "officer": "Officer"
   },
   "auth": {

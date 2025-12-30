@@ -13,13 +13,15 @@ import {
   ChevronLeft,
   ChevronRight,
   Users,
-  Shield
+  Shield,
+  ChevronDown
 } from "lucide-react"
 
 export function Sidebar() {
   const { t } = useTranslation('common');
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [logoError, setLogoError] = useState(false)
+  const [isUsersDropdownOpen, setIsUsersDropdownOpen] = useState(false)
 
   const navigation = [
     {
@@ -46,6 +48,17 @@ export function Sidebar() {
       name: t('nav.users'),
       href: "/admin/users",
       icon: Users,
+      hasDropdown: true,
+      subItems: [
+        {
+          name: t('nav.brokers'),
+          href: "/admin/broker",
+        },
+        {
+          name: t('nav.officers'),
+          href: "/admin/officer",
+        },
+      ]
     },
     {
       name: t('nav.trash'),
@@ -142,26 +155,80 @@ export function Sidebar() {
         <ul className="space-y-2">
           {navigation.map((item) => (
             <li key={item.name}>
-              <Link
-                href={item.href}
-                className="flex items-center space-x-3 rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors group"
-                title={isCollapsed ? item.name : undefined}
-              >
-                <item.icon className="h-5 w-5 flex-shrink-0" />
-                <AnimatePresence>
-                  {!isCollapsed && (
-                    <motion.span
-                      initial={{ opacity: 0, width: 0 }}
-                      animate={{ opacity: 1, width: "auto" }}
-                      exit={{ opacity: 0, width: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="text-sm font-medium whitespace-nowrap overflow-hidden"
-                    >
-                      {item.name}
-                    </motion.span>
-                  )}
-                </AnimatePresence>
-              </Link>
+              {item.hasDropdown ? (
+                <div>
+                  <button
+                    onClick={() => setIsUsersDropdownOpen(!isUsersDropdownOpen)}
+                    className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors group"
+                    title={isCollapsed ? item.name : undefined}
+                  >
+                    <div className="flex items-center space-x-3">
+                      <item.icon className="h-5 w-5 flex-shrink-0" />
+                      <AnimatePresence>
+                        {!isCollapsed && (
+                          <motion.span
+                            initial={{ opacity: 0, width: 0 }}
+                            animate={{ opacity: 1, width: "auto" }}
+                            exit={{ opacity: 0, width: 0 }}
+                            transition={{ duration: 0.2 }}
+                            className="text-sm font-medium whitespace-nowrap overflow-hidden"
+                          >
+                            {item.name}
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                    {!isCollapsed && (
+                      <ChevronDown 
+                        className={`h-4 w-4 transition-transform ${isUsersDropdownOpen ? 'rotate-180' : ''}`}
+                      />
+                    )}
+                  </button>
+                  <AnimatePresence>
+                    {isUsersDropdownOpen && !isCollapsed && (
+                      <motion.ul
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="mt-1 ml-8 space-y-1 overflow-hidden"
+                      >
+                        {item.subItems?.map((subItem) => (
+                          <li key={subItem.name}>
+                            <Link
+                              href={subItem.href}
+                              className="block rounded-lg px-3 py-2 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors"
+                            >
+                              {subItem.name}
+                            </Link>
+                          </li>
+                        ))}
+                      </motion.ul>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ) : (
+                <Link
+                  href={item.href}
+                  className="flex items-center space-x-3 rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors group"
+                  title={isCollapsed ? item.name : undefined}
+                >
+                  <item.icon className="h-5 w-5 flex-shrink-0" />
+                  <AnimatePresence>
+                    {!isCollapsed && (
+                      <motion.span
+                        initial={{ opacity: 0, width: 0 }}
+                        animate={{ opacity: 1, width: "auto" }}
+                        exit={{ opacity: 0, width: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="text-sm font-medium whitespace-nowrap overflow-hidden"
+                      >
+                        {item.name}
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
+                </Link>
+              )}
             </li>
           ))}
         </ul>

@@ -4,6 +4,7 @@ import { Bell, ChevronDown, Trash2, RotateCcw, Eye, Download, Calendar, User, Fi
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import LanguageSwitcher from "@/components/LanguageSwitcher"
+import { RestoreConfirmDialog, PermanentDeleteDialog, EmptyTrashDialog } from "@/components/admin/trash"
 
 interface TrashDocument {
   id: string
@@ -84,6 +85,10 @@ export default function TrashPage() {
   const [trashList, setTrashList] = useState<TrashDocument[]>(trashDocuments)
   const [searchTerm, setSearchTerm] = useState("")
   const [typeFilter, setTypeFilter] = useState<string>("all")
+  const [showRestoreDialog, setShowRestoreDialog] = useState(false)
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+  const [showEmptyTrashDialog, setShowEmptyTrashDialog] = useState(false)
+  const [selectedDocument, setSelectedDocument] = useState<TrashDocument | null>(null)
 
   const filteredTrash = trashList.filter(doc => {
     const matchesSearch = doc.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -95,18 +100,17 @@ export default function TrashPage() {
 
   const handleRestore = (id: string) => {
     setTrashList(prev => prev.filter(doc => doc.id !== id))
+    setShowRestoreDialog(false)
   }
 
   const handlePermanentDelete = (id: string) => {
-    if (window.confirm('Are you sure you want to permanently delete this document?')) {
-      setTrashList(prev => prev.filter(doc => doc.id !== id))
-    }
+    setTrashList(prev => prev.filter(doc => doc.id !== id))
+    setShowDeleteDialog(false)
   }
 
   const handleEmptyTrash = () => {
-    if (window.confirm('Are you sure you want to empty the trash? This action cannot be undone.')) {
-      setTrashList([])
-    }
+    setTrashList([])
+    setShowEmptyTrashDialog(false)
   }
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -171,7 +175,7 @@ export default function TrashPage() {
             </div>
             <div className="flex items-center space-x-3">
               <button 
-                onClick={handleEmptyTrash}
+                onClick={() => setShowEmptyTrashDialog(true)}
                 className="flex items-center justify-center space-x-2 px-3 sm:px-4 py-2 text-sm sm:text-base bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
               >
                 <Trash2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
@@ -346,7 +350,10 @@ export default function TrashPage() {
                           </button>
                           {doc.canRestore && (
                             <button 
-                              onClick={() => handleRestore(doc.id)}
+                              onClick={() => {
+                                setSelectedDocument(doc)
+                                setShowRestoreDialog(true)
+                              }}
                               className="p-1 hover:bg-green-100 rounded" 
                               title="Restore"
                             >
@@ -354,7 +361,10 @@ export default function TrashPage() {
                             </button>
                           )}
                           <button 
-                            onClick={() => handlePermanentDelete(doc.id)}
+                            onClick={() => {
+                              setSelectedDocument(doc)
+                              setShowDeleteDialog(true)
+                            }}
                             className="p-1 hover:bg-red-100 rounded" 
                             title="Delete Permanently"
                           >
@@ -381,6 +391,28 @@ export default function TrashPage() {
           )}
         </div>
       </main>
+
+      {/* Dialogs */}
+      <RestoreConfirmDialog 
+        open={showRestoreDialog}
+        onOpenChange={setShowRestoreDialog}
+        onConfirm={() => selectedDocument && handleRestore(selectedDocument.id)}
+        documentName={selectedDocument?.name || ''}
+      />
+
+      <PermanentDeleteDialog 
+        open={showDeleteDialog}
+        onOpenChange={setShowDeleteDialog}
+        onConfirm={() => selectedDocument && handlePermanentDelete(selectedDocument.id)}
+        documentName={selectedDocument?.name || ''}
+      />
+
+      <EmptyTrashDialog 
+        open={showEmptyTrashDialog}
+        onOpenChange={setShowEmptyTrashDialog}
+        onConfirm={handleEmptyTrash}
+        itemCount={trashList.length}
+      />
     </div>
   )
 }
