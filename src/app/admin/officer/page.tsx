@@ -15,6 +15,7 @@ import {
 import { useState, useRef, useEffect } from "react"
 import LanguageSwitcher from "@/components/LanguageSwitcher"
 import { useTranslation } from "react-i18next"
+import { useToast } from "@/components/ui/toast"
 
 const documents = [
   { id: "1010110101", name: "Export Report", type: "Report", status: "Pending", createdBy: "LIM PROM" },
@@ -36,11 +37,44 @@ const statusStyles = {
 
 export default function OfficerDashboard() {
   const { t } = useTranslation()
+  const { addToast } = useToast()
   const [showGuide, setShowGuide] = useState(false)
   const [checkedRows, setCheckedRows] = useState(Array(documents.length).fill(false))
   const [menuOpen, setMenuOpen] = useState(false)
   const selectAllRef = useRef<HTMLInputElement>(null)
   const menuRef = useRef<HTMLDivElement>(null)
+
+  const handleView = (docId: string, docName: string) => {
+    addToast({
+      title: 'View Document',
+      description: `Opening ${docName}...`,
+      variant: 'default'
+    })
+  }
+
+  const handleEdit = (docId: string, docName: string) => {
+    addToast({
+      title: 'Edit Document',
+      description: `Editing ${docName}...`,
+      variant: 'default'
+    })
+  }
+
+  const handleDownload = (docId: string, docName: string) => {
+    addToast({
+      title: 'Download Started',
+      description: `Downloading ${docName}...`,
+      variant: 'success'
+    })
+  }
+
+  const handleDelete = (docId: string, docName: string) => {
+    addToast({
+      title: 'Document Deleted',
+      description: `${docName} has been moved to trash`,
+      variant: 'default'
+    })
+  }
 
   const handleLogout = () => {
     if (typeof window !== "undefined") {
@@ -225,16 +259,16 @@ export default function OfficerDashboard() {
                       <td className="py-3 px-4 text-sm text-gray-700">{doc.createdBy}</td>
                       <td className="py-2 sm:py-3 px-2 sm:px-4">
                         <div className="flex items-center gap-1 sm:gap-2 lg:gap-3">
-                          <button className="hover:text-black text-gray-500 p-1" title="View">
+                          <button onClick={() => handleView(doc.id, doc.name)} className="hover:text-black text-gray-500 p-1" title="View">
                             <Eye className="w-4 h-4 sm:w-5 sm:h-5" />
                           </button>
-                          <button className="hover:text-green-600 text-gray-500 p-1" title="Edit Docs">
+                          <button onClick={() => handleEdit(doc.id, doc.name)} className="hover:text-green-600 text-gray-500 p-1" title="Edit Docs">
                             <Pencil className="w-4 h-4 sm:w-5 sm:h-5" />
                           </button>
-                          <button className="hidden sm:inline-flex hover:text-blue-600 text-gray-500 p-1" title="Download">
+                          <button onClick={() => handleDownload(doc.id, doc.name)} className="hidden sm:inline-flex hover:text-blue-600 text-gray-500 p-1" title="Download">
                             <Download className="w-4 h-4 sm:w-5 sm:h-5" />
                           </button>
-                          <button className="hover:text-red-600 text-gray-500 p-1" title="Delete">
+                          <button onClick={() => handleDelete(doc.id, doc.name)} className="hover:text-red-600 text-gray-500 p-1" title="Delete">
                             <Trash2 className="w-4 h-4 sm:w-5 sm:h-5" />
                           </button>
                         </div>

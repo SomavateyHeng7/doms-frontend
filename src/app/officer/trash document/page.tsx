@@ -260,13 +260,6 @@ export default function TrashDocuments() {
                         </div>
                       </div>
                     </div>
-
-                    {/* Warning stripe for documents expiring soon */}
-                    {doc.daysRemaining <= 7 && (
-                      <div className="absolute top-0 right-0 w-0 h-0 border-t-[40px] border-t-red-600 border-l-[40px] border-l-transparent">
-                        <AlertTriangle className="absolute -top-9 -right-0.5 w-4 h-4 text-white fill-white" />
-                      </div>
-                    )}
                   </div>
                 ))}
               </div>
@@ -277,7 +270,7 @@ export default function TrashDocuments() {
 
       {/* Restore Confirmation Dialog */}
       {showRestoreDialog && selectedDocument && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
             <div className="flex justify-between items-start mb-4">
               <div className="flex items-center gap-3">
@@ -319,7 +312,7 @@ export default function TrashDocuments() {
 
       {/* Permanent Delete Confirmation Dialog */}
       {showDeleteDialog && selectedDocument && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
             <div className="flex justify-between items-start mb-4">
               <div className="flex items-center gap-3">
@@ -361,7 +354,7 @@ export default function TrashDocuments() {
 
       {/* Empty Trash Confirmation Dialog */}
       {showEmptyTrashDialog && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
             <div className="flex justify-between items-start mb-4">
               <div className="flex items-center gap-3">

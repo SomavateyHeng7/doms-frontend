@@ -1,6 +1,7 @@
 "use client"
 
 import { Eye, ExternalLink } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { OfficerSidebar, PageHeader, PageTitle } from "@/components/officer"
 
 interface AssignedRequest {
@@ -18,6 +19,11 @@ const requests: AssignedRequest[] = [
 ]
 
 export default function AssignedRequests() {
+  const router = useRouter()
+
+  const handleShare = () => {
+    router.push('/officer/approve detail')
+  }
   return (
     <div className="flex min-h-screen bg-gray-50">
       <OfficerSidebar />
@@ -44,7 +50,7 @@ export default function AssignedRequests() {
                     <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
                       <Eye className="w-5 h-5 text-gray-600" />
                     </button>
-                    <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                    <button onClick={handleShare} className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
                       <ExternalLink className="w-5 h-5 text-gray-600" />
                     </button>
                   </div>

@@ -150,13 +150,13 @@ export default function UploadDocumentDialog({
               }`}
             >
               <div className="flex flex-col items-center">
-                <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center mb-4">
-                  <Upload className="h-8 w-8 text-gray-600" />
+                <div className="w-16 h-16 rounded-full bg-white border border-gray-200 flex items-center justify-center mb-4">
+                  <Upload className="h-8 w-8 text-gray-400" />
                 </div>
-                <p className="text-lg font-medium text-gray-900 mb-2">
+                <p className="text-base font-medium text-gray-700 mb-2">
                   Choose a file or drag & drop it here
                 </p>
-                <p className="text-sm text-gray-400 mb-6">
+                <p className="text-sm text-gray-500 mb-6">
                   PDF format, up to 50MB
                 </p>
                 <label className="cursor-pointer">
