@@ -22,22 +22,22 @@ export default function OfficerSidebar() {
     },
     {
       name: "Assigned Requests",
-      href: "/officer/assign request",
+      href: "/officer/assign-request",
       icon: FileText,
     },
     {
       name: "Saved Documents",
-      href: "/officer/saved document",
+      href: "/officer/saved-document",
       icon: Bookmark,
     },
     {
       name: "Manage Broker",
-      href: "/officer/broker management",
+      href: "/officer/broker-management",
       icon: Users,
     },
     {
       name: "Trash Documents",
-      href: "/officer/trash document",
+      href: "/officer/trash-document",
       icon: Trash2,
     },
   ]

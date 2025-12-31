@@ -22,7 +22,7 @@ export default function AssignedRequests() {
   const router = useRouter()
 
   const handleShare = () => {
-    router.push('/officer/approve detail')
+    router.push('/officer/approve-detail')
   }
   return (
     <div className="flex min-h-screen bg-gray-50">

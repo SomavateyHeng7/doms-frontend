@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
 import { useState } from "react"
-import { FileText } from "lucide-react"
+import { ClipboardList, History, FileText } from "lucide-react"
 
 export default function BrokerSidebar() {
   const pathname = usePathname()
@@ -18,20 +18,12 @@ export default function BrokerSidebar() {
     {
       name: "My Requests",
       href: "/broker/my request",
-      icon: (
-        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M4 4h7v7H4V4zm0 9h7v7H4v-7zm9-9h7v7h-7V4zm0 9h7v7h-7v-7z" />
-        </svg>
-      ),
+      icon: ClipboardList,
     },
     {
       name: "Request History",
       href: "/broker/request hisotry",
-      icon: (
-        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M4 4h7v7H4V4zm0 9h7v7H4v-7zm9-9h7v7h-7V4zm0 9h7v7h-7v-7z" />
-        </svg>
-      ),
+      icon: History,
     },
   ]
 
@@ -61,6 +53,7 @@ export default function BrokerSidebar() {
       <nav className="flex-1 px-3">
         {navItems.map((item) => {
           const isActive = pathname === item.href
+          const Icon = item.icon
           return (
             <Link
               key={item.href}
@@ -71,7 +64,7 @@ export default function BrokerSidebar() {
                   : "text-gray-600 hover:bg-gray-50"
               }`}
             >
-              {item.icon}
+              <Icon className="w-5 h-5 flex-shrink-0" />
               <span className="text-sm">{item.name}</span>
             </Link>
           )
