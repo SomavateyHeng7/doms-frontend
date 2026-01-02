@@ -4,7 +4,8 @@ import { Upload, CheckCircle, Circle, Info, MoreVertical, FileUp, FileEdit, File
 import { useState, useRef, useEffect } from "react"
 import { useTranslation } from "react-i18next"
 import { useRouter } from "next/navigation"
-import { AdminHeader, StatusBadge, ActionButtons, ResponsiveTable } from "@/components/admin"
+import { StatusBadge, ActionButtons, ResponsiveTable } from "@/components/admin"
+import PageHeader from "@/components/shared/PageHeader"
 import { UploadDocumentDialog } from "@/components/admin/documents"
 import { useToast } from "@/components/ui/toast"
 
@@ -66,9 +67,7 @@ export default function DocumentsPage() {
 
   return (
     <div className="flex-1 flex flex-col">
-      {/* Header */}
-      <AdminHeader title={t('documents.title')}>
-      </AdminHeader>
+      <PageHeader title={t('documents.title')} />
 
       {/* Main Content */}
       <main className="flex-1 p-4 sm:p-6 bg-white">

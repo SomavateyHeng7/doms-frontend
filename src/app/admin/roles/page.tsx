@@ -1,18 +1,15 @@
 "use client";
 
 import {
-  Bell,
-  ChevronDown,
   Trash,
   Eye,
-  LogOut,
   HelpCircle,
   UserPlus,
 } from "lucide-react";
 import { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/navigation";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
+import PageHeader from "@/components/shared/PageHeader";
 import { useToast } from "@/components/ui/toast";
 import {
   CreateRoleDialog,
@@ -51,7 +48,6 @@ export default function RolesPage() {
   const { addToast } = useToast();
   const [rolesList, setRolesList] = useState<Role[]>(roles);
   const menuRef = useRef<HTMLDivElement>(null);
-  const [menuOpen, setMenuOpen] = useState(false);
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [showGuideDialog, setShowGuideDialog] = useState(false);
   const [showAssignDialog, setShowAssignDialog] = useState(false);
@@ -63,14 +59,6 @@ export default function RolesPage() {
     { id: 2, name: "User 1" },
     { id: 3, name: "User 1" },
   ];
-
-  const handleLogout = () => {
-    if (typeof window !== "undefined") {
-      localStorage.clear();
-      sessionStorage.clear();
-      window.location.href = "/login";
-    }
-  };
 
   const handleCreateRole = (roleName: string) => {
     const newRole: Role = {
@@ -103,48 +91,7 @@ export default function RolesPage() {
 
   return (
     <div className="flex-1 flex flex-col">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200 px-4 sm:px-6 py-4">
-        <div className="flex items-center justify-between">
-          <h1 className="text-gray-500 text-base sm:text-lg font-medium">
-            {t("roles.title")}
-          </h1>
-          <div className="flex items-center space-x-2 sm:space-x-4 relative">
-            <LanguageSwitcher />
-            <button className="p-2 hover:bg-gray-100 rounded-full">
-              <Bell className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600" />
-            </button>
-            <div className="w-px h-6 bg-gray-300"></div>
-
-            {/* Profile + Dropdown */}
-            <div className="relative" ref={menuRef}>
-              <button
-                onClick={() => setMenuOpen(!menuOpen)}
-                className="flex items-center space-x-2 cursor-pointer hover:bg-gray-100 rounded-lg p-2"
-              >
-                <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-300 rounded-full flex items-center justify-center">
-                  <span className="text-xs sm:text-sm font-medium text-gray-700">
-                    JD
-                  </span>
-                </div>
-                <ChevronDown className="h-3 w-3 sm:h-4 sm:w-4 text-gray-600" />
-              </button>
-
-              {menuOpen && (
-                <div className="absolute right-0 mt-2 w-32 sm:w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-                  <button
-                    onClick={handleLogout}
-                    className="flex w-full items-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
-                  >
-                    <LogOut className="w-3 h-3 sm:w-4 sm:h-4" />
-                    {t("common.logout")}
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </header>
+      <PageHeader title={t("roles.title")} />
 
       {/* Main Content */}
       <main className="flex-1 p-4 sm:p-6 bg-gray-50">

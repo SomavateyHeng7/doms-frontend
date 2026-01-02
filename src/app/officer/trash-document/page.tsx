@@ -3,6 +3,7 @@
 import { Trash2, RotateCcw, Eye, Download, X, AlertTriangle, FileText, Clock, AlertCircle } from "lucide-react"
 import { useState } from "react"
 import { OfficerSidebar, PageHeader, PageTitle } from "@/components/officer"
+import { useTranslations } from "@/hooks/useTranslations"
 
 interface TrashDocument {
   id: string
@@ -68,6 +69,8 @@ export default function TrashDocuments() {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [showEmptyTrashDialog, setShowEmptyTrashDialog] = useState(false)
   const [selectedDocument, setSelectedDocument] = useState<TrashDocument | null>(null)
+  
+  const t = useTranslations();
 
   const handleRestore = (doc: TrashDocument) => {
     setSelectedDocument(doc)
@@ -128,13 +131,14 @@ export default function TrashDocuments() {
               />
               
               {documents.length > 0 && (
-                <button
-                  onClick={handleEmptyTrash}
-                  className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-                >
-                  <Trash2 className="w-4 h-4" />
-                  Empty Trash
-                </button>
+              <button 
+                onClick={() => setShowEmptyTrashDialog(true)}
+                className="flex items-center justify-center space-x-2 px-3 sm:px-4 py-2 text-sm sm:text-base bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
+              >
+                <Trash2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                <span className="hidden sm:inline">{t.t('trash.emptyTrash')}</span>
+                <span className="sm:hidden">{t.t('common.delete')}</span>
+              </button>
               )}
             </div>
 

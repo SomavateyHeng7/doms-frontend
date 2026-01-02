@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { ArrowRight, FileText, Users, TrendingUp, Calendar, Eye, Edit, Download, Trash2 } from "lucide-react";
-import { AdminHeader, StatsCard, StatusBadge } from "@/components/admin";
+import { StatsCard, StatusBadge } from "@/components/admin";
+import PageHeader from "@/components/shared/PageHeader";
 import { useTranslation } from 'react-i18next';
 
 export default function DashboardPage() {
@@ -10,8 +11,7 @@ export default function DashboardPage() {
 
   return (
     <div className="flex-1 flex flex-col">
-      {/* Header */}
-      <AdminHeader title={t('nav.dashboard')} />
+      <PageHeader title={t('nav.dashboard')} />
 
       {/* Main Content */}
       <main className="flex-1 p-4 sm:p-6 bg-gray-50">

@@ -2,7 +2,7 @@
 
 import { Eye, ExternalLink } from "lucide-react"
 import Link from "next/link"
-import { AdminHeader } from "@/components/admin"
+import PageHeader from "@/components/shared/PageHeader"
 import { useTranslation } from 'react-i18next'
 
 export default function AssignedRequestsPage() {
@@ -38,8 +38,7 @@ export default function AssignedRequestsPage() {
 
   return (
     <div className="flex-1 flex flex-col">
-      {/* Header */}
-      <AdminHeader title="Assigned Requests" />
+      <PageHeader title="Assigned Requests" />
 
       {/* Main Content */}
       <main className="flex-1 p-4 sm:p-6 bg-gray-50">

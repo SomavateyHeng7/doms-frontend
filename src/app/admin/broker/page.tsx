@@ -1,11 +1,8 @@
 "use client";
 
 import {
-  Bell,
-  ChevronDown,
   Edit,
   Trash,
-  LogOut,
   HelpCircle,
   UserPlus,
   Ban,
@@ -16,7 +13,7 @@ import {
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/navigation";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
+import PageHeader from "@/components/shared/PageHeader";
 import { useToast } from "@/components/ui/toast";
 import {
   InviteBrokerDialog,
@@ -83,20 +80,11 @@ export default function BrokerPage() {
   const router = useRouter();
   const { addToast } = useToast();
   const [brokersList, setBrokersList] = useState<Broker[]>(brokers);
-  const [menuOpen, setMenuOpen] = useState(false);
   const [showInviteDialog, setShowInviteDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [showGuideDialog, setShowGuideDialog] = useState(false);
   const [selectedBroker, setSelectedBroker] = useState<Broker | null>(null);
-
-  const handleLogout = () => {
-    if (typeof window !== "undefined") {
-      localStorage.clear();
-      sessionStorage.clear();
-      window.location.href = "/login";
-    }
-  };
 
   const handleToggleBrokerStatus = (broker: Broker) => {
     const newStatus = broker.status === "active" ? "suspended" : "active";
@@ -167,46 +155,7 @@ export default function BrokerPage() {
 
   return (
     <div className="flex-1 flex flex-col">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="flex items-center justify-between">
-          <h1 className="text-gray-500 text-lg font-medium">
-            {t("nav.brokers")}
-          </h1>
-          <div className="flex items-center space-x-4 relative">
-            <LanguageSwitcher />
-            <button className="p-2 hover:bg-gray-100 rounded-full">
-              <Bell className="h-5 w-5 text-gray-600" />
-            </button>
-            <div className="w-px h-6 bg-gray-300"></div>
-
-            {/* Profile + Dropdown */}
-            <div className="relative">
-              <button
-                onClick={() => setMenuOpen(!menuOpen)}
-                className="flex items-center space-x-2 cursor-pointer hover:bg-gray-100 rounded-lg p-2"
-              >
-                <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
-                  <span className="text-sm font-medium text-gray-700">JD</span>
-                </div>
-                <ChevronDown className="h-4 w-4 text-gray-600" />
-              </button>
-
-              {menuOpen && (
-                <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-                  <button
-                    onClick={handleLogout}
-                    className="flex w-full items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
-                  >
-                    <LogOut className="w-4 h-4" />
-                    {t("common.logout")}
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </header>
+      <PageHeader title={t("nav.brokers")} />
 
       {/* Main Content */}
       <main className="flex-1 p-6 bg-gray-50">
