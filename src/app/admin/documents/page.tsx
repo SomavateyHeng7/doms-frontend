@@ -137,13 +137,13 @@ export default function DocumentsPage() {
                         size="sm"
                         variant="compact"
                       />
-                      <div className="relative" ref={openDropdownId === doc.id ? dropdownRef : null}>
+                      {/* <div className="relative" ref={openDropdownId === doc.id ? dropdownRef : null}>
                         <button
                           onClick={() => setOpenDropdownId(openDropdownId === doc.id ? null : doc.id)}
                           className="p-1 hover:bg-gray-100 rounded text-gray-500 hover:text-black"
                           title="More actions"
-                        >
-                          <MoreVertical className="h-4 w-4" />
+                        > */}
+                          {/* <MoreVertical className="h-4 w-4" />
                         </button>
                         {openDropdownId === doc.id && (
                           <div className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
@@ -215,7 +215,7 @@ export default function DocumentsPage() {
                             </div>
                           </div>
                         )}
-                      </div>
+                      </div> */}
                     </div>
                   </ResponsiveTable.Cell>
                 </ResponsiveTable.Row>

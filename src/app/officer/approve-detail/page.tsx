@@ -4,6 +4,8 @@ import { ArrowLeft } from "lucide-react"
 import { useState } from "react"
 import { OfficerSidebar, PageHeader } from "@/components/officer"
 import { ConfirmDialog } from "@/components/shared"
+import { ApproveDoc, RejectDoc } from "@/components/officer/docs"
+
 
 interface TimelineStep {
   label: string
@@ -44,16 +46,24 @@ export default function ApprovalDetail() {
         <main className="flex-1 p-6 overflow-auto">
           <div className="max-w-5xl mx-auto">
             {/* Back Button and Title */}
-            <div className="mb-6">
-              <button className="flex items-center gap-2 text-gray-900 hover:text-gray-700 mb-4">
+            <div className="mb-6 flex items-center gap-3">
+              <button className="flex items-center text-gray-900 hover:text-gray-700">
                 <ArrowLeft className="w-5 h-5" />
               </button>
-              <h1 className="text-2xl font-normal text-gray-900">Export Report</h1>
+
+              <h1 className="text-2xl font-normal text-gray-900">
+                Export Report
+              </h1>
             </div>
 
             {/* Approval Timeline */}
             <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
               <h2 className="text-base font-medium text-gray-900 mb-4">Approval Timeline</h2>
+                            {/* Progress Label */}
+              <div className="text-xs text-gray-500 mb-2">Progress</div>
+              <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
+                <div className="bg-blue-500 h-2 rounded-full" style={{ width: "75%" }}></div>
+              </div>
               
               {/* Progress Bar */}
               <div className="relative mb-8">
@@ -109,12 +119,6 @@ export default function ApprovalDetail() {
                     </div>
                   ))}
                 </div>
-              </div>
-
-              {/* Progress Label */}
-              <div className="text-xs text-gray-500 mb-2">Progress</div>
-              <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
-                <div className="bg-blue-500 h-2 rounded-full" style={{ width: "75%" }}></div>
               </div>
             </div>
 
@@ -179,24 +183,25 @@ export default function ApprovalDetail() {
         </main>
       </div>
 
-      <ConfirmDialog
-        open={showApproveDialog}
-        onOpenChange={setShowApproveDialog}
-        title="Approve Confirmation"
-        message="Are you sure you want to approve this Document?"
-        confirmLabel="Approve"
-        confirmColor="green"
-        onConfirm={handleApprove}
+      {/* <dialog> */}
+      <ApproveDoc
+          open={showApproveDialog}
+          onOpenChange={setShowApproveDialog}
+          title="Approve Confirmation"
+          message="Are you sure you want to approve this Document?"
+          confirmLabel="Approve"
+          confirmColor="green"
+          onConfirm={handleApprove}
       />
 
-      <ConfirmDialog
-        open={showRejectDialog}
-        onOpenChange={setShowRejectDialog}
-        title="Reject Confirmation"
-        message="Are you sure you want to reject this Document?"
-        confirmLabel="Reject"
-        confirmColor="red"
-        onConfirm={handleReject}
+      <RejectDoc
+          open={showRejectDialog}
+          onOpenChange={setShowRejectDialog}
+          title="Reject Confirmation"
+          message="Are you sure you want to reject this Document?"
+          confirmLabel="Reject"
+          confirmColor="red"
+          onConfirm={handleReject}
       />
     </div>
   )
