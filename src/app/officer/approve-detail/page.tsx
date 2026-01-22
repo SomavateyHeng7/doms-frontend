@@ -2,6 +2,7 @@
 
 import { ArrowLeft } from "lucide-react"
 import { useState } from "react"
+import Link from "next/link";
 import { OfficerSidebar, PageHeader } from "@/components/officer"
 import { ConfirmDialog } from "@/components/shared"
 import { ApproveDoc, RejectDoc } from "@/components/officer/docs"
@@ -47,9 +48,12 @@ export default function ApprovalDetail() {
           <div className="max-w-5xl mx-auto">
             {/* Back Button and Title */}
             <div className="mb-6 flex items-center gap-3">
-              <button className="flex items-center text-gray-900 hover:text-gray-700">
+              <Link
+                href="/officer/assign-request"
+                className="flex items-center text-gray-900 hover:text-gray-700"
+              >
                 <ArrowLeft className="w-5 h-5" />
-              </button>
+              </Link>
 
               <h1 className="text-2xl font-normal text-gray-900">
                 Export Report
@@ -59,7 +63,8 @@ export default function ApprovalDetail() {
             {/* Approval Timeline */}
             <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
               <h2 className="text-base font-medium text-gray-900 mb-4">Approval Timeline</h2>
-                            {/* Progress Label */}
+
+{/* Progress Label */}
               <div className="text-xs text-gray-500 mb-2">Progress</div>
               <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
                 <div className="bg-blue-500 h-2 rounded-full" style={{ width: "75%" }}></div>

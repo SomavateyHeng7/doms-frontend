@@ -1,6 +1,7 @@
 "use client"
 
 import { ArrowLeft } from "lucide-react"
+import Link from "next/link";
 import { useState } from "react"
 import { PageHeader } from "@/components/officer"
 import { ConfirmDialog } from "@/components/shared"
@@ -45,9 +46,12 @@ export default function ApprovalDetail() {
           <div className="max-w-5xl mx-auto">
             {/* Back Button and Title */}
             <div className="mb-6 flex items-center gap-3">
-              <button className="flex items-center text-gray-900 hover:text-gray-700">
+              <Link
+                href="/admin/dashboard"
+                className="flex items-center text-gray-900 hover:text-gray-700"
+              >
                 <ArrowLeft className="w-5 h-5" />
-              </button>
+              </Link>
 
               <h1 className="text-2xl font-normal text-gray-900">
                 Export Report

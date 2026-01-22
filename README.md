@@ -74,3 +74,11 @@ Pull requests are welcome! For major changes, please open an issue first to disc
 ---
 
 © 2025 OfficeSync. All rights reserved.
+
+how to run backend
+cd doms_go
+go run main.go
+
+how to run frontend
+cd doms-frontend
+npm run dev  # or pnpm dev
