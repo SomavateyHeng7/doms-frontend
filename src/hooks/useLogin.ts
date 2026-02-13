@@ -10,17 +10,17 @@ export function useLogin() {
     setError(null);
 
     try {
-      const data = await api.login(email, password);
+      const response = await api.login(email, password);
       
-      // Store token and user data
-      if (data.token) {
-        localStorage.setItem('jwt', data.token);
+      // Store token and user data - backend returns { message, data: { access_token, user } }
+      if (response.data?.access_token) {
+        localStorage.setItem('jwt', response.data.access_token);
       }
-      if (data.user) {
-        localStorage.setItem('user', JSON.stringify(data.user));
+      if (response.data?.user) {
+        localStorage.setItem('user', JSON.stringify(response.data.user));
       }
 
-      return data;
+      return response;
     } catch (err: any) {
       setError(err.message || 'Login failed');
       throw err;
@@ -34,17 +34,17 @@ export function useLogin() {
     setError(null);
 
     try {
-      const data = await api.register(userData);
+      const response = await api.register(userData);
       
-      // Store token and user data if provided
-      if (data.token) {
-        localStorage.setItem('jwt', data.token);
+      // Store token and user data - backend returns { message, data: { access_token, user } }
+      if (response.data?.access_token) {
+        localStorage.setItem('jwt', response.data.access_token);
       }
-      if (data.user) {
-        localStorage.setItem('user', JSON.stringify(data.user));
+      if (response.data?.user) {
+        localStorage.setItem('user', JSON.stringify(response.data.user));
       }
 
-      return data;
+      return response;
     } catch (err: any) {
       setError(err.message || 'Registration failed');
       throw err;

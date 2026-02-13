@@ -1,93 +1,111 @@
 // API Response Types
 export interface ApiResponse<T = any> {
-  success: boolean;
-  message?: string;
+  message: string;
   data?: T;
-  error?: string;
 }
 
 // User Types
 export interface User {
-  id: string;
+  id: number;
+  name: string;
+  name_kh: string;
   email: string;
-  name?: string;
-  created_at?: string;
-  updated_at?: string;
-  is_suspended?: boolean;
-  is_banned?: boolean;
+  phone: string;
+  profile_picture?: string;
+  profile_picture_url?: string;
+  status: string;
   roles?: Role[];
+  permissions?: Permission[];
+  created_at: string;
+  updated_at: string;
 }
 
 export interface LoginRequest {
-  email: string;
+  email_or_phone: string;
   password: string;
 }
 
 export interface LoginResponse {
-  token: string;
+  access_token: string;
+  expires_at: string;
+  expires_at_original: string;
+  expires_in: number;
   user: User;
 }
 
 export interface RegisterRequest {
+  name_en: string;
+  name_kh: string;
   email: string;
+  phone: string;
   password: string;
-  name?: string;
-  [key: string]: any;
 }
 
 // Role Types
 export interface Role {
-  id: string;
-  name: string;
+  id: number;
+  role_name: string;
+  display_name: string;
   description?: string;
-  created_at?: string;
-  updated_at?: string;
-  permissions?: Permission[];
+  created_at: string;
+  updated_at: string;
 }
 
 export interface CreateRoleRequest {
-  name: string;
+  role_name: string;
+  display_name: string;
   description?: string;
+}
 }
 
 export interface UpdateRoleRequest {
-  name?: string;
+  role_name?: string;
+  display_name?: string;
   description?: string;
 }
 
 // Permission Types
 export interface Permission {
-  id: string;
-  name: string;
+  id: number;
+  permission_name: string;
+  display_name: string;
   description?: string;
-  created_at?: string;
+  created_at: string;
+  updated_at: string;
 }
 
 // Pipeline Types
 export interface Pipeline {
-  id: string;
+  id: number;
   name: string;
   description?: string;
-  config?: any;
-  created_at?: string;
-  updated_at?: string;
+  created_at: string;
+  updated_at: string;
   users?: User[];
 }
 
 export interface CreatePipelineRequest {
   name: string;
   description?: string;
-  config?: any;
 }
 
 export interface UpdatePipelineRequest {
   name?: string;
   description?: string;
-  config?: any;
 }
 
 // Password Types
 export interface ChangePasswordRequest {
+  old_password: string;
+  new_password: string;
+  confirm_password: string;
+}
+
+export interface ResetPasswordRequest {
+  email: string;
+  new_password: string;
+  confirm_password: string;
+}
   old_password: string;
   new_password: string;
 }

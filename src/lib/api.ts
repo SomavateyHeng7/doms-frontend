@@ -29,15 +29,19 @@ export async function apiRequest(
 }
 
 // Authentication APIs
-export async function login(email: string, password: string) {
-  return apiRequest('/api/login', 'POST', { email, password });
+export async function login(emailOrPhone: string, password: string) {
+  return apiRequest('/api/login', 'POST', { 
+    email_or_phone: emailOrPhone, 
+    password 
+  });
 }
 
 export async function register(userData: {
+  name_en: string;
+  name_kh: string;
   email: string;
+  phone: string;
   password: string;
-  name?: string;
-  [key: string]: any;
 }) {
   return apiRequest('/api/register', 'POST', userData);
 }
@@ -46,19 +50,32 @@ export async function logout(token: string) {
   return apiRequest('/api/logout', 'POST', undefined, token);
 }
 
-export async function resetPassword(email: string) {
-  return apiRequest('/api/reset-password', 'POST', { email });
+export async function resetPassword(
+  email: string,
+  newPassword: string,
+  confirmPassword: string
+) {
+  return apiRequest('/api/reset-password', 'POST', { 
+    email, 
+    new_password: newPassword,
+    confirm_password: confirmPassword 
+  });
 }
 
 export async function changePassword(
   oldPassword: string,
   newPassword: string,
+  confirmPassword: string,
   token: string
 ) {
   return apiRequest(
     '/api/change-password',
     'POST',
-    { old_password: oldPassword, new_password: newPassword },
+    { 
+      old_password: oldPassword, 
+      new_password: newPassword,
+      confirm_password: confirmPassword 
+    },
     token
   );
 }
@@ -68,7 +85,11 @@ export async function getProfile(token: string) {
   return apiRequest('/api/profile', 'GET', undefined, token);
 }
 
-export async function updateProfile(userData: any, token: string) {
+export async function updateProfile(userData: {
+  name_en?: string;
+  name_kh?: string;
+  phone?: string;
+}, token: string) {
   return apiRequest('/api/profile', 'PUT', userData, token);
 }
 
