@@ -6,9 +6,11 @@ import { Eye, EyeOff, Mail, Lock, AlertCircle } from "lucide-react"
 import Link from "next/link"
 import { useTranslations } from "@/hooks/useTranslations"
 import LanguageSwitcher from "@/components/LanguageSwitcher"
+import { useRouter } from "next/dist/client/components/navigation"
 
 export default function LoginPage() {
   const { t } = useTranslations()
+  const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
   const [formData, setFormData] = useState({
     email: "",
@@ -37,8 +39,8 @@ export default function LoginPage() {
     
     if (!formData.password) {
       newErrors.password = "Password is required"
-    } else if (formData.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters"
+    } else if (formData.password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters"
     }
     
     setErrors(newErrors)
@@ -68,7 +70,7 @@ export default function LoginPage() {
       if (res.ok) {
         // Store token if using JWT, or rely on cookies for Sanctum
         // localStorage.setItem('token', data.token);
-        window.location.href = '/dashboard';
+        router.push('/dashboard');
       } else {
         setErrors({ email: data.message || 'Login failed' });
       }

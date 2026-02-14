@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import * as cookies from '../lib/cookies';
 import type { User } from '../types/api';
 
 export function useAuth() {
@@ -7,49 +8,43 @@ export function useAuth() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Initialize auth state from localStorage
+  // Initialize auth state from cookies
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const storedToken = localStorage.getItem('jwt');
-      const storedUser = localStorage.getItem('user');
+      const storedToken = cookies.getAuthToken();
+      const storedUser = cookies.getAuthUser();
 
       if (storedToken && storedUser) {
         setToken(storedToken);
-        try {
-          setUser(JSON.parse(storedUser));
-          setIsAuthenticated(true);
-        } catch (error) {
-          console.error('Failed to parse user data:', error);
-          localStorage.removeItem('user');
-        }
+        setUser(storedUser);
+        setIsAuthenticated(true);
       }
       setIsLoading(false);
     }
   }, []);
 
-  const login = useCallback((token: string, user: User) => {
-    localStorage.setItem('jwt', token);
-    localStorage.setItem('user', JSON.stringify(user));
+  const login = useCallback((token: string, user: User, expiresIn?: number) => {
+    cookies.setAuthToken(token, expiresIn);
+    cookies.setAuthUser(user);
     setToken(token);
     setUser(user);
     setIsAuthenticated(true);
   }, []);
 
   const logout = useCallback(() => {
-    localStorage.removeItem('jwt');
-    localStorage.removeItem('user');
+    cookies.clearAuth();
     setToken(null);
     setUser(null);
     setIsAuthenticated(false);
   }, []);
 
   const updateUser = useCallback((updatedUser: User) => {
-    localStorage.setItem('user', JSON.stringify(updatedUser));
+    cookies.setAuthUser(updatedUser);
     setUser(updatedUser);
   }, []);
 
   const getToken = useCallback(() => {
-    return token || localStorage.getItem('jwt');
+    return token || cookies.getAuthToken();
   }, [token]);
 
   return {

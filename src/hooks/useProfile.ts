@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import * as api from '../lib/api';
+import * as cookies from '../lib/cookies';
 import type { User } from '../types/api';
 
 export function useProfile() {
@@ -8,7 +9,7 @@ export function useProfile() {
   const [error, setError] = useState<string | null>(null);
 
   const fetchProfile = useCallback(async () => {
-    const token = localStorage.getItem('jwt');
+    const token = cookies.getAuthToken();
     if (!token) {
       setError('No authentication token found');
       return;
@@ -28,7 +29,7 @@ export function useProfile() {
   }, []);
 
   const updateProfile = useCallback(async (userData: any) => {
-    const token = localStorage.getItem('jwt');
+    const token = cookies.getAuthToken();
     if (!token) {
       throw new Error('No authentication token found');
     }
@@ -38,13 +39,13 @@ export function useProfile() {
     return result;
   }, [fetchProfile]);
 
-  const changePassword = useCallback(async (oldPassword: string, newPassword: string) => {
-    const token = localStorage.getItem('jwt');
+  const changePassword = useCallback(async (oldPassword: string, newPassword: string, confirmPassword: string) => {
+    const token = cookies.getAuthToken();
     if (!token) {
       throw new Error('No authentication token found');
     }
 
-    return await api.changePassword(oldPassword, newPassword, token);
+    return await api.changePassword(oldPassword, newPassword, confirmPassword, token);
   }, []);
 
   return {

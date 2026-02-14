@@ -56,7 +56,6 @@ export interface CreateRoleRequest {
   display_name: string;
   description?: string;
 }
-}
 
 export interface UpdateRoleRequest {
   role_name?: string;
@@ -105,11 +104,4 @@ export interface ResetPasswordRequest {
   email: string;
   new_password: string;
   confirm_password: string;
-}
-  old_password: string;
-  new_password: string;
-}
-
-export interface ResetPasswordRequest {
-  email: string;
 }
