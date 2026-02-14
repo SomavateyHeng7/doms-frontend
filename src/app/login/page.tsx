@@ -55,27 +55,46 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const res = await fetch('http://localhost:8000/api/login', {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+      const res = await fetch(`${apiUrl}/api/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          email: formData.email,
+          email_or_phone: formData.email,
           password: formData.password,
         }),
-        credentials: 'include', // needed for Laravel Sanctum, safe for JWT too
       });
 
-      const data = await res.json();
+      const response = await res.json();
 
-      if (res.ok) {
-        // Store token if using JWT, or rely on cookies for Sanctum
-        // localStorage.setItem('token', data.token);
-        router.push('/dashboard');
+      if (res.ok && response.data) {
+        const { access_token, expires_in, user } = response.data;
+        
+        // Store authentication data in cookies
+        if (typeof window !== 'undefined') {
+          // Store token
+          document.cookie = `auth_token=${access_token}; path=/; max-age=${expires_in || 3600}; SameSite=Lax`;
+          // Store user data
+          document.cookie = `auth_user=${encodeURIComponent(JSON.stringify(user))}; path=/; max-age=${expires_in || 3600}; SameSite=Lax`;
+        }
+        
+        // Route based on user role
+        const roles = user.roles || [];
+        if (roles.some((r: any) => r.name === 'admin' || r.name === 'superadmin')) {
+          router.push('/admin/dashboard');
+        } else if (roles.some((r: any) => r.name === 'officer')) {
+          router.push('/officer/dashboard');
+        } else if (roles.some((r: any) => r.name === 'broker')) {
+          router.push('/broker/dashboard');
+        } else {
+          router.push('/');
+        }
       } else {
-        setErrors({ email: data.message || 'Login failed' });
+        setErrors({ email: response.message || 'Login failed' });
       }
-    } catch {
-      setErrors({ email: 'Network error' });
+    } catch (error) {
+      console.error('Login error:', error);
+      setErrors({ email: 'Network error. Please try again.' });
     } finally {
       setIsLoading(false);
     }
