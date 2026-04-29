@@ -4,33 +4,22 @@ import { usePathname } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
 import { useState } from "react"
-import { ClipboardList, History, FileText } from "lucide-react"
+import { LayoutDashboard, ClipboardList, History, FileText } from "lucide-react"
 
 export default function BrokerSidebar() {
   const pathname = usePathname()
   const [logoError, setLogoError] = useState(false)
 
-  const handleLogoError = () => {
-    setLogoError(true)
-  }
-
   const navItems = [
-    {
-      name: "My Requests",
-      href: "/broker/my request",
-      icon: ClipboardList,
-    },
-    {
-      name: "Request History",
-      href: "/broker/request hisotry",
-      icon: History,
-    },
+    { name: "Dashboard", href: "/broker/dashboard", icon: LayoutDashboard },
+    { name: "My Requests", href: "/broker/my-request", icon: ClipboardList },
+    { name: "Request History", href: "/broker/request-history", icon: History },
   ]
 
   return (
     <aside className="w-56 bg-white border-r border-gray-200 flex flex-col sticky top-0 h-screen">
       <div className="p-6">
-        <Link href="/broker/my request" className="flex items-center gap-3">
+        <Link href="/broker/dashboard" className="flex items-center gap-3">
           {!logoError ? (
             <Image
               src="/image/logo2.png"
@@ -38,7 +27,7 @@ export default function BrokerSidebar() {
               width={32}
               height={32}
               className="w-8 h-8 object-contain"
-              onError={handleLogoError}
+              onError={() => setLogoError(true)}
               priority
             />
           ) : (

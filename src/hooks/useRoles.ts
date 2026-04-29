@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import * as api from '../lib/api';
+import * as cookies from '../lib/cookies';
 import type { Role } from '../types/api';
 
 export function useRoles() {
@@ -8,7 +9,7 @@ export function useRoles() {
   const [error, setError] = useState<string | null>(null);
 
   const fetchRoles = useCallback(async () => {
-    const token = localStorage.getItem('jwt');
+    const token = cookies.getAuthToken();
     if (!token) {
       setError('No authentication token found');
       return;
@@ -28,7 +29,7 @@ export function useRoles() {
   }, []);
 
   const getRole = useCallback(async (roleId: string) => {
-    const token = localStorage.getItem('jwt');
+    const token = cookies.getAuthToken();
     if (!token) {
       throw new Error('No authentication token found');
     }
@@ -37,7 +38,7 @@ export function useRoles() {
   }, []);
 
   const createRole = useCallback(async (roleData: any) => {
-    const token = localStorage.getItem('jwt');
+    const token = cookies.getAuthToken();
     if (!token) {
       throw new Error('No authentication token found');
     }
@@ -48,7 +49,7 @@ export function useRoles() {
   }, [fetchRoles]);
 
   const updateRole = useCallback(async (roleId: string, roleData: any) => {
-    const token = localStorage.getItem('jwt');
+    const token = cookies.getAuthToken();
     if (!token) {
       throw new Error('No authentication token found');
     }
@@ -59,7 +60,7 @@ export function useRoles() {
   }, [fetchRoles]);
 
   const deleteRole = useCallback(async (roleId: string) => {
-    const token = localStorage.getItem('jwt');
+    const token = cookies.getAuthToken();
     if (!token) {
       throw new Error('No authentication token found');
     }
@@ -70,7 +71,7 @@ export function useRoles() {
   }, [fetchRoles]);
 
   const assignPermissions = useCallback(async (roleId: string, permissionIds: string[]) => {
-    const token = localStorage.getItem('jwt');
+    const token = cookies.getAuthToken();
     if (!token) {
       throw new Error('No authentication token found');
     }
@@ -79,7 +80,7 @@ export function useRoles() {
   }, []);
 
   const getRolePermissions = useCallback(async (roleId: string) => {
-    const token = localStorage.getItem('jwt');
+    const token = cookies.getAuthToken();
     if (!token) {
       throw new Error('No authentication token found');
     }

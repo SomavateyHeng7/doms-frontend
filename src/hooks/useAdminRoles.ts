@@ -1,17 +1,19 @@
 import { useState, useEffect } from 'react';
-import { getAdminRoles } from '../lib/api';
+import { getRoles } from '../lib/api';
+import * as cookies from '../lib/cookies';
+import type { Role } from '../types/api';
 
 export function useFetchAdminRoles() {
-  const [roles, setRoles] = useState([]);
+  const [roles, setRoles] = useState<Role[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('jwt');
+    const token = cookies.getAuthToken();
     if (token) {
-      getAdminRoles(token)
-        .then((data) => setRoles(data))
-        .catch((err) => setError(err.message))
+      getRoles(token)
+        .then((data) => setRoles(data.data || data))
+        .catch((err: Error) => setError(err.message))
         .finally(() => setLoading(false));
     } else {
       setLoading(false);

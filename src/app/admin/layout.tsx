@@ -1,13 +1,23 @@
 "use client"
 
-import { useRequireAuth } from "@/contexts/AuthContext";
-import ConditionalLayout from "@/components/layout/conditionalLayout";
-import { ThemeProvider } from "@/components/mode/theme-provider";
-import "../globals.css";
+import { useRoleGuard } from "@/hooks/useRoleGuard"
+import { useSuperAdmin } from "@/contexts/SuperAdminContext"
+import ConditionalLayout from "@/components/layout/conditionalLayout"
+import { ThemeProvider } from "@/components/mode/theme-provider"
+import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated, loading } = useRequireAuth('/login');
-  
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  const { loading, hasRole } = useRoleGuard(['admin', 'superadmin'])
+  const { isSuperAdmin, config } = useSuperAdmin()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!loading && hasRole && !isSuperAdmin && config.maintenance.enabled) {
+      router.replace('/maintenance')
+    }
+  }, [loading, hasRole, isSuperAdmin, config.maintenance.enabled, router])
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-50">
@@ -16,12 +26,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <p className="text-gray-600">Loading...</p>
         </div>
       </div>
-    );
+    )
   }
-  
-  if (!isAuthenticated) {
-    return null; // Will redirect to login
-  }
+
+  if (!hasRole) return null
+  if (!isSuperAdmin && config.maintenance.enabled) return null
 
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
@@ -29,5 +38,5 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {children}
       </ConditionalLayout>
     </ThemeProvider>
-  );
+  )
 }

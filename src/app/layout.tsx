@@ -5,6 +5,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/mode/theme-provider"
 import { ToastProvider } from "@/components/ui/toast"
 import { AuthProvider } from "@/contexts/AuthContext"
+import { SuperAdminProvider } from "@/contexts/SuperAdminContext"
 import '@/lib/i18n';
 
 const geistSans = Geist({
@@ -34,9 +35,11 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AuthProvider>
-            <ToastProvider>
-              {children}
-            </ToastProvider>
+            <SuperAdminProvider>
+              <ToastProvider>
+                {children}
+              </ToastProvider>
+            </SuperAdminProvider>
           </AuthProvider>
         </ThemeProvider>
       </body>

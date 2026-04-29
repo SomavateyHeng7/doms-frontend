@@ -64,7 +64,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
         // Redirect based on user role
         const userRoles = userData.roles || [];
-        if (userRoles.some((role: any) => role.name === 'admin' || role.name === 'superadmin')) {
+        if (userRoles.some((role: any) => role.name === 'superadmin')) {
+          router.push('/superadmin/dashboard');
+        } else if (userRoles.some((role: any) => role.name === 'admin')) {
           router.push('/admin/dashboard');
         } else if (userRoles.some((role: any) => role.name === 'officer')) {
           router.push('/officer/dashboard');

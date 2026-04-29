@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import * as api from '../lib/api';
+import * as cookies from '../lib/cookies';
 import type { Permission } from '../types/api';
 
 export function usePermissions() {
@@ -8,7 +9,7 @@ export function usePermissions() {
   const [error, setError] = useState<string | null>(null);
 
   const fetchPermissions = useCallback(async () => {
-    const token = localStorage.getItem('jwt');
+    const token = cookies.getAuthToken();
     if (!token) {
       setError('No authentication token found');
       return;

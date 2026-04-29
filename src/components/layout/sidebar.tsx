@@ -15,10 +15,15 @@ import {
   Users,
   Shield,
   ChevronDown,
+  Crown,
+  Settings,
+  Wrench,
 } from "lucide-react"
+import { useSuperAdmin } from "@/contexts/SuperAdminContext"
 
 export function Sidebar() {
   const { t } = useTranslation("common")
+  const { isSuperAdmin, config, toggleMaintenance } = useSuperAdmin()
 
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [logoError, setLogoError] = useState(false)
@@ -59,6 +64,14 @@ export function Sidebar() {
       name: t("nav.trash"),
       href: "/admin/trash",
       icon: Trash2,
+    },
+  ]
+
+  const superAdminNav = [
+    {
+      name: "System Config",
+      href: "/superadmin-config",
+      icon: Settings,
     },
   ]
 
@@ -135,8 +148,8 @@ export function Sidebar() {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-4 py-6">
-        <ul className="space-y-2">
+      <nav className="flex-1 px-4 py-6 flex flex-col">
+        <ul className="space-y-2 flex-1">
           {navigation.map((item) => (
             <li key={item.name}>
               {item.hasDropdown ? (
@@ -234,6 +247,87 @@ export function Sidebar() {
             </li>
           ))}
         </ul>
+
+        {/* Superadmin section */}
+        {isSuperAdmin && (
+          <div className="mt-4 pt-4 border-t border-gray-200">
+            {/* Label */}
+            <AnimatePresence>
+              {!isCollapsed && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="flex items-center gap-1.5 px-3 mb-2"
+                >
+                  <Crown className="h-3.5 w-3.5 text-purple-500" />
+                  <span className="text-xs font-semibold text-purple-500 uppercase tracking-wider">
+                    Superadmin
+                  </span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <ul className="space-y-1">
+              {/* Config page */}
+              {superAdminNav.map(item => (
+                <li key={item.name}>
+                  <Link
+                    href={item.href}
+                    className="flex items-center space-x-3 rounded-lg px-3 py-2 text-purple-700 hover:bg-purple-50 hover:text-purple-900"
+                    title={isCollapsed ? item.name : undefined}
+                  >
+                    <item.icon className="h-5 w-5 flex-shrink-0" />
+                    <AnimatePresence>
+                      {!isCollapsed && (
+                        <motion.span
+                          initial={{ opacity: 0, width: 0 }}
+                          animate={{ opacity: 1, width: "auto" }}
+                          exit={{ opacity: 0, width: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="text-sm font-medium whitespace-nowrap overflow-hidden"
+                        >
+                          {item.name}
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+                  </Link>
+                </li>
+              ))}
+
+              {/* Quick maintenance toggle */}
+              <li>
+                <button
+                  onClick={toggleMaintenance}
+                  title={isCollapsed ? (config.maintenance.enabled ? "Disable Maintenance" : "Enable Maintenance") : undefined}
+                  className={`w-full flex items-center space-x-3 rounded-lg px-3 py-2 transition-colors
+                    ${config.maintenance.enabled
+                      ? "text-amber-700 bg-amber-50 hover:bg-amber-100"
+                      : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                    }`}
+                >
+                  <Wrench className="h-5 w-5 flex-shrink-0" />
+                  <AnimatePresence>
+                    {!isCollapsed && (
+                      <motion.span
+                        initial={{ opacity: 0, width: 0 }}
+                        animate={{ opacity: 1, width: "auto" }}
+                        exit={{ opacity: 0, width: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="text-sm font-medium whitespace-nowrap overflow-hidden flex items-center gap-2"
+                      >
+                        Maintenance
+                        {config.maintenance.enabled && (
+                          <span className="inline-block h-2 w-2 rounded-full bg-amber-500 flex-shrink-0" />
+                        )}
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
+                </button>
+              </li>
+            </ul>
+          </div>
+        )}
       </nav>
     </div>
   )

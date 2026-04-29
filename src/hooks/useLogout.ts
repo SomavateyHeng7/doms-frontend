@@ -1,25 +1,21 @@
 import { useCallback } from 'react';
 import * as api from '../lib/api';
+import * as cookies from '../lib/cookies';
 
 export function useLogout() {
   const handleLogout = useCallback(async () => {
-    if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('jwt');
-      
-      // Call logout API if token exists
-      if (token) {
-        try {
-          await api.logout(token);
-        } catch (error) {
-          console.error('Logout API call failed:', error);
-        }
-      }
+    const token = cookies.getAuthToken();
 
-      // Clear local storage and redirect
-      localStorage.clear();
-      sessionStorage.clear();
-      window.location.href = '/login';
+    if (token) {
+      try {
+        await api.logout(token);
+      } catch (error) {
+        console.error('Logout API call failed:', error);
+      }
     }
+
+    cookies.clearAuth();
+    window.location.href = '/auth/login';
   }, []);
 
   return handleLogout;

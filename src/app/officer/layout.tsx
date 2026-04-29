@@ -1,12 +1,23 @@
 "use client"
 
-import { useRequireAuth } from "@/contexts/AuthContext";
+import { useRoleGuard } from "@/hooks/useRoleGuard"
+import { useSuperAdmin } from "@/contexts/SuperAdminContext"
 import { ThemeProvider } from "@/components/mode/theme-provider"
+import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 import "../globals.css"
 
 export default function OfficerLayout({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated, loading } = useRequireAuth('/login');
-  
+  const { loading, hasRole } = useRoleGuard(['officer'])
+  const { isSuperAdmin, config } = useSuperAdmin()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!loading && hasRole && !isSuperAdmin && config.maintenance.enabled) {
+      router.replace('/maintenance')
+    }
+  }, [loading, hasRole, isSuperAdmin, config.maintenance.enabled, router])
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-50">
@@ -15,12 +26,11 @@ export default function OfficerLayout({ children }: { children: React.ReactNode 
           <p className="text-gray-600">Loading...</p>
         </div>
       </div>
-    );
+    )
   }
-  
-  if (!isAuthenticated) {
-    return null; // Will redirect to login
-  }
+
+  if (!hasRole) return null
+  if (!isSuperAdmin && config.maintenance.enabled) return null
 
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

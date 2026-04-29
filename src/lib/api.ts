@@ -1,8 +1,16 @@
+import type {
+  RegisterRequest,
+  UpdateRoleRequest,
+  CreateRoleRequest,
+  CreatePipelineRequest,
+  UpdatePipelineRequest,
+} from '../types/api';
+
 // Core API request function
 export async function apiRequest(
   endpoint: string,
   method: string = 'GET',
-  body?: any,
+  body?: object,
   token?: string
 ) {
   try {
@@ -36,13 +44,7 @@ export async function login(emailOrPhone: string, password: string) {
   });
 }
 
-export async function register(userData: {
-  name_en: string;
-  name_kh: string;
-  email: string;
-  phone: string;
-  password: string;
-}) {
+export async function register(userData: RegisterRequest) {
   return apiRequest('/api/register', 'POST', userData);
 }
 
@@ -102,7 +104,7 @@ export async function getUser(userId: string, token: string) {
   return apiRequest(`/api/users/${userId}`, 'GET', undefined, token);
 }
 
-export async function updateUser(userId: string, userData: any, token: string) {
+export async function updateUser(userId: string, userData: object, token: string) {
   return apiRequest(`/api/users/${userId}`, 'PUT', userData, token);
 }
 
@@ -145,7 +147,7 @@ export async function unassignRolesFromUser(
 }
 
 // Role Management APIs
-export async function createRole(roleData: any, token: string) {
+export async function createRole(roleData: CreateRoleRequest, token: string) {
   return apiRequest('/api/roles', 'POST', roleData, token);
 }
 
@@ -157,7 +159,7 @@ export async function getRole(roleId: string, token: string) {
   return apiRequest(`/api/roles/${roleId}`, 'GET', undefined, token);
 }
 
-export async function updateRole(roleId: string, roleData: any, token: string) {
+export async function updateRole(roleId: string, roleData: UpdateRoleRequest, token: string) {
   return apiRequest(`/api/roles/${roleId}`, 'PUT', roleData, token);
 }
 
@@ -188,7 +190,7 @@ export async function getPermissions(token: string) {
 }
 
 // Pipeline Management APIs
-export async function createPipeline(pipelineData: any, token: string) {
+export async function createPipeline(pipelineData: CreatePipelineRequest, token: string) {
   return apiRequest('/api/pipeline', 'POST', pipelineData, token);
 }
 
@@ -202,7 +204,7 @@ export async function getPipeline(pipelineId: string, token: string) {
 
 export async function updatePipeline(
   pipelineId: string,
-  pipelineData: any,
+  pipelineData: UpdatePipelineRequest,
   token: string
 ) {
   return apiRequest(`/api/pipelines/${pipelineId}`, 'PUT', pipelineData, token);

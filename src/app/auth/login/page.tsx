@@ -80,7 +80,9 @@ export default function LoginPage() {
         
         // Route based on user role
         const roles = user.roles || [];
-        if (roles.some((r: any) => r.name === 'admin' || r.name === 'superadmin')) {
+        if (roles.some((r: any) => r.name === 'superadmin')) {
+          router.push('/superadmin/dashboard');
+        } else if (roles.some((r: any) => r.name === 'admin')) {
           router.push('/admin/dashboard');
         } else if (roles.some((r: any) => r.name === 'officer')) {
           router.push('/officer/dashboard');

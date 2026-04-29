@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import * as api from '../lib/api';
+import * as cookies from '../lib/cookies';
 import type { Pipeline } from '../types/api';
 
 export function usePipelines() {
@@ -8,7 +9,7 @@ export function usePipelines() {
   const [error, setError] = useState<string | null>(null);
 
   const fetchPipelines = useCallback(async () => {
-    const token = localStorage.getItem('jwt');
+    const token = cookies.getAuthToken();
     if (!token) {
       setError('No authentication token found');
       return;
@@ -28,7 +29,7 @@ export function usePipelines() {
   }, []);
 
   const getPipeline = useCallback(async (pipelineId: string) => {
-    const token = localStorage.getItem('jwt');
+    const token = cookies.getAuthToken();
     if (!token) {
       throw new Error('No authentication token found');
     }
@@ -37,7 +38,7 @@ export function usePipelines() {
   }, []);
 
   const createPipeline = useCallback(async (pipelineData: any) => {
-    const token = localStorage.getItem('jwt');
+    const token = cookies.getAuthToken();
     if (!token) {
       throw new Error('No authentication token found');
     }
@@ -48,7 +49,7 @@ export function usePipelines() {
   }, [fetchPipelines]);
 
   const updatePipeline = useCallback(async (pipelineId: string, pipelineData: any) => {
-    const token = localStorage.getItem('jwt');
+    const token = cookies.getAuthToken();
     if (!token) {
       throw new Error('No authentication token found');
     }
@@ -59,7 +60,7 @@ export function usePipelines() {
   }, [fetchPipelines]);
 
   const deletePipeline = useCallback(async (pipelineId: string) => {
-    const token = localStorage.getItem('jwt');
+    const token = cookies.getAuthToken();
     if (!token) {
       throw new Error('No authentication token found');
     }
@@ -70,7 +71,7 @@ export function usePipelines() {
   }, [fetchPipelines]);
 
   const assignUser = useCallback(async (pipelineId: string, userId: string) => {
-    const token = localStorage.getItem('jwt');
+    const token = cookies.getAuthToken();
     if (!token) {
       throw new Error('No authentication token found');
     }
@@ -79,7 +80,7 @@ export function usePipelines() {
   }, []);
 
   const unassignUser = useCallback(async (pipelineId: string, userId: string) => {
-    const token = localStorage.getItem('jwt');
+    const token = cookies.getAuthToken();
     if (!token) {
       throw new Error('No authentication token found');
     }

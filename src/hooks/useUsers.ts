@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import * as api from '../lib/api';
+import * as cookies from '../lib/cookies';
 import type { User } from '../types/api';
 
 export function useUsers() {
@@ -8,7 +9,7 @@ export function useUsers() {
   const [error, setError] = useState<string | null>(null);
 
   const fetchUsers = useCallback(async () => {
-    const token = localStorage.getItem('jwt');
+    const token = cookies.getAuthToken();
     if (!token) {
       setError('No authentication token found');
       return;
@@ -28,7 +29,7 @@ export function useUsers() {
   }, []);
 
   const getUser = useCallback(async (userId: string) => {
-    const token = localStorage.getItem('jwt');
+    const token = cookies.getAuthToken();
     if (!token) {
       throw new Error('No authentication token found');
     }
@@ -37,7 +38,7 @@ export function useUsers() {
   }, []);
 
   const updateUser = useCallback(async (userId: string, userData: any) => {
-    const token = localStorage.getItem('jwt');
+    const token = cookies.getAuthToken();
     if (!token) {
       throw new Error('No authentication token found');
     }
@@ -48,7 +49,7 @@ export function useUsers() {
   }, [fetchUsers]);
 
   const suspendUser = useCallback(async (userId: string) => {
-    const token = localStorage.getItem('jwt');
+    const token = cookies.getAuthToken();
     if (!token) {
       throw new Error('No authentication token found');
     }
@@ -59,7 +60,7 @@ export function useUsers() {
   }, [fetchUsers]);
 
   const unsuspendUser = useCallback(async (userId: string) => {
-    const token = localStorage.getItem('jwt');
+    const token = cookies.getAuthToken();
     if (!token) {
       throw new Error('No authentication token found');
     }
@@ -70,7 +71,7 @@ export function useUsers() {
   }, [fetchUsers]);
 
   const banUser = useCallback(async (userId: string) => {
-    const token = localStorage.getItem('jwt');
+    const token = cookies.getAuthToken();
     if (!token) {
       throw new Error('No authentication token found');
     }
@@ -81,7 +82,7 @@ export function useUsers() {
   }, [fetchUsers]);
 
   const assignRoles = useCallback(async (userId: string, roleIds: string[]) => {
-    const token = localStorage.getItem('jwt');
+    const token = cookies.getAuthToken();
     if (!token) {
       throw new Error('No authentication token found');
     }
@@ -92,7 +93,7 @@ export function useUsers() {
   }, [fetchUsers]);
 
   const unassignRoles = useCallback(async (userId: string, roleIds: string[]) => {
-    const token = localStorage.getItem('jwt');
+    const token = cookies.getAuthToken();
     if (!token) {
       throw new Error('No authentication token found');
     }

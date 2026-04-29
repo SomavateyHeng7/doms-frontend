@@ -1,5 +1,7 @@
 import { useState, useCallback } from 'react';
 import * as api from '../lib/api';
+import * as cookies from '../lib/cookies';
+import type { RegisterRequest } from '../types/api';
 
 export function useLogin() {
   const [loading, setLoading] = useState(false);
@@ -11,13 +13,10 @@ export function useLogin() {
 
     try {
       const response = await api.login(email, password);
-      
-      // Store token and user data - backend returns { message, data: { access_token, user } }
-      if (response.data?.access_token) {
-        localStorage.setItem('jwt', response.data.access_token);
-      }
-      if (response.data?.user) {
-        localStorage.setItem('user', JSON.stringify(response.data.user));
+
+      if (response.data?.access_token && response.data?.user) {
+        cookies.setAuthToken(response.data.access_token, response.data.expires_in);
+        cookies.setAuthUser(response.data.user);
       }
 
       return response;
@@ -29,19 +28,16 @@ export function useLogin() {
     }
   }, []);
 
-  const register = useCallback(async (userData: any) => {
+  const register = useCallback(async (userData: RegisterRequest) => {
     setLoading(true);
     setError(null);
 
     try {
       const response = await api.register(userData);
-      
-      // Store token and user data - backend returns { message, data: { access_token, user } }
-      if (response.data?.access_token) {
-        localStorage.setItem('jwt', response.data.access_token);
-      }
-      if (response.data?.user) {
-        localStorage.setItem('user', JSON.stringify(response.data.user));
+
+      if (response.data?.access_token && response.data?.user) {
+        cookies.setAuthToken(response.data.access_token, response.data.expires_in);
+        cookies.setAuthUser(response.data.user);
       }
 
       return response;
